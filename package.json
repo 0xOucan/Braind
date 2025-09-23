@@ -1,9 +1,14 @@
 {
-  "name": "ss-2",
-  "version": "1.1.2",
+  "name": "braind",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "author": "Q3 Labs",
+  "author": "BrainD Team",
+  "description": "Retro Pixel Art Brain Training Platform on Starknet",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xOucan/Braind.git"
+  },
   "workspaces": {
     "packages": [
       "packages/snfoundry",
@@ -17,16 +22,17 @@
     "deploy": "yarn workspace @ss-2/snfoundry deploy",
     "deploy:clear": "yarn workspace @ss-2/snfoundry deploy:clear",
     "deploy:no-reset": "yarn workspace @ss-2/snfoundry deploy --no-reset",
-    "format": "yarn workspace @ss-2/nextjs format && yarn workspace @ss-2/snfoundry format",
-    "format:check": "yarn workspace @ss-2/nextjs format:check && yarn workspace @ss-2/snfoundry format:check",
-    "next:check-types": "yarn workspace @ss-2/nextjs check-types",
-    "next:lint": "yarn workspace @ss-2/nextjs lint",
+    "format": "yarn workspace @braind/nextjs format && yarn workspace @ss-2/snfoundry format",
+    "format:check": "yarn workspace @braind/nextjs format:check && yarn workspace @ss-2/snfoundry format:check",
+    "next:check-types": "yarn workspace @braind/nextjs check-types",
+    "next:lint": "yarn workspace @braind/nextjs lint",
     "prepare": "husky",
-    "start": "yarn workspace @ss-2/nextjs dev",
+    "start": "yarn workspace @braind/nextjs dev",
+    "dev": "yarn workspace @braind/nextjs dev",
     "test": "yarn workspace @ss-2/snfoundry test",
-    "test:nextjs": "yarn workspace @ss-2/nextjs test",
-    "vercel": "yarn workspace @ss-2/nextjs vercel",
-    "vercel:yolo": "yarn workspace @ss-2/nextjs vercel:yolo",
+    "test:nextjs": "yarn workspace @braind/nextjs test",
+    "vercel": "yarn workspace @braind/nextjs vercel",
+    "vercel:yolo": "yarn workspace @braind/nextjs vercel:yolo",
     "verify": "yarn workspace @ss-2/snfoundry verify"
   },
   "dependencies": {

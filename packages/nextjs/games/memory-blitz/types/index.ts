@@ -11,6 +11,9 @@ export interface MemoryGameState {
   streak: number;
   timeRemaining: number;
   gameStartTime: number;
+  highScore: number;
+  gameState: GameState;
+  activeTile: number | null;
 }
 
 export interface MemoryGameConfig {
@@ -58,6 +61,13 @@ export interface MemoryGameHookReturn {
 
 export type GameDifficulty = 1 | 2 | 3; // Easy, Medium, Hard
 export type TileState = 'idle' | 'active' | 'correct' | 'wrong' | 'displaying';
+export type GameState = 'idle' | 'displaying' | 'playing' | 'paused' | 'won' | 'lost';
+
+export interface GameStats {
+  level: number;
+  score: number;
+  highScore: number;
+}
 
 export interface ScoreData {
   baseScore: number;

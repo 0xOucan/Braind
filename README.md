@@ -15,11 +15,13 @@
 
 ## 🎮 About BrainD
 
-BrainD is a revolutionary brain training platform that combines nostalgic pixel art aesthetics with cutting-edge blockchain technology on Starknet. Challenge your mind with 6 unique cognitive games, earn $STARK rewards, and compete on global leaderboards in this retro-futuristic gaming experience.
+BrainD is a revolutionary brain training platform that combines nostalgic pixel art aesthetics with cutting-edge blockchain technology on Starknet. Challenge your mind with cognitive games, earn $STARK rewards, and compete on global leaderboards in this retro-futuristic gaming experience.
+
+Built with [🏗️ Scaffold-Stark 2](https://scaffoldstark.com), BrainD leverages the power of Starknet for low-cost, high-speed blockchain interactions while providing an engaging brain training experience.
 
 ### ✨ Key Features
 
-- 🧩 **6 Unique Brain Games** - Memory, Logic, Speed, Pattern, Time, and Vision challenges
+- 🧠 **Cognitive Games** - Memory, Logic, Speed, Pattern, and Visual challenges
 - 🎨 **Retro Pixel Art Design** - Nostalgic 8-bit aesthetics with modern UI/UX
 - 🏆 **Global Leaderboards** - Compete with players worldwide
 - 💰 **$STARK Rewards** - Earn tokens based on performance and difficulty
@@ -27,266 +29,319 @@ BrainD is a revolutionary brain training platform that combines nostalgic pixel 
 - 🔗 **Starknet Integration** - Decentralized gaming with low fees
 - 👛 **Multi-Wallet Support** - ArgentX, Braavos, and other Starknet wallets
 
-## 🎯 Brain Training Games
+## 🎯 Games & Integration
 
-| Game | Cognitive Skill | Difficulty | Reward Range |
-|------|----------------|------------|--------------|
-| 🧠 **Memory Blitz** | Memory & Recall | Easy-Hard | 25-80 $STARK |
-| 🔬 **Logic Lab** | Problem Solving | Easy-Hard | 25-80 $STARK |
-| ⚡ **Speed Sync** | Reaction Time | Easy-Hard | 25-80 $STARK |
-| 🔄 **Pattern Pro** | Pattern Recognition | Easy-Hard | 25-80 $STARK |
-| ⏰ **Time Warp** | Time Management | Easy-Hard | 25-80 $STARK |
-| 👁️ **Vision Quest** | Visual Processing | Easy-Hard | 25-80 $STARK |
+Your team can easily add new brain training games to the platform:
 
-## 🚀 Quick Start
+| Current Games | Status | Integration Guide |
+|---------------|--------|-------------------|
+| 🧠 **Memory Blitz** | ✅ Example Implementation | See `/packages/nextjs/games/memory-blitz/` |
+| 🔬 **Logic Lab** | 🚧 Ready for Implementation | Follow the Memory Blitz pattern |
+| ⚡ **Speed Sync** | 🚧 Ready for Implementation | Use the games folder structure |
+| 🔄 **Pattern Pro** | 🚧 Ready for Implementation | Reference types and hooks |
+
+📋 **For Game Developers**: Check `/packages/nextjs/games/README.md` for complete integration guidelines.
+
+## ⚡ Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ and npm/yarn
-- Git
-- Starknet wallet (ArgentX or Braavos)
+Before you begin, make sure you have the following installed:
+
+- **Node.js** version 18 or higher
+- **Yarn** package manager
+- **Git** for version control
+- A **Starknet wallet** (ArgentX or Braavos recommended)
 
 ### Installation
 
+Follow these steps to get BrainD running locally:
+
 ```bash
 # Clone the repository
-git clone git@github.com:0xOucan/Braind.git
+git clone https://github.com/0xOucan/Braind.git
 cd Braind
 
 # Install dependencies
 yarn install
 
-# Start development server
+# Copy environment variables (optional)
+cd packages/nextjs
+cp .env.example .env.local
+cd ../..
+```
+
+### Development
+
+Start the development environment using Scaffold-Stark commands:
+
+```bash
+# Start the frontend development server
+yarn start
+
+# The app will be available at:
+# 🌐 Local: http://localhost:3000
+# 🌐 Network: http://[your-ip]:3000
+```
+
+### Alternative Development Commands
+
+```bash
+# Same as yarn start
+yarn dev
+
+# Start with specific port
+PORT=3001 yarn start
+
+# Direct workspace command (not needed)
 yarn workspace @braind/nextjs dev
 ```
 
-Visit [http://localhost:3001](http://localhost:3001) to start training your brain!
+## 🏗️ Scaffold-Stark Commands
 
-### Alternative Start Methods
+This project follows the [Scaffold-Stark](https://scaffoldstark.com) framework conventions:
+
+### 🚀 Frontend Commands
 
 ```bash
-# Using specific package commands
-cd packages/nextjs
-npm run dev
+# Development
+yarn start                    # Start frontend dev server
+yarn dev                      # Same as yarn start
 
-# Or from root with yarn workspaces
-yarn dev:nextjs
+# Building
+yarn workspace @braind/nextjs build  # Build production bundle
+yarn workspace @braind/nextjs start  # Serve production build
+
+# Code Quality
+yarn next:lint              # Run ESLint
+yarn next:check-types       # TypeScript type checking
+yarn format                 # Format code with Prettier
+yarn format:check           # Check code formatting
 ```
 
-## 🏗️ Project Structure
+### 🔗 Smart Contract Commands
 
-```
-BrainD/
-├── packages/
-│   ├── nextjs/                 # Next.js Frontend Application
-│   │   ├── app/               # App Router pages
-│   │   │   ├── games/         # Games catalog page
-│   │   │   ├── leaderboard/   # Global leaderboards
-│   │   │   ├── profile/       # User dashboard
-│   │   │   └── debug/         # Development tools
-│   │   ├── components/        # React components
-│   │   │   ├── ui/            # Shadcn/ui components
-│   │   │   ├── scaffold-stark/ # Blockchain components
-│   │   │   ├── Header.tsx     # Navigation header
-│   │   │   ├── HeroSection.tsx # Landing hero
-│   │   │   ├── GamesCatalog.tsx # Games display
-│   │   │   ├── Leaderboard.tsx # Rankings component
-│   │   │   └── StarknetIntegration.tsx # Wallet integration
-│   │   ├── hooks/             # Custom React hooks
-│   │   │   └── scaffold-stark/ # Blockchain hooks
-│   │   ├── styles/            # Global styles & themes
-│   │   ├── contracts/         # Contract ABIs & addresses
-│   │   └── public/            # Static assets
-│   └── snfoundry/             # Smart Contracts (Cairo)
-│       ├── contracts/         # Cairo contract source
-│       │   └── src/
-│       │       └── braind_game_manager.cairo
-│       ├── scripts/           # Deployment scripts
-│       └── tests/             # Contract tests
-├── CLAUDE.md                  # AI Development Guide
-└── README.md                  # This file
+```bash
+# Build contracts
+yarn compile                # Compile all Cairo contracts
+
+# Testing
+yarn test                   # Run smart contract tests
+yarn workspace @ss-2/snfoundry test  # Alternative test command
+
+# Deployment
+yarn deploy                 # Deploy contracts to configured network
+yarn deploy:clear           # Deploy with state clearing
+yarn deploy:no-reset        # Deploy without resetting state
+
+# Development blockchain
+yarn chain                  # Start local Starknet devnet
 ```
 
-## 🎨 Design System
+### 🧹 Utility Commands
 
-BrainD features a comprehensive pixel art design system:
+```bash
+# Clean up build artifacts
+yarn clean
 
-### 🎨 Color Palette
-- **Primary**: `#dc2626` (Retro Red)
-- **Secondary**: `#8b45fd` (Electric Purple)
-- **Accent**: `#93bbfb` (Pixel Blue)
-- **Success**: `#34eeb6` (Neon Green)
-- **Warning**: `#ffcf72` (Amber)
+# Verify deployed contracts
+yarn verify
 
-### 🔤 Typography
-- **Pixel Font**: Press Start 2P (8px, 12px, 16px)
-- **Modern Font**: Orbitron (headers and UI)
-- **Mono Font**: Geist Mono (code and addresses)
+# Run all quality checks
+yarn format && yarn next:lint && yarn next:check-types
+```
 
-### 🎭 Themes
-- **Light Mode**: Clean pixel aesthetic with bright colors
-- **Dark Mode**: Retro terminal vibes with neon accents
-- **Pixel Shadows**: 4px-8px offset shadows for depth
-- **Retro Animations**: Smooth floating and blinking effects
+## 🛠️ Environment Setup
 
-## 🔗 Blockchain Integration
+### Frontend Configuration
 
-### Smart Contracts (Cairo)
+Create `packages/nextjs/.env.local`:
+
+```env
+# Starknet Network Configuration
+NEXT_PUBLIC_PROVIDER_URL="https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
+NEXT_PUBLIC_CHAIN_ID="0x534e5f5345504f4c4941"
+
+# Optional: Application Settings
+NEXT_PUBLIC_APP_NAME="BrainD"
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID="your_wallet_connect_id"
+
+# Development Settings
+NEXT_PUBLIC_DEBUG=true
+```
+
+### Smart Contract Configuration
+
+The contracts are configured in `packages/snfoundry/` following Scaffold-Stark patterns:
 
 ```cairo
-// BrainD Game Manager Contract
+// Example: BrainD Game Manager Contract
 #[starknet::contract]
 mod BrainDGameManager {
     // Player statistics and game session management
     // Reward distribution and leaderboard tracking
-    // Achievement system and progress tracking
 }
 ```
 
-### Contract Features
+## 📁 Project Structure
 
-- **Game Session Management** - Start/end game sessions with score tracking
-- **Reward Distribution** - Automatic $STARK payouts based on performance
-- **Leaderboard System** - Global and time-filtered rankings
-- **Player Statistics** - Comprehensive stats and progress tracking
-- **Achievement System** - Unlock badges and milestones
+```
+BrainD/
+├── packages/
+│   ├── nextjs/                     # Next.js Frontend (Scaffold-Stark)
+│   │   ├── app/                   # App Router pages
+│   │   │   ├── games/             # Games catalog
+│   │   │   ├── leaderboard/       # Global rankings
+│   │   │   ├── profile/           # User dashboard
+│   │   │   ├── debug/             # Contract debugging
+│   │   │   ├── blockexplorer/     # Block explorer
+│   │   │   └── configure/         # Network configuration
+│   │   ├── components/            # React components
+│   │   │   ├── scaffold-stark/    # Scaffold-Stark components
+│   │   │   └── ui/                # Custom UI components
+│   │   ├── hooks/                 # Custom React hooks
+│   │   │   └── scaffold-stark/    # Blockchain hooks
+│   │   ├── contracts/             # Contract ABIs and addresses
+│   │   ├── games/                 # 🎮 Game implementations
+│   │   │   ├── memory-blitz/      # Example game
+│   │   │   └── README.md          # Game integration guide
+│   │   ├── styles/                # Pixel art CSS system
+│   │   └── utils/                 # Utility functions
+│   └── snfoundry/                 # Smart Contracts (Cairo)
+│       ├── contracts/src/         # Cairo contract source
+│       ├── scripts/               # Deployment scripts
+│       └── tests/                 # Contract tests
+├── CLAUDE.md                      # AI Development Guide
+└── README.md                      # This file
+```
 
-### Starknet Integration
+## 🎨 Design System
+
+BrainD features a comprehensive pixel art design system built on top of Scaffold-Stark's UI:
+
+### Color Palette
+- **Primary**: `#dc2626` (Retro Red)
+- **Secondary**: `#8b45fd` (Electric Purple)
+- **Accent**: `#93bbfb` (Pixel Blue)
+- **Success**: `#34eeb6` (Neon Green)
+
+### Typography
+- **Pixel Font**: Press Start 2P (8px, 12px, 16px)
+- **UI Font**: Inter (Scaffold-Stark default)
+- **Mono Font**: Geist Mono (code and addresses)
+
+## 🔗 Starknet Integration
+
+### Smart Contract Interaction
+
+BrainD uses Scaffold-Stark's contract interaction patterns:
 
 ```typescript
-// Connect wallet and read player stats
-const { address } = useAccount();
+// Read contract data
 const { data: playerStats } = useScaffoldReadContract({
-  contractName: "BrainDGame",
+  contractName: "BrainDGameManager",
   functionName: "get_player_stats",
-  args: [address],
+  args: [playerAddress],
 });
 
-// Submit game score
+// Write to contract
 const { writeAsync: submitScore } = useScaffoldWriteContract({
-  contractName: "BrainDGame",
+  contractName: "BrainDGameManager",
   functionName: "submit_game_score",
 });
 ```
 
+### Wallet Integration
+
+```typescript
+// Scaffold-Stark wallet hooks
+const { address, status } = useAccount();
+const { connect, connectors } = useConnect();
+const { disconnect } = useDisconnect();
+```
+
 ## 📱 Progressive Web App
 
-BrainD is built as a PWA with:
+BrainD includes PWA capabilities:
 
-- **Offline Gameplay** - Play games without internet connection
-- **Install Prompt** - Add to homescreen on mobile/desktop
-- **Push Notifications** - Game reminders and achievement alerts
-- **Background Sync** - Sync scores when connection returns
-- **Responsive Design** - Optimized for all screen sizes
-
-## 🎯 Gameplay Mechanics
-
-### Difficulty Levels
-- **Easy (1)**: 25 $STARK reward - Perfect for beginners
-- **Medium (2)**: 50-60 $STARK reward - Balanced challenge
-- **Hard (3)**: 75-80 $STARK reward - Expert level difficulty
-
-### Scoring System
-- **Base Score**: Performance-based points (0-1000)
-- **Time Bonus**: Faster completion = higher multiplier
-- **Streak Bonus**: Consecutive correct answers boost score
-- **Difficulty Multiplier**: Higher difficulty = better rewards
-
-### Leaderboard Rankings
-- **Global Rankings** - All-time best players
-- **Weekly Leaderboards** - Fresh competition cycles
-- **Daily Challenges** - 24-hour competitions
-- **Game-Specific Rankings** - Best players per game type
-
-## 🛠️ Development
-
-### Tech Stack
-
-- **Frontend**: Next.js 15.2.4, React 18, TypeScript
-- **Styling**: Tailwind CSS 4.1.9, daisyUI 5.1.9, Custom Pixel CSS
-- **Blockchain**: Starknet, Cairo, Starknet-React
-- **UI Components**: Radix UI, Shadcn/ui, Lucide Icons
-- **Development**: Scaffold-Stark 2, ESLint, TypeScript
-
-### Scripts
-
-```bash
-# Development
-yarn dev                # Start all services
-yarn workspace @braind/nextjs dev  # Frontend only
-yarn workspace @ss-2/snfoundry build  # Contracts only
-
-# Building
-yarn build              # Build all packages
-yarn workspace @braind/nextjs build   # Frontend build
-
-# Testing
-yarn test               # Run all tests
-yarn workspace @ss-2/snfoundry test   # Contract tests
-
-# Linting
-yarn lint               # Lint all packages
-yarn workspace @braind/nextjs lint    # Frontend lint
-
-# Deployment
-yarn deploy:contracts   # Deploy to Starknet
-yarn deploy:frontend    # Deploy frontend
-```
-
-### Environment Setup
-
-Create `.env.local` in `packages/nextjs/`:
-
-```env
-# Starknet Configuration
-NEXT_PUBLIC_STARKNET_NETWORK="mainnet" # or "sepolia" for testnet
-NEXT_PUBLIC_RPC_URL="your_rpc_url"
-
-# Optional: Analytics & Monitoring
-NEXT_PUBLIC_ANALYTICS_ID="your_analytics_id"
-```
+- **Offline Gameplay** - Play games without internet
+- **Install Prompt** - Add to homescreen
+- **Background Sync** - Sync scores when online
+- **Responsive Design** - Works on all devices
 
 ## 🚀 Deployment
 
-### Frontend Deployment (Vercel)
+### Frontend Deployment
+
+Deploy using Scaffold-Stark's Vercel integration:
 
 ```bash
 # Deploy to Vercel
-vercel --prod
+yarn vercel
 
-# Or using GitHub integration
-git push origin main  # Auto-deploy on push
+# Or with build error override
+yarn vercel:yolo
 ```
 
 ### Smart Contract Deployment
 
 ```bash
-# Deploy to Starknet Sepolia (testnet)
-cd packages/snfoundry
-scarb build
-starkli declare --network sepolia target/dev/braind_BrainDGameManager.contract_class.json
+# Deploy to Starknet Sepolia testnet
+yarn deploy
 
-# Deploy to Starknet Mainnet
-starkli declare --network mainnet target/dev/braind_BrainDGameManager.contract_class.json
+# Deploy to specific network
+STARKNET_NETWORK=sepolia yarn deploy
+
+# Deploy to mainnet
+STARKNET_NETWORK=mainnet yarn deploy
+```
+
+## 🧪 Testing
+
+### Frontend Testing
+
+```bash
+# Run component tests
+yarn workspace @braind/nextjs test
+
+# Run with coverage
+yarn workspace @braind/nextjs coverage
+```
+
+### Smart Contract Testing
+
+```bash
+# Run all contract tests
+yarn test
+
+# Run specific test file
+yarn workspace @ss-2/snfoundry test tests/test_game_manager.cairo
 ```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions! Follow Scaffold-Stark development patterns:
 
 1. **Fork the repository**
 2. **Create feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit changes**: `git commit -m 'Add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open Pull Request**
+3. **Follow conventions**: Use Scaffold-Stark patterns and pixel art aesthetics
+4. **Add tests**: Include tests for new features
+5. **Submit PR**: Open a Pull Request with clear description
 
 ### Development Guidelines
 
-- Follow TypeScript strict mode
-- Use conventional commits
-- Add tests for new features
+- Follow Scaffold-Stark component patterns
+- Maintain pixel art aesthetic consistency
+- Use TypeScript strict mode
+- Add comprehensive tests
 - Update documentation
-- Ensure pixel art aesthetic consistency
+
+## 📚 Documentation
+
+- **🏗️ Scaffold-Stark Docs**: [scaffoldstark.com/docs](https://scaffoldstark.com/docs)
+- **⚡ Starknet Documentation**: [docs.starknet.io](https://docs.starknet.io)
+- **🎮 Game Integration Guide**: [./packages/nextjs/games/README.md](./packages/nextjs/games/README.md)
+- **🤖 AI Development Guide**: [./CLAUDE.md](./CLAUDE.md)
 
 ## 📄 License
 
@@ -296,15 +351,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Scaffold-Stark Team** - Amazing development framework
 - **Starknet Foundation** - Revolutionary L2 technology
-- **Pixel Art Community** - Inspiration for retro aesthetics
-- **Brain Training Research** - Scientific cognitive training principles
+- **Open Source Community** - Tools and inspiration
 
 ## 📞 Support & Community
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/0xOucan/Braind/issues)
-- **Discord**: Join our gaming community
-- **Twitter**: [@BrainDGaming](https://twitter.com/BrainDGaming)
-- **Telegram**: BrainD Official
+- **Scaffold-Stark Discord**: [Join the community](https://discord.gg/scaffold-stark)
+- **Starknet Community**: [Official Starknet Discord](https://discord.gg/starknet)
 
 ---
 
@@ -312,8 +365,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **🧠 Train Your Brain, Earn Rewards, Compete Globally! 🏆**
 
-Built with ❤️ by the BrainD Team | Powered by Starknet ⚡
+Built with ❤️ using [🏗️ Scaffold-Stark](https://scaffoldstark.com) | Powered by Starknet ⚡
 
-[Play Now](https://braind.app) • [Documentation](./CLAUDE.md) • [Smart Contracts](./packages/snfoundry)
+[Documentation](https://scaffoldstark.com/docs) • [Smart Contracts](./packages/snfoundry) • [Games Guide](./packages/nextjs/games/README.md)
 
 </div>

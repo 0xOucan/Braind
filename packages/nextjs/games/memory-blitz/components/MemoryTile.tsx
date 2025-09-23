@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { cn } from '~~/utils/scaffold-stark';
+import { cn } from '~~/lib/utils';
 
 interface MemoryTileProps {
   index: number;
