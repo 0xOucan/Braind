@@ -1,0 +1,548 @@
+@import "tailwindcss";
+@config '../tailwind.config.ts';
+
+@plugin "daisyui";
+
+/* Google Fonts for Pixel Art */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* Pixel Art Color Palette CSS Variables */
+:root {
+  /* Primary Palette - Retro Gaming */
+  --pixel-red: #dc2626;
+  --pixel-orange: #ea580c;
+  --pixel-yellow: #eab308;
+  --pixel-green: #16a34a;
+  --pixel-blue: #2563eb;
+  --pixel-indigo: #4f46e5;
+  --pixel-purple: #9333ea;
+  --pixel-pink: #ec4899;
+
+  /* Monochrome Palette */
+  --pixel-black: #1a1a1a;
+  --pixel-dark-gray: #404040;
+  --pixel-gray: #737373;
+  --pixel-light-gray: #a3a3a3;
+  --pixel-white: #fafafa;
+
+  /* Background Colors */
+  --pixel-bg-primary: #0f172a;   /* Dark slate */
+  --pixel-bg-secondary: #1e293b; /* Slate */
+  --pixel-bg-card: #334155;      /* Lighter slate */
+}
+
+/* Pixel Art daisyUI Theme */
+@plugin "daisyui/theme" {
+  name: "pixel-dark";
+  prefersdark: true;
+  color-scheme: dark;
+  default: true;
+
+  --color-primary: #dc2626;        /* Pixel red */
+  --color-primary-content: #fafafa;
+  --color-secondary: #9333ea;      /* Pixel purple */
+  --color-secondary-content: #fafafa;
+  --color-accent: #eab308;         /* Pixel yellow */
+  --color-accent-content: #1a1a1a;
+  --color-neutral: #1a1a1a;
+  --color-neutral-content: #fafafa;
+  --color-base-100: #0f172a;       /* Dark background */
+  --color-base-200: #1e293b;
+  --color-base-300: #334155;
+  --color-base-content: #fafafa;
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #ea580c;
+  --color-error: #dc2626;
+  --rounded-box: 0.25rem;          /* Sharp corners */
+  --rounded-btn: 0.25rem;
+  --rounded-badge: 0.25rem;
+}
+
+@plugin "daisyui/theme" {
+  name: "pixel-light";
+  color-scheme: light;
+
+  --color-primary: #dc2626;        /* Pixel red */
+  --color-primary-content: #fafafa;
+  --color-secondary: #9333ea;      /* Pixel purple */
+  --color-secondary-content: #fafafa;
+  --color-accent: #eab308;         /* Pixel yellow */
+  --color-accent-content: #1a1a1a;
+  --color-neutral: #737373;
+  --color-neutral-content: #1a1a1a;
+  --color-base-100: #fafafa;       /* Light background */
+  --color-base-200: #f3f4f6;
+  --color-base-300: #e5e7eb;
+  --color-base-content: #1a1a1a;
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #ea580c;
+  --color-error: #dc2626;
+  --rounded-box: 0.25rem;          /* Sharp corners */
+  --rounded-btn: 0.25rem;
+  --rounded-badge: 0.25rem;
+}
+
+/* Pixel Art Typography */
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.retro-font {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Pixel Art Shadows & Effects */
+.pixel-shadow {
+  box-shadow:
+    4px 0 0 var(--pixel-black),
+    0 4px 0 var(--pixel-black),
+    4px 4px 0 var(--pixel-black);
+}
+
+.pixel-shadow-lg {
+  box-shadow:
+    6px 0 0 var(--pixel-black),
+    0 6px 0 var(--pixel-black),
+    6px 6px 0 var(--pixel-black);
+}
+
+.pixel-shadow-accent {
+  box-shadow:
+    4px 0 0 var(--pixel-yellow),
+    0 4px 0 var(--pixel-yellow),
+    4px 4px 0 var(--pixel-yellow);
+}
+
+.retro-border {
+  border: 3px solid var(--pixel-black);
+}
+
+.retro-border-accent {
+  border: 3px solid var(--pixel-yellow);
+}
+
+.pixel-glow {
+  text-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 30px currentColor;
+}
+
+.retro-glow {
+  text-shadow:
+    0 0 5px var(--pixel-red),
+    0 0 10px var(--pixel-red),
+    0 0 15px var(--pixel-red);
+}
+
+.scanlines::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.1) 0px,
+    rgba(0,0,0,0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Pixel Art Button Styles */
+.btn-pixel {
+  @apply pixel-font text-xs border-2 border-black transition-transform duration-75;
+  background: var(--pixel-blue);
+  color: var(--pixel-white);
+  box-shadow: 4px 4px 0 var(--pixel-black);
+}
+
+.btn-pixel:hover {
+  background: var(--pixel-indigo);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--pixel-black);
+}
+
+.btn-pixel:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--pixel-black);
+}
+
+.btn-pixel-primary {
+  background: var(--pixel-red);
+}
+
+.btn-pixel-secondary {
+  background: var(--pixel-purple);
+}
+
+.btn-pixel-accent {
+  background: var(--pixel-yellow);
+  color: var(--pixel-black);
+}
+
+.btn-pixel-success {
+  background: var(--pixel-green);
+}
+
+/* Game Card Pixel Styling */
+.game-card {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, var(--pixel-bg-card) 0%, var(--pixel-bg-secondary) 100%);
+  border: 2px solid var(--pixel-gray);
+  box-shadow:
+    4px 0 0 var(--pixel-black),
+    0 4px 0 var(--pixel-black),
+    4px 4px 0 var(--pixel-black);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-card:hover {
+  box-shadow:
+    6px 0 0 var(--pixel-black),
+    0 6px 0 var(--pixel-black),
+    6px 6px 0 var(--pixel-black);
+  transform: translate(-2px, -2px);
+}
+
+.game-card::before {
+  content: "";
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  background: linear-gradient(45deg, var(--pixel-red), var(--pixel-purple));
+  z-index: -1;
+  border-radius: inherit;
+}
+
+/* Leaderboard Pixel Table */
+.pixel-table {
+  @apply pixel-font text-xs border-2 border-black;
+  background: var(--pixel-bg-card);
+}
+
+.pixel-table th {
+  @apply bg-red-600 text-white border-b-2 border-black py-2 px-4;
+  box-shadow: inset 0 -2px 0 var(--pixel-black);
+}
+
+.pixel-table td {
+  @apply border-b border-gray-600 py-2 px-4 transition-colors;
+}
+
+.pixel-table tr:hover td {
+  background: var(--pixel-bg-secondary);
+}
+
+/* Wallet Connect Pixel Styling */
+.wallet-pixel {
+  @apply relative;
+  background: linear-gradient(135deg, var(--pixel-purple) 0%, var(--pixel-blue) 100%);
+  border: 2px solid var(--pixel-black);
+  box-shadow: 4px 4px 0 var(--pixel-black);
+}
+
+.wallet-pixel::after {
+  content: "";
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 8px; height: 8px;
+  background: var(--pixel-green);
+  border: 1px solid var(--pixel-black);
+}
+
+/* Input Pixel Styling */
+.input-pixel {
+  @apply pixel-font text-xs border-2 border-black bg-gray-900 text-white px-3 py-2;
+  box-shadow: inset 2px 2px 0 var(--pixel-dark-gray);
+}
+
+.input-pixel:focus {
+  outline: none;
+  border-color: var(--pixel-yellow);
+  box-shadow:
+    inset 2px 2px 0 var(--pixel-dark-gray),
+    0 0 0 2px var(--pixel-yellow);
+}
+
+/* Loading Pixel Animation */
+@keyframes pixel-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes retro-slide-in {
+  from {
+    transform: translateX(-100%) scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pixel-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0,-8px,0);
+  }
+  70% {
+    transform: translate3d(0,-4px,0);
+  }
+  90% {
+    transform: translate3d(0,-2px,0);
+  }
+}
+
+@keyframes pixel-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-pixel-pulse {
+  animation: pixel-pulse 2s infinite;
+}
+
+.animate-retro-slide-in {
+  animation: retro-slide-in 0.3s ease-out;
+}
+
+.animate-pixel-bounce {
+  animation: pixel-bounce 1s infinite;
+}
+
+.animate-pixel-spin {
+  animation: pixel-spin 1s linear infinite;
+}
+
+/* Modal Pixel Styling */
+.modal-pixel {
+  @apply pixel-font;
+  background: var(--pixel-bg-primary);
+  border: 3px solid var(--pixel-yellow);
+  box-shadow:
+    0 0 0 3px var(--pixel-black),
+    8px 8px 0 var(--pixel-black);
+}
+
+.modal-pixel::before {
+  content: "";
+  position: absolute;
+  top: -6px; left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--pixel-yellow);
+}
+
+/* Progress Bar Pixel */
+.progress-pixel {
+  @apply relative h-4 bg-gray-800 border-2 border-black;
+  box-shadow: inset 2px 2px 0 var(--pixel-dark-gray);
+}
+
+.progress-pixel-fill {
+  @apply h-full transition-all duration-300;
+  background: linear-gradient(90deg, var(--pixel-green) 0%, var(--pixel-yellow) 100%);
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.3);
+}
+
+/* Badge Pixel */
+.badge-pixel {
+  @apply pixel-font text-xs px-2 py-1 border border-black;
+  background: var(--pixel-yellow);
+  color: var(--pixel-black);
+  box-shadow: 2px 2px 0 var(--pixel-black);
+}
+
+/* Tooltip Pixel */
+.tooltip-pixel {
+  @apply pixel-font text-xs p-2 border-2 border-yellow-400 bg-black text-white relative;
+  box-shadow: 4px 4px 0 var(--pixel-yellow);
+}
+
+.tooltip-pixel::after {
+  content: "";
+  position: absolute;
+  bottom: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 8px solid var(--pixel-yellow);
+}
+
+/* Alert Pixel */
+.alert-pixel {
+  @apply pixel-font text-sm p-4 border-2 border-red-500 bg-red-900 text-white;
+  box-shadow: 4px 4px 0 var(--pixel-black);
+}
+
+.alert-pixel-success {
+  @apply border-green-500 bg-green-900;
+}
+
+.alert-pixel-warning {
+  @apply border-yellow-500 bg-yellow-900;
+}
+
+.alert-pixel-info {
+  @apply border-blue-500 bg-blue-900;
+}
+
+/* Theme Utilities */
+[data-theme="pixel-dark"] {
+  .bg-main {
+    background: var(--pixel-bg-primary);
+  }
+
+  .bg-container {
+    background: var(--pixel-bg-secondary);
+  }
+
+  .bg-card {
+    background: var(--pixel-bg-card);
+  }
+
+  .text-content {
+    color: var(--pixel-white);
+  }
+
+  .border-theme {
+    border-color: var(--pixel-gray);
+  }
+}
+
+[data-theme="pixel-light"] {
+  .bg-main {
+    background: var(--pixel-white);
+  }
+
+  .bg-container {
+    background: #f3f4f6;
+  }
+
+  .bg-card {
+    background: #ffffff;
+  }
+
+  .text-content {
+    color: var(--pixel-black);
+  }
+
+  .border-theme {
+    border-color: var(--pixel-gray);
+  }
+}
+
+/* Layout Utilities */
+@layer utilities {
+  .pixel-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .pixel-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+
+  .pixel-flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .pixel-text-shadow {
+    text-shadow: 2px 2px 0 var(--pixel-black);
+  }
+
+  .retro-shadow {
+    box-shadow: 4px 4px 0 var(--pixel-black);
+  }
+
+  .retro-shadow-accent {
+    box-shadow: 4px 4px 0 var(--pixel-yellow);
+  }
+}
+
+/* Base Layer Overrides */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  body {
+    @apply bg-main text-content;
+    min-height: 100vh;
+    font-family: 'Orbitron', monospace;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply pixel-font pixel-text-shadow;
+    line-height: 1.2;
+  }
+
+  /* Ensure all buttons use pixel styling by default */
+  .btn {
+    @apply retro-shadow hover:retro-shadow-accent transition-all duration-200;
+    border-radius: 0.25rem;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--pixel-bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--pixel-gray);
+    border: 2px solid var(--pixel-black);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--pixel-light-gray);
+  }
+}
+
+/* Component Specific Styles */
+.header-pixel {
+  @apply bg-main border-b-2 border-black;
+  box-shadow: 0 4px 0 var(--pixel-black);
+}
+
+.footer-pixel {
+  @apply bg-main border-t-2 border-black;
+  box-shadow: 0 -4px 0 var(--pixel-black);
+}
+
+.nav-pixel {
+  @apply pixel-font text-sm;
+}
+
+.nav-pixel a {
+  @apply px-3 py-2 border border-transparent hover:border-yellow-400 hover:bg-yellow-400 hover:text-black transition-all duration-200;
+  text-decoration: none;
+}
+
+.nav-pixel a.active {
+  @apply border-yellow-400 bg-yellow-400 text-black;
+  box-shadow: 2px 2px 0 var(--pixel-black);
+}
