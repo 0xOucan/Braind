@@ -99,6 +99,14 @@
   letter-spacing: 0.05em;
 }
 
+/* Color Match Game Specific Styles */
+.retro-game-bg {
+  background:
+    repeating-linear-gradient(90deg, #b5651d 0 32px, #8b4513 32px 64px),
+    repeating-linear-gradient(#a0522d 0 32px, #d2691e 32px 64px);
+  background-size: 64px 64px;
+}
+
 /* Pixel Art Shadows & Effects */
 .pixel-shadow {
   box-shadow:
