@@ -7611,6 +7611,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"braind@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "braind@workspace:."
+  dependencies:
+    daisyui: ^4.7.3
+    husky: ^9.0.11
+    pinst: ^3.0.0
+    postcss: ^8.4.38
+    prettier: ^3.2.5
+  languageName: unknown
+  linkType: soft
+
 "brorand@npm:^1.1.0":
   version: 1.1.0
   resolution: "brorand@npm:1.1.0"
@@ -14235,18 +14247,6 @@ __metadata:
   checksum: b57981c05611afef31605732b598ccf65124a9fcb03b833532659ac4d29ac0f7bfacbc0d6c5a28a03e84c7510e7e556d758d0bb57786e214660016fb94279316
   languageName: node
   linkType: hard
-
-"ss-2@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "ss-2@workspace:."
-  dependencies:
-    daisyui: ^4.7.3
-    husky: ^9.0.11
-    pinst: ^3.0.0
-    postcss: ^8.4.38
-    prettier: ^3.2.5
-  languageName: unknown
-  linkType: soft
 
 "ssri@npm:^12.0.0":
   version: 12.0.0

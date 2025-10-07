@@ -11,16 +11,39 @@ import Link from "next/link";
 const games = [
   {
     id: 1,
+    slug: "colormatch",
+    name: "ColorMatch",
+    description: "Match colors and words in this fast-paced retro brain trainer",
+    icon: Eye,
+    difficulty: "Medium",
+    reward: "50 $STARK",
+    color: "bg-purple-500",
+    available: true,
+  },
+  {
+    id: 2,
+    slug: "speed-match",
+    name: "SpeedMatch",
+    description: "Lightning-fast shape matching to test your reflexes",
+    icon: Zap,
+    difficulty: "Easy",
+    reward: "25 $STARK",
+    color: "bg-yellow-500",
+    available: true,
+  },
+  {
+    id: 3,
     slug: "memory-blitz",
     name: "MemoryBlitz",
     description: "Test your memory with increasingly complex pixel patterns",
     icon: Brain,
-    difficulty: "Medium",
-    reward: "50 $STARK",
+    difficulty: "Hard",
+    reward: "75 $STARK",
     color: "bg-red-500",
+    available: true,
   },
   {
-    id: 2,
+    id: 4,
     slug: "logic-lab",
     name: "LogicLab",
     description: "Solve intricate puzzles using pure logical reasoning",
@@ -28,19 +51,10 @@ const games = [
     difficulty: "Hard",
     reward: "75 $STARK",
     color: "bg-blue-500",
+    available: false,
   },
   {
-    id: 3,
-    slug: "speed-sync",
-    name: "SpeedSync",
-    description: "React lightning-fast to visual and audio cues",
-    icon: Zap,
-    difficulty: "Easy",
-    reward: "25 $STARK",
-    color: "bg-yellow-500",
-  },
-  {
-    id: 4,
+    id: 5,
     slug: "pattern-pro",
     name: "PatternPro",
     description: "Identify and complete complex geometric sequences",
@@ -48,26 +62,18 @@ const games = [
     difficulty: "Medium",
     reward: "60 $STARK",
     color: "bg-green-500",
+    available: false,
   },
   {
-    id: 5,
+    id: 6,
     slug: "time-warp",
     name: "TimeWarp",
     description: "Master time-based challenges and temporal puzzles",
     icon: Clock,
     difficulty: "Hard",
     reward: "80 $STARK",
-    color: "bg-purple-500",
-  },
-  {
-    id: 6,
-    slug: "vision-quest",
-    name: "VisionQuest",
-    description: "Enhance visual perception with optical illusions",
-    icon: Eye,
-    difficulty: "Medium",
-    reward: "55 $STARK",
     color: "bg-pink-500",
+    available: false,
   },
 ];
 
@@ -89,12 +95,12 @@ export function GamesCatalog() {
   });
 
   return (
-    <section id="games" className="py-20 px-4 bg-container/30">
-      <div className="pixel-container">
+    <section id="games" className="py-20 px-4 bg-container/50 pixel-grid-bg relative">
+      <div className="pixel-container relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary pixel-font">Game Catalog</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 neon-text-red pixel-font">━━ GAME CATALOG ━━</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto retro-font">
-            Choose your challenge and start training your brain with our collection of pixel art games
+            &gt; Choose your challenge and train your brain &lt;
           </p>
           {totalPlayers && (
             <p className="text-sm text-accent mt-2 pixel-font">
@@ -106,19 +112,21 @@ export function GamesCatalog() {
         <div className="pixel-grid">
           {games.map((game) => {
             const IconComponent = game.icon;
-            const isPlayable = Boolean(address); // Only playable if wallet connected
+            const isPlayable = Boolean(address) && game.available; // Only playable if wallet connected AND game is available
 
             return (
               <Card
                 key={game.id}
-                className={`game-card transition-all duration-300 ${
+                className={`game-card transition-all duration-300 hover:shadow-neon-red ${
                   !isPlayable ? "opacity-75" : ""
                 }`}
               >
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between mb-2">
                     <div
-                      className={`w-12 h-12 ${game.color} rounded-lg flex items-center justify-center retro-shadow`}
+                      className={`w-12 h-12 ${game.color} flex items-center justify-center retro-shadow border-2 border-black ${
+                        !game.available ? "grayscale" : ""
+                      }`}
                     >
                       <IconComponent className="w-6 h-6 text-white" />
                     </div>
@@ -134,7 +142,12 @@ export function GamesCatalog() {
                       {game.difficulty}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xl pixel-font">{game.name}</CardTitle>
+                  <CardTitle className="text-xl pixel-font">
+                    {game.name}
+                    {!game.available && (
+                      <span className="text-xs ml-2 neon-text-yellow">🔒 COMING SOON</span>
+                    )}
+                  </CardTitle>
                   <CardDescription className="text-base retro-font">{game.description}</CardDescription>
                 </CardHeader>
 
@@ -149,16 +162,20 @@ export function GamesCatalog() {
                     </div>
                   </div>
 
-                  {isPlayable ? (
+                  {!game.available ? (
+                    <Button disabled className="w-full btn-pixel opacity-50">
+                      <span className="pixel-font text-xs">🔒 COMING SOON</span>
+                    </Button>
+                  ) : isPlayable ? (
                     <Link href={`/games/${game.slug}`}>
-                      <Button className="w-full btn-pixel">
+                      <Button className="w-full arcade-button text-xs">
                         <Play className="w-4 h-4 mr-2" />
-                        Play {game.name}
+                        PLAY NOW
                       </Button>
                     </Link>
                   ) : (
-                    <Button disabled className="w-full">
-                      <span className="pixel-font text-xs">Connect Wallet to Play</span>
+                    <Button disabled className="w-full btn-pixel opacity-50">
+                      <span className="pixel-font text-xs">CONNECT WALLET</span>
                     </Button>
                   )}
                 </CardContent>
@@ -169,10 +186,10 @@ export function GamesCatalog() {
 
         {address && (
           <div className="mt-12 text-center">
-            <div className="game-card inline-block p-6 border-green-500">
-              <h3 className="pixel-font text-green-400 mb-2">Wallet Connected!</h3>
-              <p className="retro-font text-sm text-muted-foreground">
-                Your progress and rewards will be saved on-chain
+            <div className="retro-game-container inline-block p-6 border-green-500">
+              <h3 className="pixel-font neon-text-yellow text-sm mb-2">✓ WALLET CONNECTED</h3>
+              <p className="retro-font text-xs text-muted-foreground">
+                Progress & rewards saved on-chain
               </p>
             </div>
           </div>

@@ -20,63 +20,53 @@ export function GameBoard({
   disabled = false
 }: GameBoardProps) {
   return (
-    <div className="w-full max-w-md mx-auto p-4 border-8 border-white rounded-lg shadow-2xl bg-gradient-to-br from-amber-800 to-amber-900 retro-game-bg">
-      {/* Canvas Display */}
-      <div className="w-full aspect-square border-4 border-yellow-400 bg-black shadow-inner mb-4">
+    <div className="w-full max-w-md mx-auto retro-game-container border-4 border-pixel-gray p-6">
+      {/* Canvas Display - CRT Screen */}
+      <div className="w-full aspect-square border-4 border-yellow-400 bg-pixel-black shadow-pixel-lg mb-6 relative overflow-hidden">
+        {/* Scanline effect */}
+        <div className="absolute inset-0 pointer-events-none scanlines opacity-20"></div>
         <GameCanvas shape={gameState.currentShape} gameOver={gameState.gameOver} />
       </div>
 
       {/* Game Buttons */}
       {gameState.playing && (
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-3 mb-6">
           <button
             onClick={() => onAnswer(true)}
             disabled={disabled}
-            className="flex-1 pixel-font text-sm md:text-base py-3 px-2 cursor-pointer border-none bg-green-600 border-4 border-green-800 text-white hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              textShadow: '2px 2px 0px #000',
-              boxShadow: 'inset -4px -4px #000, inset 4px 4px rgba(255,255,255,0.3)'
-            }}
+            className="flex-1 arcade-button bg-green-600 text-white hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-4"
           >
-            ✔ MATCH
+            <span className="pixel-font text-xs">✔ MATCH</span>
           </button>
           <button
             onClick={() => onAnswer(false)}
             disabled={disabled}
-            className="flex-1 pixel-font text-sm md:text-base py-3 px-2 cursor-pointer border-none bg-red-600 border-4 border-red-800 text-white hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              textShadow: '2px 2px 0px #000',
-              boxShadow: 'inset -4px -4px #000, inset 4px 4px rgba(255,255,255,0.3)'
-            }}
+            className="flex-1 arcade-button text-white hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-4"
           >
-            ✘ NO MATCH
+            <span className="pixel-font text-xs">✘ NO MATCH</span>
           </button>
         </div>
       )}
 
       {/* Score and Timer */}
-      <div className="flex justify-center gap-4 mb-4">
-        <div className="pixel-font text-sm md:text-base text-white bg-gray-800 border-4 border-yellow-400 py-2 px-3">
+      <div className="flex justify-center gap-4 mb-6">
+        <div className="retro-score text-base px-4 py-2 bg-pixel-dark-gray border-2 border-yellow-400">
           SCORE: {gameState.score}
         </div>
-        <div className="pixel-font text-sm md:text-base text-white bg-gray-800 border-4 border-yellow-400 py-2 px-3">
-          TIME: {gameState.timeLeft}
+        <div className="pixel-font text-base neon-text-yellow px-4 py-2 bg-pixel-dark-gray border-2 border-yellow-400">
+          TIME: {gameState.timeLeft}s
         </div>
       </div>
 
       {/* Control Buttons */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {!gameState.gameStarted && (
           <button
             onClick={onStartGame}
             disabled={disabled}
-            className="w-full pixel-font text-sm md:text-base py-3 bg-blue-600 border-4 border-blue-800 text-white cursor-pointer hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              textShadow: '2px 2px 0px #000',
-              boxShadow: 'inset -4px -4px #000, inset 4px 4px rgba(255,255,255,0.3)'
-            }}
+            className="w-full arcade-button py-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            ▶ START GAME
+            <span className="pixel-font text-xs">▶ START GAME</span>
           </button>
         )}
 
@@ -84,13 +74,9 @@ export function GameBoard({
           <button
             onClick={onStartGame}
             disabled={disabled}
-            className="w-full pixel-font text-sm md:text-base py-3 bg-blue-600 border-4 border-blue-800 text-white cursor-pointer hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              textShadow: '2px 2px 0px #000',
-              boxShadow: 'inset -4px -4px #000, inset 4px 4px rgba(255,255,255,0.3)'
-            }}
+            className="w-full arcade-button py-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            ▶ PLAY AGAIN
+            <span className="pixel-font text-xs">▶ PLAY AGAIN</span>
           </button>
         )}
 
@@ -98,13 +84,9 @@ export function GameBoard({
           <button
             onClick={onResetGame}
             disabled={disabled}
-            className="w-full pixel-font text-xs md:text-sm py-2 bg-gray-600 border-4 border-gray-800 text-white cursor-pointer hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              textShadow: '2px 2px 0px #000',
-              boxShadow: 'inset -4px -4px #000, inset 4px 4px rgba(255,255,255,0.3)'
-            }}
+            className="w-full btn-pixel bg-gray-700 border-2 border-gray-500 text-white py-3 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔄 RESET
+            <span className="pixel-font text-xs">🔄 RESET</span>
           </button>
         )}
       </div>

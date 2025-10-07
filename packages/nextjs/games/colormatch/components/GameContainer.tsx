@@ -39,14 +39,14 @@ export function GameContainer({ onGameEnd, disabled = false }: GameContainerProp
   }, [gameState.gameOver, gameState.score]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-4 bg-blue-500">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 relative z-20">
       {/* Game Title */}
       <div className="mb-6">
-        <h1 className="pixel-font text-4xl md:text-6xl text-white text-center mb-2">
+        <h1 className="pixel-font text-4xl md:text-6xl text-center mb-2 neon-text-red animate-pixel-float">
           COLOR MATCH
         </h1>
-        <p className="pixel-font text-sm md:text-base text-center text-blue-200">
-          🧠 Retro Pixel Brain Training
+        <p className="pixel-font text-sm md:text-base text-center neon-text-purple">
+          🧠 RETRO BRAIN TRAINING 🧠
         </p>
       </div>
 
@@ -71,14 +71,14 @@ export function GameContainer({ onGameEnd, disabled = false }: GameContainerProp
       {/* Game Instructions */}
       {!gameState.gameStarted && (
         <div className="mt-6 max-w-md mx-auto">
-          <div className="pixel-font text-white bg-black bg-opacity-50 border-2 border-white p-4 text-center text-sm">
-            <div className="mb-2">🎮 HOW TO PLAY:</div>
-            <div className="text-xs leading-relaxed">
-              Match the COLOR of the text with the WORD meaning.
+          <div className="pixel-font retro-game-container border-yellow-400 p-4 text-center text-sm">
+            <div className="mb-2 neon-text-yellow">🎮 HOW TO PLAY 🎮</div>
+            <div className="text-xs leading-relaxed text-white">
+              Match COLOR of text with WORD meaning
               <br />
-              Click ✔ MATCH if they match, ✘ NO MATCH if they don't.
+              ✔ MATCH if same • ✘ NO MATCH if different
               <br />
-              Score points for correct answers, lose points for wrong ones!
+              Score +pts for correct • -pts for wrong
             </div>
           </div>
         </div>
@@ -90,12 +90,12 @@ export function GameContainer({ onGameEnd, disabled = false }: GameContainerProp
       {/* Starknet Integration Status */}
       {gameState.gameOver && (
         <div className="mt-4 max-w-md mx-auto">
-          <div className="pixel-font text-white bg-purple-900 bg-opacity-50 border-2 border-purple-400 p-3 text-center text-xs">
-            🌟 Game Complete! Final Score: {gameState.score}
-            <br />
-            <span className="text-purple-300">
-              🚀 Starknet integration coming soon for rewards!
-            </span>
+          <div className="pixel-font game-over-screen p-4 text-center text-sm">
+            <div className="neon-text-red mb-2">GAME COMPLETE</div>
+            <div className="retro-score mb-2">SCORE: {gameState.score}</div>
+            <div className="text-xs neon-text-purple">
+              🚀 STARKNET REWARDS COMING SOON 🚀
+            </div>
           </div>
         </div>
       )}

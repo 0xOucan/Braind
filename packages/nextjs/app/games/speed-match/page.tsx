@@ -8,7 +8,7 @@ export default function SpeedMatchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-500">
+    <div className="min-h-screen bg-main crt-screen pixel-grid-bg">
       <GameContainer onGameEnd={handleGameEnd} />
     </div>
   );

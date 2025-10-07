@@ -18,51 +18,52 @@ export default function GamesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-main pt-24">
-      <div className="pixel-container">
+    <div className="min-h-screen bg-main pt-24 pixel-grid-bg relative">
+      <div className="pixel-container relative z-10">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 text-primary pixel-font retro-glow">
-            Brain Games
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 pixel-font neon-text-red animate-pixel-float">
+            ▼ BRAIN GAMES ▼
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto retro-font">
-            Challenge your mind with our collection of pixel art brain training games.
-            Each game targets different cognitive abilities and rewards you with $STARK tokens.
+            Challenge your mind with pixel art brain training games.
+            <br />
+            <span className="neon-text-yellow">Earn $STARK • Climb Leaderboards • Prove Your Skills</span>
           </p>
         </div>
 
         {/* Player Stats */}
         {address && playerStats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
-            <Card className="game-card border-blue-500">
+            <Card className="retro-game-container border-blue-500">
               <CardContent className="p-4 text-center">
-                <Brain className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-                <div className="pixel-font text-lg text-blue-400">{"0"}</div>
-                <div className="retro-font text-xs text-muted-foreground">Games Played</div>
+                <Brain className="w-8 h-8 text-blue-400 mx-auto mb-2 animate-pixel-bounce" />
+                <div className="pixel-font text-lg neon-text-yellow">{"0"}</div>
+                <div className="retro-font text-xs text-muted-foreground">GAMES PLAYED</div>
               </CardContent>
             </Card>
 
-            <Card className="game-card border-green-500">
+            <Card className="retro-game-container border-green-500">
               <CardContent className="p-4 text-center">
-                <Trophy className="w-8 h-8 text-green-400 mx-auto mb-2" />
-                <div className="pixel-font text-lg text-green-400">{"0"}</div>
-                <div className="retro-font text-xs text-muted-foreground">High Score</div>
+                <Trophy className="w-8 h-8 text-green-400 mx-auto mb-2 animate-pixel-bounce" />
+                <div className="pixel-font text-lg neon-text-yellow">{"0"}</div>
+                <div className="retro-font text-xs text-muted-foreground">HIGH SCORE</div>
               </CardContent>
             </Card>
 
-            <Card className="game-card border-yellow-500">
+            <Card className="retro-game-container border-yellow-500">
               <CardContent className="p-4 text-center">
-                <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-                <div className="pixel-font text-lg text-yellow-400">{"0"}</div>
-                <div className="retro-font text-xs text-muted-foreground">STARK Earned</div>
+                <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2 animate-pixel-bounce" />
+                <div className="pixel-font text-lg neon-text-yellow">{"0"}</div>
+                <div className="retro-font text-xs text-muted-foreground">STARK EARNED</div>
               </CardContent>
             </Card>
 
-            <Card className="game-card border-purple-500">
+            <Card className="retro-game-container border-purple-500">
               <CardContent className="p-4 text-center">
-                <Target className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                <div className="pixel-font text-lg text-purple-400">{"--"}</div>
-                <div className="retro-font text-xs text-muted-foreground">Global Rank</div>
+                <Target className="w-8 h-8 text-purple-400 mx-auto mb-2 animate-pixel-bounce" />
+                <div className="pixel-font text-lg neon-text-yellow">{"--"}</div>
+                <div className="retro-font text-xs text-muted-foreground">GLOBAL RANK</div>
               </CardContent>
             </Card>
           </div>
@@ -73,58 +74,58 @@ export default function GamesPage() {
 
         {/* Game Categories */}
         <div className="mt-20">
-          <h2 className="text-3xl font-bold mb-8 text-center pixel-font">Game Categories</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center pixel-font neon-text-purple">━━ GAME CATEGORIES ━━</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="game-card border-red-500">
+            <Card className="retro-game-container border-red-500 hover:shadow-neon-red transition-all">
               <CardHeader>
-                <CardTitle className="pixel-font text-red-400 flex items-center gap-2">
+                <CardTitle className="pixel-font text-sm neon-text-red flex items-center gap-2">
                   <Brain className="w-6 h-6" />
-                  Memory Games
+                  MEMORY
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="retro-font text-sm text-muted-foreground mb-4">
-                  Enhance your working memory and recall abilities with pattern recognition challenges.
+                <p className="retro-font text-xs text-muted-foreground mb-4">
+                  Enhance memory & recall with pattern recognition
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="text-xs">MemoryBlitz</Badge>
-                  <Badge variant="outline" className="text-xs">PatternPro</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">MemoryBlitz</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">PatternPro</Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="game-card border-blue-500">
+            <Card className="retro-game-container border-blue-500 hover:shadow-neon-purple transition-all">
               <CardHeader>
-                <CardTitle className="pixel-font text-blue-400 flex items-center gap-2">
+                <CardTitle className="pixel-font text-sm text-blue-400 flex items-center gap-2">
                   <Target className="w-6 h-6" />
-                  Logic Games
+                  LOGIC
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="retro-font text-sm text-muted-foreground mb-4">
-                  Sharpen your problem-solving skills with complex logical reasoning puzzles.
+                <p className="retro-font text-xs text-muted-foreground mb-4">
+                  Sharpen problem-solving with logical puzzles
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="text-xs">LogicLab</Badge>
-                  <Badge variant="outline" className="text-xs">TimeWarp</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">LogicLab</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">TimeWarp</Badge>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="game-card border-yellow-500">
+            <Card className="retro-game-container border-yellow-500 hover:shadow-neon-yellow transition-all">
               <CardHeader>
-                <CardTitle className="pixel-font text-yellow-400 flex items-center gap-2">
+                <CardTitle className="pixel-font text-sm neon-text-yellow flex items-center gap-2">
                   <Zap className="w-6 h-6" />
-                  Speed Games
+                  SPEED
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="retro-font text-sm text-muted-foreground mb-4">
-                  Improve your reaction time and processing speed with fast-paced challenges.
+                <p className="retro-font text-xs text-muted-foreground mb-4">
+                  Improve reaction time with fast-paced challenges
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline" className="text-xs">SpeedSync</Badge>
-                  <Badge variant="outline" className="text-xs">VisionQuest</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">SpeedSync</Badge>
+                  <Badge variant="outline" className="text-xs pixel-font">VisionQuest</Badge>
                 </div>
               </CardContent>
             </Card>

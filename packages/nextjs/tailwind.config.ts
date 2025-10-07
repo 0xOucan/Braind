@@ -4,74 +4,70 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./utils/**/*.{js,ts,jsx,tsx}",
+    "./games/**/*.{js,ts,jsx,tsx}",
   ],
 
-  darkTheme: "dark",
+  darkTheme: "pixel-dark",
 
   themes: [
     {
-      light: {
-        primary: "#93BBFB",
-        "primary-content": "#2A3655",
-        secondary: "#8B45FD",
-        "secondary-content": "#7800FF",
-        accent: "#93BBFB",
-        "accent-content": "#212638",
-        neutral: "#212638",
-        "neutral-content": "#ffffff",
-        "base-100": "#ffffff",
-        "base-200": "#f4f8ff",
-        "base-300": "#ffffff",
-        "base-content": "#212638",
-        info: "#93BBFB",
-        success: "#34EEB6",
-        warning: "#FFCF72",
-        error: "#FF8863",
+      "pixel-dark": {
+        primary: "#dc2626",
+        "primary-content": "#fafafa",
+        secondary: "#9333ea",
+        "secondary-content": "#fafafa",
+        accent: "#eab308",
+        "accent-content": "#1a1a1a",
+        neutral: "#1a1a1a",
+        "neutral-content": "#fafafa",
+        "base-100": "#0f172a",
+        "base-200": "#1e293b",
+        "base-300": "#334155",
+        "base-content": "#fafafa",
+        info: "#2563eb",
+        success: "#16a34a",
+        warning: "#ea580c",
+        error: "#dc2626",
         ".bg-gradient-modal": {
-          "background-image":
-            "linear-gradient(270deg, #A7ECFF -17.42%, #E8B6FF 109.05%)",
+          background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)",
         },
         ".bg-modal": {
-          background:
-            "linear-gradient(270deg, #ece9fb -17.42%, #e3f4fd 109.05%)",
+          background: "#0f172a",
         },
         ".modal-border": {
-          border: "1px solid #5c4fe5",
+          border: "2px solid #eab308",
         },
         ".bg-gradient-nav": {
-          background: "#000000",
+          background: "#0f172a",
         },
         ".bg-main": {
-          background: "#FFFFFF",
+          background: "#0f172a",
         },
         ".bg-underline": {
-          background:
-            "linear-gradient(270deg, #A7ECFF -17.42%, #E8B6FF 109.05%)",
+          background: "#dc2626",
         },
         ".bg-container": {
-          background: "transparent",
+          background: "#1e293b",
         },
         ".bg-btn-wallet": {
-          "background-image":
-            "linear-gradient(270deg, #A7ECFF -17.42%, #E8B6FF 109.05%)",
+          background: "linear-gradient(135deg, #dc2626 0%, #9333ea 100%)",
         },
         ".bg-input": {
-          background: "rgba(0, 0, 0, 0.07)",
+          background: "rgba(255, 255, 255, 0.05)",
         },
         ".bg-component": {
-          background: "rgba(255, 255, 255, 0.55)",
+          background: "#334155",
         },
         ".bg-function": {
-          background:
-            "linear-gradient(270deg, #A7ECFF -17.42%, #E8B6FF 109.05%)",
+          background: "rgba(220, 38, 38, 0.2)",
         },
         ".text-function": {
-          color: "#3C1DFF",
+          color: "#dc2626",
         },
         ".text-network": {
-          color: "#7800FF",
+          color: "#eab308",
         },
-        "--rounded-btn": "9999rem",
+        "--rounded-btn": "0.25rem",
 
         ".tooltip": {
           "--tooltip-tail": "6px",
@@ -83,7 +79,80 @@ module.exports = {
           opacity: "80%",
         },
         ".contract-content": {
-          background: "white",
+          background: "#334155",
+        },
+      },
+    },
+    {
+      "pixel-light": {
+        primary: "#dc2626",
+        "primary-content": "#fafafa",
+        secondary: "#9333ea",
+        "secondary-content": "#fafafa",
+        accent: "#eab308",
+        "accent-content": "#1a1a1a",
+        neutral: "#737373",
+        "neutral-content": "#1a1a1a",
+        "base-100": "#fafafa",
+        "base-200": "#f3f4f6",
+        "base-300": "#e5e7eb",
+        "base-content": "#1a1a1a",
+        info: "#2563eb",
+        success: "#16a34a",
+        warning: "#ea580c",
+        error: "#dc2626",
+        ".bg-gradient-modal": {
+          background: "linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)",
+        },
+        ".bg-modal": {
+          background: "#fafafa",
+        },
+        ".modal-border": {
+          border: "2px solid #eab308",
+        },
+        ".bg-gradient-nav": {
+          background: "#fafafa",
+        },
+        ".bg-main": {
+          background: "#fafafa",
+        },
+        ".bg-underline": {
+          background: "#dc2626",
+        },
+        ".bg-container": {
+          background: "#f3f4f6",
+        },
+        ".bg-btn-wallet": {
+          background: "linear-gradient(135deg, #dc2626 0%, #9333ea 100%)",
+        },
+        ".bg-input": {
+          background: "rgba(0, 0, 0, 0.05)",
+        },
+        ".bg-component": {
+          background: "#ffffff",
+        },
+        ".bg-function": {
+          background: "rgba(220, 38, 38, 0.1)",
+        },
+        ".text-function": {
+          color: "#dc2626",
+        },
+        ".text-network": {
+          color: "#9333ea",
+        },
+        "--rounded-btn": "0.25rem",
+
+        ".tooltip": {
+          "--tooltip-tail": "6px",
+        },
+        ".link": {
+          textUnderlineOffset: "2px",
+        },
+        ".link:hover": {
+          opacity: "80%",
+        },
+        ".contract-content": {
+          background: "#ffffff",
         },
       },
     },
@@ -176,13 +245,51 @@ module.exports = {
       },
       boxShadow: {
         center: "0 0 12px -2px rgb(0 0 0 / 0.05)",
-        'pixel': '4px 4px 0px rgba(0, 0, 0, 0.3)',
-        'pixel-lg': '8px 8px 0px rgba(0, 0, 0, 0.3)',
+        'pixel': '4px 4px 0px rgba(0, 0, 0, 0.8)',
+        'pixel-lg': '8px 8px 0px rgba(0, 0, 0, 0.8)',
+        'neon-red': '0 0 10px #dc2626, 0 0 20px #dc2626, 0 0 30px #dc2626',
+        'neon-purple': '0 0 10px #9333ea, 0 0 20px #9333ea, 0 0 30px #9333ea',
+        'neon-yellow': '0 0 10px #eab308, 0 0 20px #eab308',
       },
       animation: {
         "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         'pixel-float': 'pixelFloat 3s ease-in-out infinite',
         'retro-blink': 'retroBlink 1s infinite',
+        'scanline': 'scanline 8s linear infinite',
+        'crt-flicker': 'crtFlicker 0.15s infinite',
+      },
+      keyframes: {
+        pixelFloat: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        retroBlink: {
+          '0%, 50%': { opacity: '1' },
+          '51%, 100%': { opacity: '0' },
+        },
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        crtFlicker: {
+          '0%': { opacity: '0.98' },
+          '50%': { opacity: '1' },
+          '100%': { opacity: '0.98' },
+        },
+      },
+      colors: {
+        'pixel-black': '#0a0a0a',
+        'pixel-dark-gray': '#1a1a1a',
+        'pixel-gray': '#404040',
+        'pixel-light-gray': '#737373',
+        'pixel-white': '#fafafa',
+      },
+      backgroundColor: {
+        'pixel-bg-game': '#0a0f1e',
+      },
+      borderColor: {
+        'pixel-gray': '#404040',
+        'pixel-dark-gray': '#1a1a1a',
       },
       backgroundImage: {
         "gradient-light":

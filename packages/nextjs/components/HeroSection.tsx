@@ -10,7 +10,12 @@ export function HeroSection() {
   const { address } = useAccount();
 
   return (
-    <section className="relative py-20 px-4 overflow-hidden bg-main">
+    <section className="relative py-20 px-4 overflow-hidden bg-main pixel-grid-bg">
+      {/* Retro scanline effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+        <div className="w-full h-full scanlines"></div>
+      </div>
+
       {/* Pixel art background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -28,13 +33,13 @@ export function HeroSection() {
           Powered by Starknet
         </Badge>
 
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 text-balance">
-          <span className="text-primary retro-glow">Brain</span>
-          <span className="text-foreground">D</span>
+        <h1 className="text-6xl md:text-8xl font-bold mb-6 text-balance animate-pixel-float">
+          <span className="neon-text-red">Brain</span>
+          <span className="neon-text-yellow">D</span>
         </h1>
 
-        <p className="text-2xl md:text-3xl font-semibold mb-4 text-accent retro-font">
-          Train your brain onchain!
+        <p className="text-2xl md:text-3xl font-semibold mb-4 neon-text-purple retro-font animate-retro-blink">
+          &gt; Train your brain onchain! &lt;
         </p>
 
         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty retro-font">
@@ -44,15 +49,15 @@ export function HeroSection() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Link href="/games">
-            <Button size="lg" className="btn-pixel text-lg px-8 py-4">
+            <Button size="lg" className="arcade-button text-base px-8 py-4">
               <Brain className="w-5 h-5 mr-2" />
-              Start Training
+              START TRAINING
             </Button>
           </Link>
           <Link href="/leaderboard">
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+            <Button variant="outline" size="lg" className="btn-pixel-secondary text-base px-8 py-4 border-2">
               <Trophy className="w-5 h-5 mr-2" />
-              View Leaderboard
+              LEADERBOARD
             </Button>
           </Link>
         </div>
@@ -78,10 +83,10 @@ export function HeroSection() {
         </div>
 
         {!address && (
-          <div className="mt-12 p-6 game-card border-yellow-400 animate-pixel-pulse">
-            <p className="pixel-font text-yellow-400 mb-4">Connect your wallet to start earning rewards!</p>
-            <p className="retro-font text-sm text-muted-foreground">
-              Use ArgentX, Braavos, or any Starknet wallet to play and earn $STARK tokens
+          <div className="mt-12 p-6 retro-game-container border-yellow-400 animate-pixel-pulse">
+            <p className="pixel-font neon-text-yellow mb-4 text-sm">⚠ CONNECT WALLET TO EARN REWARDS ⚠</p>
+            <p className="retro-font text-xs text-muted-foreground">
+              ArgentX • Braavos • Starknet Wallets
             </p>
           </div>
         )}

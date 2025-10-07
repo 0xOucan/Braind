@@ -24,9 +24,9 @@ export const MemoryBlitzGame: React.FC = () => {
   const { timer } = useGameTimer(gameState);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-100 p-4">
+    <div className="min-h-screen p-4">
       <div className="container mx-auto max-w-4xl">
-        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-screen">
+        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-screen py-8">
           {/* Game Controls and Stats */}
           <div className="order-2 lg:order-1">
             <GameUI

@@ -164,17 +164,17 @@ export const Header = () => {
           passHref
           className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0"
         >
-          <div className="flex relative w-10 h-10">
+          <div className="relative w-10 h-10 animate-pixel-float">
             <Image
-              alt="SE2 logo"
+              alt="BrainD logo"
               className="cursor-pointer"
               fill
               src="/logo.svg"
             />
           </div>
           <div className="flex flex-col">
-            <span className="pixel-font text-lg retro-glow leading-tight">BrainD</span>
-            <span className="retro-font text-xs text-yellow-400">Train your brain onchain!</span>
+            <span className="pixel-font text-lg neon-text-red leading-tight">BrainD</span>
+            <span className="retro-font text-xs neon-text-yellow">Train onchain!</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">

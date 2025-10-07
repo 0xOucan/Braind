@@ -22,7 +22,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   onTileClick,
 }) => {
   return (
-    <div className="grid grid-cols-2 gap-4 p-6 bg-base-200 border-4 border-primary pixel-border">
+    <div className="grid grid-cols-2 gap-4 p-6 bg-pixel-black border-4 border-yellow-400 shadow-pixel-lg relative overflow-hidden">
+      {/* CRT Scanline effect */}
+      <div className="absolute inset-0 pointer-events-none scanlines opacity-20"></div>
+
       {Array.from({ length: MEMORY_GAME_CONSTANTS.TILE_COUNT }, (_, index) => (
         <MemoryTile
           key={index}

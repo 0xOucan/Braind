@@ -23,33 +23,37 @@ export const MemoryTile: React.FC<MemoryTileProps> = ({
       onClick={isClickable ? onClick : undefined}
       disabled={!isClickable}
       className={cn(
-        "w-24 h-24 pixel-border transition-all duration-200 transform",
-        "border-4 border-black",
+        "w-28 h-28 transition-all duration-200 transform relative z-10",
+        "border-4",
         "hover:scale-105 active:scale-95",
         {
           "cursor-pointer": isClickable,
           "cursor-not-allowed opacity-60": !isClickable,
-          "animate-pulse brightness-150": isActive,
-          "shadow-lg shadow-primary/50": isActive,
+          "animate-neon-pulse brightness-150": isActive,
         }
       )}
       style={{
-        backgroundColor: isActive ? color : '#6b7280',
-        boxShadow: isActive ? `0 0 20px ${color}80` : 'none',
+        backgroundColor: isActive ? color : '#2a2a2a',
+        borderColor: isActive ? color : '#404040',
+        boxShadow: isActive
+          ? `0 0 20px ${color}, 0 0 40px ${color}80, inset 0 0 20px ${color}40`
+          : 'inset 0 0 10px rgba(0,0,0,0.5)',
       }}
       aria-label={`Memory tile ${index + 1}`}
     >
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-center relative">
+        {/* Inner pixel decoration */}
         <div
           className={cn(
-            "w-8 h-8 pixel-border border-2",
+            "w-10 h-10 border-4 transition-all duration-200",
             {
-              "border-white": isActive,
-              "border-gray-600": !isActive,
+              "border-white animate-pixel-float": isActive,
+              "border-gray-700": !isActive,
             }
           )}
           style={{
-            backgroundColor: isActive ? 'white' : 'transparent',
+            backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : 'transparent',
+            boxShadow: isActive ? `0 0 10px ${color}` : 'none',
           }}
         />
       </div>
