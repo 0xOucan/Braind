@@ -1,43 +1,29 @@
 {
-  "name": "BrainD - Train your brain onchain!",
+  "name": "BrainD",
   "short_name": "BrainD",
-  "description": "The ultimate retro pixel art brain training platform on Starknet",
+  "description": "Train your brain onchain with retro pixel games on Starknet",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "background_color": "#0a0a0a",
   "theme_color": "#dc2626",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/logo.ico",
       "sizes": "64x64",
-      "type": "image/x-icon",
-      "purpose": "any maskable"
+      "type": "image/x-icon"
     },
     {
       "src": "/logo.svg",
       "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/svg+xml"
     }
   ],
-  "categories": ["games", "education", "entertainment", "web3", "blockchain"],
+  "categories": ["games", "web3"],
   "shortcuts": [
     {
-      "name": "Games",
-      "url": "/games",
-      "description": "Play brain training games"
-    },
-    {
-      "name": "Leaderboard",
-      "url": "/leaderboard",
-      "description": "View global rankings"
-    },
-    {
-      "name": "Debug",
-      "url": "/debug",
-      "description": "Smart contract debugging"
+      "name": "Play",
+      "url": "/games"
     }
-  ],
-  "prefer_related_applications": false
+  ]
 }
