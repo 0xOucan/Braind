@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "~~/components/ui/button";
-import { Badge } from "~~/components/ui/badge";
-import { Brain, Zap, Trophy, Coins } from "lucide-react";
+import { Brain, Zap } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
 import Link from "next/link";
 
@@ -10,86 +9,60 @@ export function HeroSection() {
   const { address } = useAccount();
 
   return (
-    <section className="relative py-20 px-4 overflow-hidden bg-main pixel-grid-bg">
+    <section className="relative py-16 md:py-24 px-4 overflow-hidden">
       {/* Retro scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-10">
+      <div className="absolute inset-0 pointer-events-none opacity-5">
         <div className="w-full h-full scanlines"></div>
       </div>
 
-      {/* Pixel art background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23dc2626' fillOpacity='1'%3E%3Crect width='10' height='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
-
-      <div className="pixel-container text-center relative z-10">
-        <Badge variant="secondary" className="mb-6 retro-shadow text-lg px-4 py-2">
-          <Zap className="w-4 h-4 mr-2" />
-          Powered by Starknet
-        </Badge>
-
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 text-balance animate-pixel-float">
-          <span className="neon-text-red">Brain</span>
-          <span className="neon-text-yellow">D</span>
+      <div className="pixel-container text-center relative z-10 max-w-4xl mx-auto">
+        {/* Main Title */}
+        <h1 className="text-5xl md:text-7xl font-bold mb-4">
+          <span className="neon-text-red pixel-font">Brain</span>
+          <span className="neon-text-yellow pixel-font">D</span>
         </h1>
 
-        <p className="text-2xl md:text-3xl font-semibold mb-4 neon-text-purple retro-font animate-retro-blink">
-          &gt; Train your brain onchain! &lt;
+        {/* Subtitle */}
+        <p className="text-lg md:text-xl font-semibold mb-6 neon-text-purple pixel-font">
+          &gt; Train your brain onchain &lt;
         </p>
 
-        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty retro-font">
-          Challenge your mind with 6 unique pixel art brain games. Earn $STARK rewards, climb the leaderboards, and
-          prove you&apos;re the ultimate brain champion in the Starknet ecosystem.
+        {/* Description - Simplified */}
+        <p className="text-sm md:text-base text-pixel-light-gray mb-8 max-w-xl mx-auto pixel-font">
+          Challenge your mind with retro pixel art brain games on Starknet
         </p>
 
+        {/* CTAs - Minimal */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Link href="/games">
-            <Button size="lg" className="arcade-button text-base px-8 py-4">
+            <Button size="lg" className="arcade-button px-8 py-4">
               <Brain className="w-5 h-5 mr-2" />
-              START TRAINING
+              <span className="pixel-font text-sm">START PLAYING</span>
             </Button>
           </Link>
-          <Link href="/leaderboard">
-            <Button variant="outline" size="lg" className="btn-pixel-secondary text-base px-8 py-4 border-2">
-              <Trophy className="w-5 h-5 mr-2" />
-              LEADERBOARD
-            </Button>
-          </Link>
-        </div>
-
-        <div className="pixel-grid max-w-4xl mx-auto">
-          <div className="game-card p-6 rounded-lg border-2 border-primary/20">
-            <Brain className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2 pixel-font">6 Unique Games</h3>
-            <p className="text-muted-foreground retro-font">Memory, logic, speed, and pattern recognition challenges</p>
-          </div>
-
-          <div className="game-card p-6 rounded-lg border-2 border-accent/20">
-            <Coins className="w-12 h-12 text-accent mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2 pixel-font">Earn $STARK</h3>
-            <p className="text-muted-foreground retro-font">Get rewarded for your brain training achievements</p>
-          </div>
-
-          <div className="game-card p-6 rounded-lg border-2 border-primary/20">
-            <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2 pixel-font">Global Rankings</h3>
-            <p className="text-muted-foreground retro-font">Compete with players worldwide on the leaderboard</p>
-          </div>
-        </div>
-
-        {!address && (
-          <div className="mt-12 p-6 retro-game-container border-yellow-400 animate-pixel-pulse">
-            <p className="pixel-font neon-text-yellow mb-4 text-sm">⚠ CONNECT WALLET TO EARN REWARDS ⚠</p>
-            <p className="retro-font text-xs text-muted-foreground">
-              ArgentX • Braavos • Starknet Wallets
+          {!address && (
+            <p className="pixel-font text-xs text-pixel-gray">
+              <Zap className="w-3 h-3 inline mr-1" />
+              Connect wallet to earn rewards
             </p>
+          )}
+        </div>
+
+        {/* Stats - Minimalistic Grid */}
+        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div className="bg-pixel-black border-2 border-pixel-gray p-4 hover:border-primary transition-colors">
+            <div className="text-2xl pixel-font neon-text-red mb-1">3</div>
+            <div className="text-xs pixel-font text-pixel-gray">Games</div>
           </div>
-        )}
+          <div className="bg-pixel-black border-2 border-pixel-gray p-4 hover:border-yellow-400 transition-colors">
+            <div className="text-2xl pixel-font neon-text-yellow mb-1">$STARK</div>
+            <div className="text-xs pixel-font text-pixel-gray">Rewards</div>
+          </div>
+          <div className="bg-pixel-black border-2 border-pixel-gray p-4 hover:border-purple-500 transition-colors">
+            <div className="text-2xl pixel-font neon-text-purple mb-1">Top</div>
+            <div className="text-xs pixel-font text-pixel-gray">Ranks</div>
+          </div>
+        </div>
       </div>
     </section>
   );
