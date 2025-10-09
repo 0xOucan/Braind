@@ -83,17 +83,18 @@ export function useSpeedMatchGame() {
     const usedDifficulty = difficulty || selectedDifficulty;
 
     try {
-      // Step 1: Approve STRK tokens
+      // Step 1: Approve STRK tokens (1.01 STRK to cover game fee)
       toast.loading('Approving STRK tokens...', { id: 'start-game' });
 
-      const MAX_APPROVAL = cairo.uint256('0xffffffffffffffffffffffffffffffff');
+      // Approve 1.01 STRK (1010000000000000000 wei = 1.01 * 10^18)
+      const APPROVAL_AMOUNT = cairo.uint256('1010000000000000000');
 
       // Use account.execute with direct call structure
       await account.execute([
         {
           contractAddress: STRK_TOKEN,
           entrypoint: 'approve',
-          calldata: [gameContractInfo.address, MAX_APPROVAL.low, MAX_APPROVAL.high]
+          calldata: [gameContractInfo.address, APPROVAL_AMOUNT.low, APPROVAL_AMOUNT.high]
         }
       ]);
 
@@ -146,7 +147,13 @@ export function useSpeedMatchGame() {
       }, 1000);
     } catch (error: any) {
       console.error('Error starting game:', error);
-      toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
+
+      // Check if it's an overflow error (insufficient balance)
+      if (error?.message?.includes('u256_sub Overflow') || error?.message?.includes('Overflow')) {
+        toast.error('Insufficient STRK balance! You need at least 1 STRK to play.', { id: 'start-game' });
+      } else {
+        toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
+      }
     }
   }, [selectedDifficulty, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
 

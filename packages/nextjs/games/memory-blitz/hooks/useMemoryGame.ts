@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { MemoryGameState, GameState, GameStats } from '../types';
 import { MEMORY_GAME_CONSTANTS } from '../utils/constants';
 import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
+import { useScaffoldReadContract } from '../../../hooks/scaffold-stark/useScaffoldReadContract';
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
@@ -35,6 +36,9 @@ export const useMemoryGame = () => {
 
   // Get game contract info
   const { data: gameContractInfo } = useDeployedContractInfo('MemoryBlitzGameV2');
+
+  // Read STRK balance (using a simple read - assuming standard ERC20)
+  // Note: This is a basic implementation, you may need to adjust based on actual balance display
 
   // Write contract hooks
   const { sendAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
@@ -75,17 +79,18 @@ export const useMemoryGame = () => {
     }
 
     try {
-      // Step 1: Approve STRK tokens
+      // Step 1: Approve STRK tokens (1.01 STRK to cover game fee)
       toast.loading('Approving STRK tokens...', { id: 'start-game' });
 
-      const MAX_APPROVAL = cairo.uint256('0xffffffffffffffffffffffffffffffff');
+      // Approve 1.01 STRK (1010000000000000000 wei = 1.01 * 10^18)
+      const APPROVAL_AMOUNT = cairo.uint256('1010000000000000000');
 
       // Use account.execute with direct call structure
       await account.execute([
         {
           contractAddress: STRK_TOKEN,
           entrypoint: 'approve',
-          calldata: [gameContractInfo.address, MAX_APPROVAL.low, MAX_APPROVAL.high]
+          calldata: [gameContractInfo.address, APPROVAL_AMOUNT.low, APPROVAL_AMOUNT.high]
         }
       ]);
 
@@ -119,7 +124,13 @@ export const useMemoryGame = () => {
       }));
     } catch (error: any) {
       console.error('Error starting game:', error);
-      toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
+
+      // Check if it's an overflow error (insufficient balance)
+      if (error?.message?.includes('u256_sub Overflow') || error?.message?.includes('Overflow')) {
+        toast.error('Insufficient STRK balance! You need at least 1 STRK to play.', { id: 'start-game' });
+      } else {
+        toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
+      }
     }
   }, [generateSequence, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
 
