@@ -8,7 +8,7 @@ import { useScaffoldReadContract } from '../../../hooks/scaffold-stark/useScaffo
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
-import { cairo, Contract } from 'starknet';
+import { cairo } from 'starknet';
 
 export const useMemoryGame = () => {
   const { address, account } = useAccount();
@@ -84,19 +84,6 @@ export const useMemoryGame = () => {
 
       // Approve a large amount of STRK (100 STRK for multiple games)
       const APPROVAL_AMOUNT = cairo.uint256('100000000000000000000'); // 100 STRK
-
-      // Create contract instances
-      const strkContract = new Contract(
-        gameContractInfo?.abi || [], // We'll use a minimal ABI
-        STRK_TOKEN,
-        provider
-      );
-
-      const gameContract = new Contract(
-        gameContractInfo?.abi || [],
-        gameContractInfo?.address || '',
-        provider
-      );
 
       // Multicall: approve + start_game in one transaction
       const tx = await account.execute([

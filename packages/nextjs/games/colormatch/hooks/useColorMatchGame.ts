@@ -14,12 +14,13 @@ import {
 import { GAME_DIFFICULTIES } from '../utils/constants';
 import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
-import { useAccount } from '@starknet-react/core';
+import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
 import { cairo } from 'starknet';
 
 export function useColorMatchGame() {
   const { address, account } = useAccount();
+  const { provider } = useProvider();
   const [gameState, setGameState] = useState<GameState>({
     current: null,
     score: 0,
@@ -74,20 +75,43 @@ export function useColorMatchGame() {
     }
 
     try {
-      toast.loading('Starting game on Starknet...', { id: 'start-game' });
+      toast.loading('Approving STRK and starting game...', { id: 'start-game' });
 
-      // Call smart contract to start game
-      // Note: Make sure you have approved STRK tokens to the game contract first!
-      const result = await startGameContract({
-        args: [STRK_TOKEN], // payment_token
-      });
+      // Approve 100 STRK for multiple games
+      const APPROVAL_AMOUNT = cairo.uint256('100000000000000000000');
+
+      // Multicall: approve + start_game in one transaction
+      const tx = await account.execute([
+        {
+          contractAddress: STRK_TOKEN,
+          entrypoint: 'approve',
+          calldata: [gameContractInfo?.address || '', APPROVAL_AMOUNT.low, APPROVAL_AMOUNT.high]
+        },
+        {
+          contractAddress: gameContractInfo?.address || '',
+          entrypoint: 'start_game',
+          calldata: [STRK_TOKEN]
+        }
+      ]);
+
+      // Wait for transaction and extract game_id from events
+      toast.loading('Waiting for transaction confirmation...', { id: 'start-game' });
+      const receipt = await provider.waitForTransaction(tx.transaction_hash);
 
       toast.success('Game started! Transaction confirmed.', { id: 'start-game' });
 
-      // Extract game_id from result (first return value)
-      const gameId = result && result.length > 0 ? BigInt(result[0]) : null;
-      if (gameId) {
+      // Extract game_id from GameStarted event
+      const gameStartedEvent = receipt.events?.find((e: any) =>
+        e.keys && e.keys[0] === cairo.getSelectorFromName('GameStarted')
+      );
+
+      if (gameStartedEvent && gameStartedEvent.data) {
+        const gameId = BigInt(gameStartedEvent.data[0]);
+        console.log('Extracted game_id from event:', gameId);
         setCurrentGameId(gameId);
+      } else {
+        console.warn('Could not find GameStarted event');
+        setCurrentGameId(BigInt(Date.now()));
       }
 
       const startTime = Date.now();
@@ -134,7 +158,7 @@ export function useColorMatchGame() {
         toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
       }
     }
-  }, [selectedDifficulty, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
+  }, [selectedDifficulty, address, account, gameContractInfo, provider, STRK_TOKEN]);
 
   const endGame = useCallback(async () => {
     if (timerRef.current) {
