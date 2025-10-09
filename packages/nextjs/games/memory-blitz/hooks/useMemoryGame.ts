@@ -3,8 +3,13 @@
 import { useState, useCallback, useEffect } from 'react';
 import { MemoryGameState, GameState, GameStats } from '../types';
 import { MEMORY_GAME_CONSTANTS } from '../utils/constants';
+import { useScaffoldWriteContract } from '~/hooks/scaffold-stark/useScaffoldWriteContract';
+import { useAccount } from '@starknet-react/core';
+import { toast } from 'react-hot-toast';
 
 export const useMemoryGame = () => {
+  const { address } = useAccount();
+  const [currentGameId, setCurrentGameId] = useState<bigint | null>(null);
   const [gameState, setGameState] = useState<MemoryGameState>({
     sequence: [],
     userSequence: [],
@@ -21,6 +26,20 @@ export const useMemoryGame = () => {
     highScore: 0,
     gameState: 'idle',
     activeTile: null,
+  });
+
+  // Contract addresses - STRK token on mainnet
+  const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
+
+  // Write contract hooks
+  const { writeAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
+    contractName: 'MemoryBlitzGameV2',
+    functionName: 'start_game',
+  });
+
+  const { writeAsync: submitScoreContract, isPending: isSubmitting } = useScaffoldWriteContract({
+    contractName: 'MemoryBlitzGameV2',
+    functionName: 'submit_score',
   });
 
   // Initialize high score from localStorage on mount
@@ -44,21 +63,46 @@ export const useMemoryGame = () => {
   }, []);
 
   // Start a new game
-  const startGame = useCallback(() => {
-    const newSequence = generateSequence(1);
-    setGameState(prev => ({
-      ...prev,
-      sequence: newSequence,
-      userSequence: [],
-      currentStep: 0,
-      level: 1,
-      score: 0,
-      gameState: 'displaying',
-      isDisplaying: true,
-      isPlaying: false,
-      activeTile: null,
-    }));
-  }, [generateSequence]);
+  const startGame = useCallback(async () => {
+    if (!address) {
+      toast.error('Please connect your wallet first!');
+      return;
+    }
+
+    try {
+      toast.loading('Starting game on Starknet...', { id: 'start-game' });
+
+      // Call smart contract to start game
+      const result = await startGameContract({
+        args: [STRK_TOKEN], // payment_token
+      });
+
+      toast.success('Game started! Transaction confirmed.', { id: 'start-game' });
+
+      // Extract game_id from result
+      const gameId = result && result.length > 0 ? BigInt(result[0]) : null;
+      if (gameId) {
+        setCurrentGameId(gameId);
+      }
+
+      const newSequence = generateSequence(1);
+      setGameState(prev => ({
+        ...prev,
+        sequence: newSequence,
+        userSequence: [],
+        currentStep: 0,
+        level: 1,
+        score: 0,
+        gameState: 'displaying',
+        isDisplaying: true,
+        isPlaying: false,
+        activeTile: null,
+      }));
+    } catch (error: any) {
+      console.error('Error starting game:', error);
+      toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
+    }
+  }, [generateSequence, address, startGameContract, STRK_TOKEN]);
 
   // Restart current game
   const restartGame = useCallback(() => {
@@ -178,12 +222,38 @@ export const useMemoryGame = () => {
       }
     } else {
       // Wrong tile clicked - game over
+      const finalScore = gameState.score;
+      const finalLevel = gameState.level;
+
       setGameState(prev => ({
         ...prev,
         gameState: 'lost',
         isPlaying: false,
         activeTile: tileIndex,
       }));
+
+      // Submit score to contract
+      if (currentGameId && address && finalScore > 0) {
+        try {
+          toast.loading('Submitting score to Starknet...', { id: 'submit-score' });
+
+          submitScoreContract({
+            args: [
+              currentGameId,
+              finalScore,
+              finalLevel, // level_reached
+            ],
+          }).then(() => {
+            toast.success('Score submitted successfully!', { id: 'submit-score' });
+          }).catch((error: any) => {
+            console.error('Error submitting score:', error);
+            toast.error(error?.message || 'Failed to submit score', { id: 'submit-score' });
+          });
+        } catch (error: any) {
+          console.error('Error submitting score:', error);
+          toast.error(error?.message || 'Failed to submit score', { id: 'submit-score' });
+        }
+      }
 
       // Clear active tile and reset after delay
       setTimeout(() => {
@@ -193,7 +263,7 @@ export const useMemoryGame = () => {
         }, 1000);
       }, MEMORY_GAME_CONSTANTS.ANIMATION_DURATIONS.TILE_ACTIVATION);
     }
-  }, [gameState, generateSequence, restartGame]);
+  }, [gameState, generateSequence, restartGame, currentGameId, address, submitScoreContract]);
 
   // Auto-display sequence when state changes to displaying
   useEffect(() => {
