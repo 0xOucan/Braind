@@ -74,24 +74,10 @@ export function useColorMatchGame() {
     }
 
     try {
-      // Step 1: Approve STRK tokens (1.01 STRK to cover game fee)
-      toast.loading('Approving STRK tokens...', { id: 'start-game' });
+      toast.loading('Starting game on Starknet...', { id: 'start-game' });
 
-      // Approve 1.01 STRK (1010000000000000000 wei = 1.01 * 10^18)
-      const APPROVAL_AMOUNT = cairo.uint256('1010000000000000000');
-
-      // Use account.execute with direct call structure
-      await account.execute([
-        {
-          contractAddress: STRK_TOKEN,
-          entrypoint: 'approve',
-          calldata: [gameContractInfo.address, APPROVAL_AMOUNT.low, APPROVAL_AMOUNT.high]
-        }
-      ]);
-
-      toast.loading('Approval confirmed! Starting game...', { id: 'start-game' });
-
-      // Step 2: Call smart contract to start game
+      // Call smart contract to start game
+      // Note: Make sure you have approved STRK tokens to the game contract first!
       const result = await startGameContract({
         args: [STRK_TOKEN], // payment_token
       });
@@ -137,9 +123,13 @@ export function useColorMatchGame() {
     } catch (error: any) {
       console.error('Error starting game:', error);
 
-      // Check if it's an overflow error (insufficient balance)
+      // Check for specific error types
       if (error?.message?.includes('u256_sub Overflow') || error?.message?.includes('Overflow')) {
-        toast.error('Insufficient STRK balance! You need at least 1 STRK to play.', { id: 'start-game' });
+        toast.error('Insufficient STRK balance or approval! Please approve STRK tokens first.', { id: 'start-game' });
+      } else if (error?.message?.includes('USER_REFUSED_OP')) {
+        toast.error('Transaction cancelled by user.', { id: 'start-game' });
+      } else if (error?.message?.includes('nonce')) {
+        toast.error('Nonce error. Please try again in a few seconds.', { id: 'start-game' });
       } else {
         toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
       }
