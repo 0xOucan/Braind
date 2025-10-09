@@ -8,6 +8,8 @@ pub mod memory_blitz_game;
 
 // V2 Game Contracts (Round-based with prize distribution)
 pub mod color_match_game_v2;
+pub mod speed_match_game_v2;
+pub mod memory_blitz_game_v2;
 
 // Supporting Contracts
 pub mod airdrop_funds;
