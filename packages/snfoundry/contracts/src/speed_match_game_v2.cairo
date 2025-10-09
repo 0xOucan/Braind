@@ -524,7 +524,7 @@ mod SpeedMatchGameV2 {
                 i += 1;
             };
 
-            // Shift entries
+            // Shift entries and update their positions
             if position < max_size {
                 let mut j = if board_size < max_size { board_size } else { max_size - 1 };
                 while j > position {
@@ -534,6 +534,12 @@ mod SpeedMatchGameV2 {
                     self.round_leaderboard.write((round, j), prev_player);
                     self.round_leaderboard_scores.write((round, j), prev_score);
                     self.round_leaderboard_times.write((round, j), prev_time);
+
+                    // Update shifted player's position
+                    let mut shifted_stats = self.player_round_stats.read((prev_player, round));
+                    shifted_stats.round_position = j + 1;
+                    self.player_round_stats.write((prev_player, round), shifted_stats);
+
                     j -= 1;
                 };
 
