@@ -170,9 +170,9 @@ export const Header = () => {
         <Link
           href="/"
           passHref
-          className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0"
+          className="hidden lg:flex items-center gap-3 ml-4 mr-6 shrink-0"
         >
-          <div className="relative w-10 h-10 animate-pixel-float">
+          <div className="relative w-14 h-14 animate-pixel-float">
             <Image
               alt="BrainD logo"
               className="cursor-pointer"
@@ -181,8 +181,8 @@ export const Header = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="pixel-font text-lg neon-text-red leading-tight">BrainD</span>
-            <span className="retro-font text-xs neon-text-yellow">Train onchain!</span>
+            <span className="pixel-font text-2xl neon-text-red leading-tight">BrainD</span>
+            <span className="retro-font text-sm neon-text-yellow font-semibold">Train onchain!</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
