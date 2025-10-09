@@ -13,8 +13,10 @@ import {
 } from '../utils/gameLogic';
 import { GAME_DIFFICULTIES } from '../utils/constants';
 import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
+import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
+import { Contract, cairo } from 'starknet';
 
 export function useColorMatchGame() {
   const { address, account } = useAccount();
@@ -36,6 +38,9 @@ export function useColorMatchGame() {
 
   // Contract addresses - STRK token on mainnet
   const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
+
+  // Get game contract info
+  const { data: gameContractInfo } = useDeployedContractInfo('ColorMatchGameV2');
 
   // Write contract hooks
   const { sendAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
@@ -59,7 +64,7 @@ export function useColorMatchGame() {
   }, [selectedDifficulty.matchProbability]);
 
   const startGame = useCallback(async (difficulty?: GameDifficulty) => {
-    if (!address) {
+    if (!address || !account || !gameContractInfo) {
       toast.error('Please connect your wallet first!');
       return;
     }
@@ -69,9 +74,35 @@ export function useColorMatchGame() {
     }
 
     try {
-      toast.loading('Starting game on Starknet...', { id: 'start-game' });
+      // Step 1: Approve STRK tokens
+      toast.loading('Approving STRK tokens...', { id: 'start-game' });
 
-      // Call smart contract to start game
+      const MAX_APPROVAL = cairo.uint256('0xffffffffffffffffffffffffffffffff');
+
+      const strkContract = new Contract(
+        [
+          {
+            name: 'approve',
+            type: 'function',
+            inputs: [
+              { name: 'spender', type: 'ContractAddress' },
+              { name: 'amount', type: 'u256' }
+            ],
+            outputs: [{ type: 'bool' }],
+            state_mutability: 'external'
+          }
+        ],
+        STRK_TOKEN,
+        account
+      );
+
+      await account.execute([
+        strkContract.populate('approve', [gameContractInfo.address, MAX_APPROVAL])
+      ]);
+
+      toast.loading('Approval confirmed! Starting game...', { id: 'start-game' });
+
+      // Step 2: Call smart contract to start game
       const result = await startGameContract({
         args: [STRK_TOKEN], // payment_token
       });
@@ -118,7 +149,7 @@ export function useColorMatchGame() {
       console.error('Error starting game:', error);
       toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
     }
-  }, [selectedDifficulty, address, startGameContract, STRK_TOKEN]);
+  }, [selectedDifficulty, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
 
   const endGame = useCallback(async () => {
     if (timerRef.current) {
