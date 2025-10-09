@@ -12,7 +12,7 @@ import {
   getGameDuration
 } from '../utils/gameLogic';
 import { GAME_DIFFICULTIES } from '../utils/constants';
-import { useScaffoldWriteContract } from '~/hooks/scaffold-stark/useScaffoldWriteContract';
+import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
 import { useAccount } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
 
