@@ -4,11 +4,13 @@ import { useState, useCallback, useEffect } from 'react';
 import { MemoryGameState, GameState, GameStats } from '../types';
 import { MEMORY_GAME_CONSTANTS } from '../utils/constants';
 import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
-import { useAccount } from '@starknet-react/core';
+import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
+import { useAccount, useContract } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
+import { Contract, cairo } from 'starknet';
 
 export const useMemoryGame = () => {
-  const { address } = useAccount();
+  const { address, account } = useAccount();
   const [currentGameId, setCurrentGameId] = useState<bigint | null>(null);
   const [gameState, setGameState] = useState<MemoryGameState>({
     sequence: [],
@@ -30,6 +32,9 @@ export const useMemoryGame = () => {
 
   // Contract addresses - STRK token on mainnet
   const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
+
+  // Get game contract info
+  const { data: gameContractInfo } = useDeployedContractInfo('MemoryBlitzGameV2');
 
   // Write contract hooks
   const { sendAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
@@ -64,15 +69,41 @@ export const useMemoryGame = () => {
 
   // Start a new game
   const startGame = useCallback(async () => {
-    if (!address) {
+    if (!address || !account || !gameContractInfo) {
       toast.error('Please connect your wallet first!');
       return;
     }
 
     try {
-      toast.loading('Starting game on Starknet...', { id: 'start-game' });
+      // Step 1: Approve STRK tokens
+      toast.loading('Approving STRK tokens...', { id: 'start-game' });
 
-      // Call smart contract to start game
+      const MAX_APPROVAL = cairo.uint256('0xffffffffffffffffffffffffffffffff'); // Max uint128
+
+      const strkContract = new Contract(
+        [
+          {
+            name: 'approve',
+            type: 'function',
+            inputs: [
+              { name: 'spender', type: 'ContractAddress' },
+              { name: 'amount', type: 'u256' }
+            ],
+            outputs: [{ type: 'bool' }],
+            state_mutability: 'external'
+          }
+        ],
+        STRK_TOKEN,
+        account
+      );
+
+      await account.execute([
+        strkContract.populate('approve', [gameContractInfo.address, MAX_APPROVAL])
+      ]);
+
+      toast.loading('Approval confirmed! Starting game...', { id: 'start-game' });
+
+      // Step 2: Call smart contract to start game
       const result = await startGameContract({
         args: [STRK_TOKEN], // payment_token
       });
@@ -102,7 +133,7 @@ export const useMemoryGame = () => {
       console.error('Error starting game:', error);
       toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
     }
-  }, [generateSequence, address, startGameContract, STRK_TOKEN]);
+  }, [generateSequence, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
 
   // Restart current game
   const restartGame = useCallback(() => {
