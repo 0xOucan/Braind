@@ -95,7 +95,7 @@ export const useTransactor = (
   };
 
   useEffect(() => {
-    if (notificationId && txStatus && txStatus !== "pending") {
+    if (notificationId && txStatus && txStatus !== "latest") {
       notification.remove(notificationId);
     }
     if (txStatus === "success") {
