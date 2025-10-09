@@ -10,6 +10,8 @@ export type ScaffoldConfig = {
 };
 
 const scaffoldConfig = {
+  // Connect directly to Starknet Mainnet for local testing
+  // Uses real deployed contracts on mainnet
   targetNetworks: [chains.mainnet],
   // Only show the Burner Wallet when running on devnet
   onlyLocalBurnerWallet: false,

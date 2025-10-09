@@ -2,25 +2,31 @@ import * as chains from "@starknet-react/chains";
 
 const rpcUrlDevnet =
   process.env.NEXT_PUBLIC_DEVNET_PROVIDER_URL || "http://127.0.0.1:5050";
-// devnet with mainnet network ID
+
+const rpcUrlMainnet =
+  process.env.NEXT_PUBLIC_MAINNET_PROVIDER_URL ||
+  "https://starknet-mainnet.public.blastapi.io/rpc/v0_7";
+
+// Local development with mainnet contracts
+// This configuration allows you to test locally while connecting to real mainnet contracts
 const mainnetFork = {
-  id: BigInt("0x534e5f4d41494e"),
-  network: "devnet",
-  name: "Starknet Devnet",
+  id: BigInt("0x534e5f4d41494e"), // Mainnet chain ID
+  network: "mainnet",
+  name: "Starknet Mainnet (Local)",
   nativeCurrency: {
     address:
-      "0x4718F5A0FC34CC1AF16A1CDEE98FFB20C31F5CD61D6AB07201858F4287C938D",
+      "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
     name: "STRK",
     symbol: "STRK",
     decimals: 18,
   },
-  testnet: true,
+  testnet: false,
   rpcUrls: {
     default: {
-      http: [],
+      http: [rpcUrlMainnet],
     },
     public: {
-      http: [`${rpcUrlDevnet}/rpc`],
+      http: [rpcUrlMainnet],
     },
   },
   paymasterRpcUrls: {
