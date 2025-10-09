@@ -71,9 +71,12 @@ export const HeaderMenuLinks = () => {
             <Link
               href={href}
               passHref
-              className={`nav-pixel flex items-center gap-2 ${
-                isActive ? "active" : ""
+              className={`pixel-font text-sm flex items-center gap-2 px-3 py-2 border-2 transition-all duration-200 ${
+                isActive
+                  ? "border-yellow-400 bg-yellow-400 text-black shadow-[2px_2px_0_var(--pixel-black)]"
+                  : "border-transparent text-gray-900 hover:border-red-600 hover:bg-red-600 hover:text-white hover:shadow-[2px_2px_0_var(--pixel-black)]"
               }`}
+              style={{ textDecoration: 'none', fontWeight: 600 }}
             >
               {icon}
               <span>{label}</span>
