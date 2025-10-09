@@ -188,7 +188,7 @@ export const useMemoryGame = () => {
   }, [gameState.sequence]);
 
   // Handle tile click
-  const handleTileClick = useCallback((tileIndex: number) => {
+  const handleTileClick = useCallback(async (tileIndex: number) => {
     if (!gameState.isPlaying || gameState.isDisplaying) return;
 
     const newUserSequence = [...gameState.userSequence, tileIndex];
