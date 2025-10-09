@@ -16,7 +16,7 @@ import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaff
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
-import { Contract, cairo } from 'starknet';
+import { cairo } from 'starknet';
 
 export function useSpeedMatchGame() {
   const { address, account } = useAccount();
@@ -88,25 +88,13 @@ export function useSpeedMatchGame() {
 
       const MAX_APPROVAL = cairo.uint256('0xffffffffffffffffffffffffffffffff');
 
-      const strkContract = new Contract(
-        [
-          {
-            name: 'approve',
-            type: 'function',
-            inputs: [
-              { name: 'spender', type: 'ContractAddress' },
-              { name: 'amount', type: 'u256' }
-            ],
-            outputs: [{ type: 'bool' }],
-            state_mutability: 'external'
-          }
-        ],
-        STRK_TOKEN,
-        account
-      );
-
+      // Use account.execute with direct call structure
       await account.execute([
-        strkContract.populate('approve', [gameContractInfo.address, MAX_APPROVAL])
+        {
+          contractAddress: STRK_TOKEN,
+          entrypoint: 'approve',
+          calldata: [gameContractInfo.address, MAX_APPROVAL.low, MAX_APPROVAL.high]
+        }
       ]);
 
       toast.loading('Approval confirmed! Starting game...', { id: 'start-game' });
