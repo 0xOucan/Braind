@@ -17,13 +17,13 @@ export function HeroSection() {
 
       <div className="pixel-container text-center relative z-10 max-w-4xl mx-auto">
         {/* Main Title */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-4">
+        <h1 className="text-7xl md:text-9xl font-bold mb-6">
           <span className="neon-text-red pixel-font">Brain</span>
           <span className="neon-text-yellow pixel-font">D</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl font-semibold mb-6 neon-text-purple pixel-font">
+        <p className="text-2xl md:text-3xl font-semibold mb-8 neon-text-purple pixel-font">
           &gt; Train your brain onchain &lt;
         </p>
 

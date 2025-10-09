@@ -100,7 +100,7 @@ export const AddressInfoDropdown = ({
   return (
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end leading-3">
-        <summary className="btn bg-transparent btn-sm px-2 py-[0.35rem] dropdown-toggle gap-0 !h-auto border border-[#5c4fe5] ">
+        <summary className="btn bg-transparent btn-sm px-2 py-[0.35rem] dropdown-toggle gap-0 !h-auto border border-[#5c4fe5] hover:border-red-600 transition-all">
           <div className="hidden [@media(min-width:412px)]:block">
             {getStarknetPFPIfExists(profile?.profilePicture) ? (
               <NextImage
@@ -114,13 +114,13 @@ export const AddressInfoDropdown = ({
               <BlockieAvatar address={address} size={28} ensImage={ensAvatar} />
             )}
           </div>
-          <span className="ml-2 mr-2 text-sm">
+          <span className="ml-2 mr-2 text-sm font-semibold text-gray-900">
             {isENS(displayName)
               ? displayName
               : profile?.name ||
                 address?.slice(0, 6) + "..." + address?.slice(-4)}
           </span>
-          <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0 sm:block hidden" />
+          <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0 sm:block hidden text-gray-900" />
         </summary>
         <ul
           tabIndex={0}
