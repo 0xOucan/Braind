@@ -263,25 +263,40 @@ export const useMemoryGame = () => {
       }));
 
       // Submit score to contract
+      console.log('Game over - checking score submission:', {
+        currentGameId,
+        address,
+        finalScore,
+        finalLevel,
+        sequenceLength: gameState.sequence.length
+      });
+
       if (currentGameId && address && finalScore > 0) {
         try {
           toast.loading('Submitting score to Starknet...', { id: 'submit-score' });
 
-          submitScoreContract({
+          await submitScoreContract({
             args: [
               currentGameId,
               finalScore,
               finalLevel, // level_reached
+              gameState.sequence.length, // sequence_length (current level's sequence length)
             ],
-          }).then(() => {
-            toast.success('Score submitted successfully!', { id: 'submit-score' });
-          }).catch((error: any) => {
-            console.error('Error submitting score:', error);
-            toast.error(error?.message || 'Failed to submit score', { id: 'submit-score' });
           });
+
+          toast.success('Score submitted successfully!', { id: 'submit-score' });
         } catch (error: any) {
           console.error('Error submitting score:', error);
           toast.error(error?.message || 'Failed to submit score', { id: 'submit-score' });
+        }
+      } else {
+        console.warn('Score submission skipped:', {
+          hasGameId: !!currentGameId,
+          hasAddress: !!address,
+          hasScore: finalScore > 0
+        });
+        if (!currentGameId) {
+          toast.error('No game ID found. Score not submitted.', { id: 'submit-score' });
         }
       }
 
