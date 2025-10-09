@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ScaffoldStarkAppWithProviders } from "~~/components/ScaffoldStarkAppWithProviders";
 import "~~/styles/globals.css";
 import { ThemeProvider } from "~~/components/ThemeProvider";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "BrainD - Train your brain onchain!",
@@ -26,6 +27,17 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
           <ScaffoldStarkAppWithProviders>
             {children}
           </ScaffoldStarkAppWithProviders>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#1f2937',
+                color: '#fff',
+                border: '1px solid #374151',
+              },
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>
