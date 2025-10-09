@@ -15,15 +15,15 @@ export function HeroSection() {
         <div className="w-full h-full scanlines"></div>
       </div>
 
-      <div className="pixel-container text-center relative z-10 max-w-4xl mx-auto">
+      <div className="pixel-container text-center relative z-10 mx-auto">
         {/* Main Title */}
-        <h1 className="text-7xl md:text-9xl font-bold mb-6">
+        <h1 className="text-8xl sm:text-9xl md:text-[12rem] lg:text-[16rem] font-bold mb-8 leading-none">
           <span className="neon-text-red pixel-font">Brain</span>
           <span className="neon-text-yellow pixel-font">D</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-2xl md:text-3xl font-semibold mb-8 neon-text-purple pixel-font">
+        <p className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-10 neon-text-purple pixel-font">
           &gt; Train your brain onchain &lt;
         </p>
 
