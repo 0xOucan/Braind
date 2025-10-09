@@ -1,5 +1,13 @@
 use starknet::ContractAddress;
 
+// Structs defined outside for visibility in the interface
+#[derive(Copy, Drop, Serde)]
+pub struct LeaderboardEntry {
+    pub player: ContractAddress,
+    pub score: u32,
+    pub position: u32,
+}
+
 #[starknet::interface]
 pub trait IColorMatchGameV2<TContractState> {
     // Game functions
@@ -29,7 +37,11 @@ pub trait IColorMatchGameV2<TContractState> {
 #[starknet::contract]
 mod ColorMatchGameV2 {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp, get_contract_address};
-    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map};
+    use starknet::storage::{
+        StoragePointerReadAccess, StoragePointerWriteAccess, Map,
+        StorageMapReadAccess, StorageMapWriteAccess
+    };
+    use super::LeaderboardEntry;
 
     #[storage]
     struct Storage {
@@ -102,13 +114,6 @@ mod ColorMatchGameV2 {
         pub all_time_high_score: u32,
         pub total_winnings: u256,
         pub rounds_participated: u32,
-    }
-
-    #[derive(Copy, Drop, Serde)]
-    pub struct LeaderboardEntry {
-        pub player: ContractAddress,
-        pub score: u32,
-        pub position: u32,
     }
 
     #[event]
@@ -473,7 +478,7 @@ mod ColorMatchGameV2 {
                 // Update player position
                 let mut player_stats = self.player_round_stats.read((player, round));
                 player_stats.round_position = position + 1;
-                self.player_round_stats.write((player, round), player_stats);
+                self.player_round_stats.write((player, round), player_stats)
             }
         }
 

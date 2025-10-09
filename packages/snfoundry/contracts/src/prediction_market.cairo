@@ -1,5 +1,31 @@
 use starknet::ContractAddress;
 
+// Structs defined outside for visibility in the interface
+#[derive(Copy, Drop, Serde)]
+pub struct MarketInfo {
+    pub market_id: u256,
+    pub game_contract: ContractAddress,
+    pub round: u32,
+    pub target_player: ContractAddress,
+    pub resolved: bool,
+    pub player_won: bool,
+    pub total_bets: u256,
+    pub win_pool: u256,
+    pub lose_pool: u256,
+}
+
+#[derive(Copy, Drop, Serde)]
+pub struct BetInfo {
+    pub bet_id: u256,
+    pub market_id: u256,
+    pub bettor: ContractAddress,
+    pub prediction: bool,
+    pub amount: u256,
+    pub claimed: bool,
+    pub is_winner: bool,
+    pub payout: u256,
+}
+
 #[starknet::interface]
 pub trait IPredictionMarket<TContractState> {
     // Betting functions
@@ -35,7 +61,11 @@ pub trait IPredictionMarket<TContractState> {
 #[starknet::contract]
 mod PredictionMarket {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
-    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map};
+    use starknet::storage::{
+        StoragePointerReadAccess, StoragePointerWriteAccess, Map,
+        StorageMapReadAccess, StorageMapWriteAccess
+    };
+    use super::{MarketInfo, BetInfo};
 
     #[storage]
     struct Storage {
@@ -91,31 +121,6 @@ mod PredictionMarket {
         pub amount: u256,
         pub claimed: bool,
         pub timestamp: u64,
-    }
-
-    #[derive(Copy, Drop, Serde)]
-    pub struct MarketInfo {
-        pub market_id: u256,
-        pub game_contract: ContractAddress,
-        pub round: u32,
-        pub target_player: ContractAddress,
-        pub resolved: bool,
-        pub player_won: bool,
-        pub total_bets: u256,
-        pub win_pool: u256,
-        pub lose_pool: u256,
-    }
-
-    #[derive(Copy, Drop, Serde)]
-    pub struct BetInfo {
-        pub bet_id: u256,
-        pub market_id: u256,
-        pub bettor: ContractAddress,
-        pub prediction: bool,
-        pub amount: u256,
-        pub claimed: bool,
-        pub is_winner: bool,
-        pub payout: u256,
     }
 
     #[event]

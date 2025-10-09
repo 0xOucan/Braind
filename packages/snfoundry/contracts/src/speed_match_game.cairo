@@ -1,5 +1,31 @@
 use starknet::ContractAddress;
 
+// Structs defined outside for visibility in the interface
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct GameSession {
+    pub game_id: u256,
+    pub player: ContractAddress,
+    pub score: u32,
+    pub correct_matches: u32,
+    pub time_taken: u32,
+    pub difficulty: u8, // 1=Easy, 2=Medium, 3=Hard
+    pub payment_token: ContractAddress,
+    pub payment_amount: u256,
+    pub timestamp: u64,
+    pub completed: bool,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct PlayerStats {
+    pub games_played: u32,
+    pub total_score: u64,
+    pub high_score: u32,
+    pub total_correct_matches: u64,
+    pub best_time: u32, // in milliseconds
+    pub total_paid: u256,
+    pub last_played: u64,
+}
+
 #[starknet::interface]
 pub trait ISpeedMatchGame<TContractState> {
     // Game functions
@@ -29,10 +55,12 @@ mod SpeedMatchGame {
         ContractAddress, get_caller_address, get_block_timestamp, get_contract_address
     };
     use starknet::storage::{
-        StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map
+        StoragePointerReadAccess, StoragePointerWriteAccess, Map,
+        StorageMapReadAccess, StorageMapWriteAccess
     };
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
+    use super::{GameSession, PlayerStats};
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
 
@@ -63,31 +91,6 @@ mod SpeedMatchGame {
 
         // Difficulty-based best times
         player_best_times: Map<(ContractAddress, u8), u32>,
-    }
-
-    #[derive(Copy, Drop, Serde, starknet::Store)]
-    pub struct GameSession {
-        pub game_id: u256,
-        pub player: ContractAddress,
-        pub score: u32,
-        pub correct_matches: u32,
-        pub time_taken: u32,
-        pub difficulty: u8, // 1=Easy, 2=Medium, 3=Hard
-        pub payment_token: ContractAddress,
-        pub payment_amount: u256,
-        pub timestamp: u64,
-        pub completed: bool,
-    }
-
-    #[derive(Copy, Drop, Serde, starknet::Store)]
-    pub struct PlayerStats {
-        pub games_played: u32,
-        pub total_score: u64,
-        pub high_score: u32,
-        pub total_correct_matches: u64,
-        pub best_time: u32, // in milliseconds
-        pub total_paid: u256,
-        pub last_played: u64,
     }
 
     #[event]

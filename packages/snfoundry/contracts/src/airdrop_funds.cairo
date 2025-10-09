@@ -21,7 +21,10 @@ pub trait IAirdropFunds<TContractState> {
 #[starknet::contract]
 mod AirdropFunds {
     use starknet::{ContractAddress, get_caller_address, get_contract_address};
-    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, Map};
+    use starknet::storage::{
+        StoragePointerReadAccess, StoragePointerWriteAccess, Map,
+        StorageMapReadAccess, StorageMapWriteAccess
+    };
 
     #[storage]
     struct Storage {

@@ -1,7 +1,40 @@
+// Structs defined outside the contract module for visibility in the interface
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct PlayerStats {
+    pub games_played: u32,
+    pub total_score: u64,
+    pub high_score: u32,
+    pub total_rewards: u256,
+    pub rank: u32,
+    pub last_played: u64,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct GameSession {
+    pub game_type: felt252,
+    pub score: u32,
+    pub difficulty: u8, // 1 = Easy, 2 = Medium, 3 = Hard
+    pub reward: u256,
+    pub timestamp: u64,
+    pub duration: u32, // Game duration in seconds
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct GlobalStats {
+    pub total_players: u32,
+    pub total_games: u64,
+    pub total_rewards: u256,
+    pub average_score: u32,
+}
+
 #[starknet::contract]
 mod BrainDGameManager {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
-    use starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess, StoragePathEntry, Map};
+    use starknet::storage::{
+        StoragePointerReadAccess, StoragePointerWriteAccess, Map,
+        StorageMapReadAccess, StorageMapWriteAccess
+    };
+    use super::{PlayerStats, GameSession, GlobalStats};
 
     #[storage]
     struct Storage {
@@ -28,34 +61,6 @@ mod BrainDGameManager {
         easy_game_reward: u256,
         medium_game_reward: u256,
         hard_game_reward: u256,
-    }
-
-    #[derive(Copy, Drop, Serde, starknet::Store)]
-    struct PlayerStats {
-        games_played: u32,
-        total_score: u64,
-        high_score: u32,
-        total_rewards: u256,
-        rank: u32,
-        last_played: u64,
-    }
-
-    #[derive(Copy, Drop, Serde, starknet::Store)]
-    struct GameSession {
-        game_type: felt252,
-        score: u32,
-        difficulty: u8, // 1 = Easy, 2 = Medium, 3 = Hard
-        reward: u256,
-        timestamp: u64,
-        duration: u32, // Game duration in seconds
-    }
-
-    #[derive(Copy, Drop, Serde, starknet::Store)]
-    struct GlobalStats {
-        total_players: u32,
-        total_games: u64,
-        total_rewards: u256,
-        average_score: u32,
     }
 
     #[event]
@@ -129,11 +134,14 @@ mod BrainDGameManager {
             }
 
             // Calculate reward based on difficulty
-            let reward = match difficulty {
-                1 => self.easy_game_reward.read(),
-                2 => self.medium_game_reward.read(),
-                3 => self.hard_game_reward.read(),
-                _ => 0,
+            let reward = if difficulty == 1 {
+                self.easy_game_reward.read()
+            } else if difficulty == 2 {
+                self.medium_game_reward.read()
+            } else if difficulty == 3 {
+                self.hard_game_reward.read()
+            } else {
+                0
             };
 
             // Update player stats
@@ -338,6 +346,8 @@ mod BrainDGameManager {
     }
 }
 
+use starknet::ContractAddress;
+
 #[starknet::interface]
 trait IBrainDGameManager<TContractState> {
     fn submit_game_score(
@@ -348,10 +358,10 @@ trait IBrainDGameManager<TContractState> {
         duration: u32
     ) -> u256;
 
-    fn get_player_stats(self: @TContractState, player: ContractAddress) -> BrainDGameManager::PlayerStats;
-    fn get_player_game_history(self: @TContractState, player: ContractAddress, limit: u32) -> Array<BrainDGameManager::GameSession>;
+    fn get_player_stats(self: @TContractState, player: ContractAddress) -> PlayerStats;
+    fn get_player_game_history(self: @TContractState, player: ContractAddress, limit: u32) -> Array<GameSession>;
     fn get_leaderboard(self: @TContractState, limit: u32) -> Array<(ContractAddress, u64)>;
-    fn get_global_stats(self: @TContractState) -> BrainDGameManager::GlobalStats;
+    fn get_global_stats(self: @TContractState) -> GlobalStats;
     fn get_player_rank(self: @TContractState, player: ContractAddress) -> u32;
     fn get_total_players(self: @TContractState) -> u32;
     fn get_total_rewards_distributed(self: @TContractState) -> u256;
