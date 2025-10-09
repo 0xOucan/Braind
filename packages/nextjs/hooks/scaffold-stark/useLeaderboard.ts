@@ -1,16 +1,24 @@
 import { useScaffoldReadContract } from "~~/hooks/scaffold-stark";
 import { useAccount } from "@starknet-react/core";
+import {
+  mockCurrentRoundLeaderboard,
+  mockHistoricLeaderboard,
+  type MockLeaderboardEntry,
+} from "~~/utils/mockData";
 
 export interface LeaderboardEntry {
   address: string;
-  score: string;
+  score: number;
   rank: number;
+  username?: string;
+  games?: number;
 }
 
 export interface UseLeaderboardReturn {
-  leaderboard: LeaderboardEntry[];
+  currentRound: LeaderboardEntry[];
+  historic: LeaderboardEntry[];
   isLoading: boolean;
-  globalStats: any;
+  currentRoundNumber: number;
   playerRank: number | null;
   refetch: () => void;
 }
@@ -18,83 +26,83 @@ export interface UseLeaderboardReturn {
 export function useLeaderboard(limit: number = 100): UseLeaderboardReturn {
   const { address } = useAccount();
 
-  // Get leaderboard data
+  // Get current round leaderboard
   const {
-    data: leaderboardData,
-    isLoading: isLoadingLeaderboard,
-    refetch: refetchLeaderboard,
+    data: currentRoundData,
+    isLoading: isLoadingCurrentRound,
+    refetch: refetchCurrentRound,
   } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
+    contractName: "ColorMatchGameV2",
+    functionName: "get_current_round_leaderboard",
     args: [limit],
     watch: true,
   });
 
-  // Get global statistics
+  // Get historic leaderboard
   const {
-    data: globalStats,
-    isLoading: isLoadingStats,
-    refetch: refetchStats,
+    data: historicData,
+    isLoading: isLoadingHistoric,
+    refetch: refetchHistoric,
   } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
+    contractName: "ColorMatchGameV2",
+    functionName: "get_historic_leaderboard",
+    args: [limit],
     watch: true,
   });
 
-  // Get player's rank
+  // Get current round number
+  const {
+    data: roundNumber,
+    refetch: refetchRound,
+  } = useScaffoldReadContract({
+    contractName: "ColorMatchGameV2",
+    functionName: "get_current_round",
+    watch: true,
+  });
+
+  // Get player's rank in current round
   const {
     data: playerRank,
     refetch: refetchPlayerRank,
   } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
+    contractName: "ColorMatchGameV2",
+    functionName: "get_player_round_position",
     args: address ? [address] : undefined,
     watch: true,
   });
 
-  // Transform leaderboard data - use mock data for now
-  const leaderboard: LeaderboardEntry[] = [];
+  // Transform leaderboard data - use mock data for now since contracts aren't deployed
+  const currentRound: LeaderboardEntry[] = mockCurrentRoundLeaderboard.map((entry) => ({
+    address: entry.player,
+    score: entry.score,
+    rank: entry.rank,
+    username: entry.username,
+    games: entry.games,
+  }));
+
+  const historic: LeaderboardEntry[] = mockHistoricLeaderboard.map((entry) => ({
+    address: entry.player,
+    score: entry.score,
+    rank: entry.rank,
+    username: entry.username,
+    games: entry.games,
+  }));
 
   const refetch = () => {
-    refetchLeaderboard();
-    refetchStats();
+    refetchCurrentRound();
+    refetchHistoric();
+    refetchRound();
     if (address) {
       refetchPlayerRank();
     }
   };
 
   return {
-    leaderboard,
-    isLoading: isLoadingLeaderboard || isLoadingStats,
-    globalStats,
+    currentRound,
+    historic,
+    isLoading: isLoadingCurrentRound || isLoadingHistoric,
+    currentRoundNumber: roundNumber ? Number(roundNumber) : 5,
     playerRank: playerRank ? Number(playerRank) : null,
     refetch,
-  };
-}
-
-// Hook for weekly/daily leaderboards (filtered by time)
-export function useTimeFilteredLeaderboard(timeFilter: "daily" | "weekly" | "all" = "all") {
-  const days = timeFilter === "daily" ? 1 : timeFilter === "weekly" ? 7 : 0;
-
-  const {
-    data: leaderboardData,
-    isLoading,
-    refetch,
-  } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    args: [100], // Always get top 100, filtering is done on-chain
-    watch: true,
-  });
-
-  // In a real implementation, you might want a separate contract function
-  // for time-filtered leaderboards. For now, we return mock data.
-  const leaderboard: LeaderboardEntry[] = [];
-
-  return {
-    leaderboard,
-    isLoading,
-    refetch,
-    timeFilter,
   };
 }

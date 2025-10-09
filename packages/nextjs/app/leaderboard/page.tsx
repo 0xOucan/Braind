@@ -1,27 +1,45 @@
 "use client";
 
-import { Leaderboard } from "~~/components/Leaderboard";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "~~/components/ui/card";
 import { Badge } from "~~/components/ui/badge";
-import { Trophy, Users, Coins, TrendingUp, Crown, Medal, Award } from "lucide-react";
+import { Trophy, Users, Coins, TrendingUp, Crown, Medal, Award, Zap } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
-import { useScaffoldReadContract } from "~~/hooks/scaffold-stark";
+import { useLeaderboard } from "~~/hooks/scaffold-stark/useLeaderboard";
+import { shortenAddress } from "~~/utils/mockData";
+
+const getRankIcon = (rank: number) => {
+  switch (rank) {
+    case 1:
+      return <Crown className="w-6 h-6 text-yellow-400" />;
+    case 2:
+      return <Medal className="w-6 h-6 text-gray-400" />;
+    case 3:
+      return <Award className="w-6 h-6 text-amber-600" />;
+    default:
+      return <Trophy className="w-5 h-5 text-gray-500" />;
+  }
+};
+
+const getRankStyle = (rank: number) => {
+  switch (rank) {
+    case 1:
+      return "border-yellow-400 bg-yellow-400/10";
+    case 2:
+      return "border-gray-400 bg-gray-400/10";
+    case 3:
+      return "border-amber-600 bg-amber-600/10";
+    default:
+      return "border-gray-600";
+  }
+};
 
 export default function LeaderboardPage() {
   const { address } = useAccount();
+  const [activeTab, setActiveTab] = useState<"current" | "historic">("current");
+  const { currentRound, historic, isLoading, currentRoundNumber, playerRank } = useLeaderboard(100);
 
-  const { data: globalStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    watch: true,
-  });
-
-  const { data: playerRank } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  const displayData = activeTab === "current" ? currentRound : historic;
 
   return (
     <div className="min-h-screen bg-main pt-24">
@@ -35,6 +53,11 @@ export default function LeaderboardPage() {
             Compete with the brightest minds in the Starknet ecosystem.
             Climb the ranks and prove you&apos;re the ultimate brain champion!
           </p>
+          <div className="mt-4">
+            <Badge variant="outline" className="px-4 py-2">
+              <span className="pixel-font text-sm">Current Round: {currentRoundNumber}</span>
+            </Badge>
+          </div>
         </div>
 
         {/* Global Statistics */}
@@ -43,9 +66,11 @@ export default function LeaderboardPage() {
             <CardContent className="p-4 text-center">
               <Users className="w-8 h-8 text-blue-400 mx-auto mb-2" />
               <div className="pixel-font text-lg text-blue-400">
-{"1,247"}
+                {activeTab === "current" ? currentRound.length : historic.length}
               </div>
-              <div className="retro-font text-xs text-muted-foreground">Total Players</div>
+              <div className="retro-font text-xs text-muted-foreground">
+                {activeTab === "current" ? "Round Players" : "All-Time Players"}
+              </div>
             </CardContent>
           </Card>
 
@@ -53,19 +78,19 @@ export default function LeaderboardPage() {
             <CardContent className="p-4 text-center">
               <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-2" />
               <div className="pixel-font text-lg text-green-400">
-{"15,842"}
+                {displayData.reduce((acc, player) => acc + (player.games || 0), 0).toLocaleString()}
               </div>
-              <div className="retro-font text-xs text-muted-foreground">Games Played</div>
+              <div className="retro-font text-xs text-muted-foreground">Total Games</div>
             </CardContent>
           </Card>
 
           <Card className="game-card border-yellow-500">
             <CardContent className="p-4 text-center">
-              <Coins className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+              <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
               <div className="pixel-font text-lg text-yellow-400">
-{"2.5M"}
+                {displayData.reduce((acc, player) => acc + player.score, 0).toLocaleString()}
               </div>
-              <div className="retro-font text-xs text-muted-foreground">STARK Distributed</div>
+              <div className="retro-font text-xs text-muted-foreground">Total Score</div>
             </CardContent>
           </Card>
 
@@ -73,7 +98,7 @@ export default function LeaderboardPage() {
             <CardContent className="p-4 text-center">
               <Trophy className="w-8 h-8 text-purple-400 mx-auto mb-2" />
               <div className="pixel-font text-lg text-purple-400">
-{"--"}
+                {address && playerRank ? `#${playerRank}` : "--"}
               </div>
               <div className="retro-font text-xs text-muted-foreground">Your Rank</div>
             </CardContent>
@@ -140,14 +165,40 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
+        {/* Tab Selector */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex bg-card border-2 border-black rounded-lg overflow-hidden">
+            <button
+              onClick={() => setActiveTab("current")}
+              className={`px-6 py-3 pixel-font text-sm transition-all ${
+                activeTab === "current"
+                  ? "bg-primary text-black"
+                  : "bg-transparent text-foreground hover:bg-primary/20"
+              }`}
+            >
+              Current Round
+            </button>
+            <button
+              onClick={() => setActiveTab("historic")}
+              className={`px-6 py-3 pixel-font text-sm transition-all ${
+                activeTab === "historic"
+                  ? "bg-primary text-black"
+                  : "bg-transparent text-foreground hover:bg-primary/20"
+              }`}
+            >
+              All-Time
+            </button>
+          </div>
+        </div>
+
         {/* Personal Achievement */}
-        {address && playerRank && (
+        {address && playerRank && activeTab === "current" && (
           <div className="mb-12 text-center">
             <Card className="game-card border-accent inline-block p-6">
-              <h3 className="pixel-font text-accent mb-2">Your Current Rank</h3>
+              <h3 className="pixel-font text-accent mb-2">Your Current Round Rank</h3>
               <div className="flex items-center justify-center gap-4">
                 <Trophy className="w-8 h-8 text-accent" />
-                <span className="pixel-font text-2xl">#{playerRank.toString()}</span>
+                <span className="pixel-font text-2xl">#{playerRank}</span>
                 <Trophy className="w-8 h-8 text-accent" />
               </div>
               <p className="retro-font text-sm text-muted-foreground mt-2">
@@ -157,8 +208,68 @@ export default function LeaderboardPage() {
           </div>
         )}
 
-        {/* Main Leaderboard Component */}
-        <Leaderboard />
+        {/* Leaderboard Table */}
+        <Card className="game-card max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle className="pixel-font text-2xl text-center flex items-center justify-center gap-2">
+              <Trophy className="w-6 h-6 text-yellow-400" />
+              {activeTab === "current" ? "Current Round Top Players" : "All-Time Legends"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="text-center py-12">
+                <p className="pixel-font text-gray-500">Loading leaderboard...</p>
+              </div>
+            ) : displayData.length > 0 ? (
+              <div className="space-y-3">
+                {displayData.map((player) => (
+                  <div
+                    key={player.address}
+                    className={`game-card p-4 flex items-center gap-4 ${getRankStyle(player.rank)}`}
+                  >
+                    {/* Rank */}
+                    <div className="flex items-center gap-2 min-w-12">
+                      {getRankIcon(player.rank)}
+                      <span className="pixel-font text-lg">{player.rank}</span>
+                    </div>
+
+                    {/* Player Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        {player.username && (
+                          <span className="pixel-font text-sm text-primary">{player.username}</span>
+                        )}
+                        <span className="text-xs text-muted-foreground font-mono">
+                          {shortenAddress(player.address, 6)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs retro-font text-muted-foreground">
+                        <span>Games: {player.games || 0}</span>
+                        <span>Score: {player.score.toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Score Badge */}
+                    <div className="text-right">
+                      <Badge variant="outline" className="pixel-font">
+                        {player.score.toLocaleString()}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <Trophy className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <p className="pixel-font text-gray-500">No leaderboard data available</p>
+                <p className="retro-font text-sm text-muted-foreground mt-2">
+                  Be the first to play and claim your spot!
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Competition Info */}
         <div className="mt-20">

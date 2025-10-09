@@ -5,6 +5,606 @@
 
 const deployedContracts = {
   devnet: {
+    ColorMatchGameV2: {
+      address:
+        "0x1234567890123456789012345678901234567890123456789012345678901234",
+      abi: [
+        {
+          type: "impl",
+          name: "ColorMatchGameV2Impl",
+          interface_name: "contracts::color_match_game_v2::IColorMatchGameV2",
+        },
+        {
+          type: "struct",
+          name: "core::starknet::contract_address::ContractAddress",
+          members: [],
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::color_match_game_v2::LeaderboardEntry",
+          members: [
+            {
+              name: "player",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "score",
+              type: "core::integer::u32",
+            },
+            {
+              name: "position",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::color_match_game_v2::IColorMatchGameV2",
+          items: [
+            {
+              type: "function",
+              name: "start_game",
+              inputs: [
+                {
+                  name: "payment_token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "submit_score",
+              inputs: [
+                {
+                  name: "game_id",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "score",
+                  type: "core::integer::u32",
+                },
+                {
+                  name: "color_matches",
+                  type: "core::integer::u32",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_current_round_leaderboard",
+              inputs: [
+                {
+                  name: "limit",
+                  type: "core::integer::u32",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_historic_leaderboard",
+              inputs: [
+                {
+                  name: "limit",
+                  type: "core::integer::u32",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_player_round_position",
+              inputs: [
+                {
+                  name: "player",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u32",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_current_round",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u32",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_games_in_current_round",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u32",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "set_games_per_round",
+              inputs: [
+                {
+                  name: "games",
+                  type: "core::integer::u32",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "claim_house_fees",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "delegate_admin",
+              inputs: [
+                {
+                  name: "new_admin",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x1234567890123456789012345678901234567890123456789012345678901234",
+    },
+    PredictionMarket: {
+      address:
+        "0x2345678901234567890123456789012345678901234567890123456789012345",
+      abi: [
+        {
+          type: "impl",
+          name: "PredictionMarketImpl",
+          interface_name: "contracts::prediction_market::IPredictionMarket",
+        },
+        {
+          type: "struct",
+          name: "core::starknet::contract_address::ContractAddress",
+          members: [],
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::prediction_market::MarketInfo",
+          members: [
+            {
+              name: "market_id",
+              type: "core::integer::u256",
+            },
+            {
+              name: "game_contract",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "round",
+              type: "core::integer::u32",
+            },
+            {
+              name: "target_player",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "resolved",
+              type: "core::bool",
+            },
+            {
+              name: "player_won",
+              type: "core::bool",
+            },
+            {
+              name: "total_bets",
+              type: "core::integer::u256",
+            },
+            {
+              name: "win_pool",
+              type: "core::integer::u256",
+            },
+            {
+              name: "lose_pool",
+              type: "core::integer::u256",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "contracts::prediction_market::BetInfo",
+          members: [
+            {
+              name: "bet_id",
+              type: "core::integer::u256",
+            },
+            {
+              name: "market_id",
+              type: "core::integer::u256",
+            },
+            {
+              name: "bettor",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "prediction",
+              type: "core::bool",
+            },
+            {
+              name: "amount",
+              type: "core::integer::u256",
+            },
+            {
+              name: "claimed",
+              type: "core::bool",
+            },
+            {
+              name: "is_winner",
+              type: "core::bool",
+            },
+            {
+              name: "payout",
+              type: "core::integer::u256",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::prediction_market::IPredictionMarket",
+          items: [
+            {
+              type: "function",
+              name: "create_market",
+              inputs: [
+                {
+                  name: "game_contract",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "round",
+                  type: "core::integer::u32",
+                },
+                {
+                  name: "player",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "place_bet",
+              inputs: [
+                {
+                  name: "market_id",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "prediction",
+                  type: "core::bool",
+                },
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "resolve_market",
+              inputs: [
+                {
+                  name: "market_id",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "player_won",
+                  type: "core::bool",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::bool",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "claim_winnings",
+              inputs: [
+                {
+                  name: "bet_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_market_info",
+              inputs: [
+                {
+                  name: "market_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "contracts::prediction_market::MarketInfo",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_bet_info",
+              inputs: [
+                {
+                  name: "bet_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "contracts::prediction_market::BetInfo",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_player_bets",
+              inputs: [
+                {
+                  name: "player",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Array::<core::integer::u256>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "claim_house_fees",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "delegate_admin",
+              inputs: [
+                {
+                  name: "new_admin",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x2345678901234567890123456789012345678901234567890123456789012345",
+    },
+    AirdropFunds: {
+      address:
+        "0x3456789012345678901234567890123456789012345678901234567890123456",
+      abi: [
+        {
+          type: "impl",
+          name: "AirdropFundsImpl",
+          interface_name: "contracts::airdrop_funds::IAirdropFunds",
+        },
+        {
+          type: "struct",
+          name: "core::starknet::contract_address::ContractAddress",
+          members: [],
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::airdrop_funds::IAirdropFunds",
+          items: [
+            {
+              type: "function",
+              name: "get_balance",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "deposit_funds",
+              inputs: [
+                {
+                  name: "token",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x3456789012345678901234567890123456789012345678901234567890123456",
+    },
     YourContract: {
       address:
         "0x1a2542704c7588b9c5eb86c9a1b2391b93b77b67694268b74db51097031839d",

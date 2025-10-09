@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { Brain, Trophy, Gamepad2, Zap, User } from "lucide-react";
+import { Brain, Trophy, Gamepad2, Zap, User, Target } from "lucide-react";
 import { useOutsideClick } from "~~/hooks/scaffold-stark";
 import { CustomConnectButton } from "~~/components/scaffold-stark/CustomConnectButton";
 import { useTheme } from "next-themes";
@@ -36,6 +36,11 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Leaderboard",
     href: "/leaderboard",
     icon: <Trophy className="h-4 w-4" />,
+  },
+  {
+    label: "Predictions",
+    href: "/prediction-market",
+    icon: <Target className="h-4 w-4" />,
   },
   {
     label: "Profile",
