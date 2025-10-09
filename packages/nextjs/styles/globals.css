@@ -550,13 +550,18 @@
 
 .nav-pixel {
   @apply pixel-font text-sm;
-  color: var(--pixel-white);
 }
 
 .nav-pixel a {
-  @apply px-3 py-2 border border-transparent hover:border-yellow-400 hover:bg-yellow-400 hover:text-black transition-all duration-200;
+  @apply px-3 py-2 border-2 border-transparent transition-all duration-200;
   text-decoration: none;
-  color: var(--pixel-white);
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.nav-pixel a:hover {
+  @apply border-red-600 bg-red-600 text-white;
+  box-shadow: 2px 2px 0 var(--pixel-black);
 }
 
 .nav-pixel a.active {
