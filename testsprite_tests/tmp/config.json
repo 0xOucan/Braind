@@ -1,0 +1,15 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "executionArgs": {
+    "projectName": "TheBrainD",
+    "projectPath": "/home/oucan/TheBrainD",
+    "testIds": [],
+    "additionalInstruction": "Run comprehensive tests for Scaffold-Stark 2 project",
+    "envs": {
+      "API_KEY": "sk-user-yqzRYUIn-nY3q2DauQg0HiiDT-jRPjTaeC76gZnxL5Oy8vuAICfuiaBRVgnbGw0I4ov8ndiNiz3xrJ0Fl7I_xeiLh2_HarZIJQf2_AS5S-MuZQe1DBCJVmhlc5WD5LLy5LM"
+    }
+  }
+}

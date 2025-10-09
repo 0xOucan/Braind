@@ -1,0 +1,48 @@
+{
+    "project_name": "Scaffold-Stark 2",
+    "tech_stack": {
+        "frontend": {
+            "framework": "Next.js",
+            "language": "TypeScript",
+            "styling": "Tailwind CSS",
+            "ui_library": "DaisyUI"
+        },
+        "blockchain": {
+            "network": "Starknet",
+            "smart_contract_language": "Cairo",
+            "contract_framework": "Starknet Foundry"
+        },
+        "testing": {
+            "frontend_testing": "Vitest",
+            "contract_testing": "Starknet Foundry"
+        }
+    },
+    "key_features": [
+        "Web3 dApp Scaffold",
+        "Smart Contract Interaction",
+        "Wallet Connection",
+        "Block Explorer",
+        "Games (Color Match, Memory Blitz, Speed Match)",
+        "Prediction Market",
+        "Leaderboard"
+    ],
+    "main_components": {
+        "frontend": [
+            "CustomConnectButton",
+            "Address Component",
+            "Balance Component",
+            "Block Explorer",
+            "Game Components"
+        ],
+        "smart_contracts": [
+            "Airdrop Funds Contract",
+            "Color Match Game Contract",
+            "Prediction Market Contract"
+        ]
+    },
+    "deployment_targets": [
+        "Devnet",
+        "Sepolia Testnet",
+        "Mainnet"
+    ]
+}
