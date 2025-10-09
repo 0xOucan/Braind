@@ -8,7 +8,7 @@ import { useScaffoldReadContract } from '../../../hooks/scaffold-stark/useScaffo
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
-import { cairo } from 'starknet';
+import { cairo, hash } from 'starknet';
 
 export const useMemoryGame = () => {
   const { address, account } = useAccount();
@@ -108,7 +108,7 @@ export const useMemoryGame = () => {
       // Extract game_id from events
       // The GameStarted event should contain the game_id
       const gameStartedEvent = receipt.events?.find((e: any) =>
-        e.keys && e.keys[0] === cairo.getSelectorFromName('GameStarted')
+        e.keys && e.keys[0] === hash.getSelectorFromName('GameStarted')
       );
 
       if (gameStartedEvent && gameStartedEvent.data) {

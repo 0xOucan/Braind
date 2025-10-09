@@ -16,7 +16,7 @@ import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaff
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
-import { cairo } from 'starknet';
+import { cairo, hash } from 'starknet';
 
 export function useColorMatchGame() {
   const { address, account } = useAccount();
@@ -102,7 +102,7 @@ export function useColorMatchGame() {
 
       // Extract game_id from GameStarted event
       const gameStartedEvent = receipt.events?.find((e: any) =>
-        e.keys && e.keys[0] === cairo.getSelectorFromName('GameStarted')
+        e.keys && e.keys[0] === hash.getSelectorFromName('GameStarted')
       );
 
       if (gameStartedEvent && gameStartedEvent.data) {
