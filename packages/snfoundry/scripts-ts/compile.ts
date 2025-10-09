@@ -166,7 +166,10 @@ export function smartCompile(options: CompileOptions = {}): void {
   if (shouldRecompile({ force, verbose })) {
     console.log("🔨 Compiling contracts...");
     try {
-      execSync("cd contracts && scarb build", { stdio: "inherit" });
+      execSync("cd contracts && scarb build", {
+        stdio: "inherit",
+        env: { ...process.env, PATH: `${process.env.HOME}/.asdf/shims:${process.env.PATH}` }
+      });
       console.log("✅ Compilation completed successfully");
     } catch (error) {
       console.error("❌ Compilation failed:", error);
