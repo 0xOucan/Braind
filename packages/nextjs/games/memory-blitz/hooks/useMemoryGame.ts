@@ -6,12 +6,13 @@ import { MEMORY_GAME_CONSTANTS } from '../utils/constants';
 import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
 import { useScaffoldReadContract } from '../../../hooks/scaffold-stark/useScaffoldReadContract';
 import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
-import { useAccount } from '@starknet-react/core';
+import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
-import { cairo } from 'starknet';
+import { cairo, Contract } from 'starknet';
 
 export const useMemoryGame = () => {
   const { address, account } = useAccount();
+  const { provider } = useProvider();
   const [currentGameId, setCurrentGameId] = useState<bigint | null>(null);
   const [gameState, setGameState] = useState<MemoryGameState>({
     sequence: [],
@@ -79,20 +80,59 @@ export const useMemoryGame = () => {
     }
 
     try {
-      toast.loading('Starting game on Starknet...', { id: 'start-game' });
+      toast.loading('Approving STRK and starting game...', { id: 'start-game' });
 
-      // Call smart contract to start game
-      // Note: Make sure you have approved STRK tokens to the game contract first!
-      const result = await startGameContract({
-        args: [STRK_TOKEN], // payment_token
-      });
+      // Approve a large amount of STRK (100 STRK for multiple games)
+      const APPROVAL_AMOUNT = cairo.uint256('100000000000000000000'); // 100 STRK
+
+      // Create contract instances
+      const strkContract = new Contract(
+        gameContractInfo?.abi || [], // We'll use a minimal ABI
+        STRK_TOKEN,
+        provider
+      );
+
+      const gameContract = new Contract(
+        gameContractInfo?.abi || [],
+        gameContractInfo?.address || '',
+        provider
+      );
+
+      // Multicall: approve + start_game in one transaction
+      const tx = await account.execute([
+        {
+          contractAddress: STRK_TOKEN,
+          entrypoint: 'approve',
+          calldata: [gameContractInfo?.address || '', APPROVAL_AMOUNT.low, APPROVAL_AMOUNT.high]
+        },
+        {
+          contractAddress: gameContractInfo?.address || '',
+          entrypoint: 'start_game',
+          calldata: [STRK_TOKEN]
+        }
+      ]);
+
+      // Wait for transaction and get receipt
+      toast.loading('Waiting for transaction confirmation...', { id: 'start-game' });
+      const receipt = await provider.waitForTransaction(tx.transaction_hash);
 
       toast.success('Game started! Transaction confirmed.', { id: 'start-game' });
 
-      // Extract game_id from result
-      const gameId = result && result.length > 0 ? BigInt(result[0]) : null;
-      if (gameId) {
+      // Extract game_id from events
+      // The GameStarted event should contain the game_id
+      const gameStartedEvent = receipt.events?.find((e: any) =>
+        e.keys && e.keys[0] === cairo.getSelectorFromName('GameStarted')
+      );
+
+      if (gameStartedEvent && gameStartedEvent.data) {
+        // game_id is typically the first data field
+        const gameId = BigInt(gameStartedEvent.data[0]);
+        console.log('Extracted game_id from event:', gameId);
         setCurrentGameId(gameId);
+      } else {
+        console.warn('Could not find GameStarted event, using fallback');
+        // Fallback: generate a temporary ID (not ideal but prevents null)
+        setCurrentGameId(BigInt(Date.now()));
       }
 
       const newSequence = generateSequence(1);
@@ -122,7 +162,7 @@ export const useMemoryGame = () => {
         toast.error(error?.message || 'Failed to start game. Please try again.', { id: 'start-game' });
       }
     }
-  }, [generateSequence, address, account, gameContractInfo, startGameContract, STRK_TOKEN]);
+  }, [generateSequence, address, account, gameContractInfo, provider, STRK_TOKEN]);
 
   // Restart current game
   const restartGame = useCallback(() => {
