@@ -6,13 +6,13 @@ pub struct MarketInfo {
     pub market_id: u256,
     pub game_contract: ContractAddress,
     pub round: u32,
-    pub creator: ContractAddress, // The winner who created the market
-    pub prediction: bool, // Creator's prediction: will they make top 3?
+    pub session_id: u256,
+    pub target_player: ContractAddress,
     pub resolved: bool,
-    pub outcome: bool, // Did they actually make top 3?
+    pub player_won: bool,
     pub total_bets: u256,
-    pub yes_pool: u256, // Betting YES (will make top 3)
-    pub no_pool: u256, // Betting NO (won't make top 3)
+    pub win_pool: u256,
+    pub lose_pool: u256,
     pub created_at: u64,
 }
 
@@ -21,7 +21,7 @@ pub struct BetInfo {
     pub bet_id: u256,
     pub market_id: u256,
     pub bettor: ContractAddress,
-    pub prediction: bool, // true = YES (will make top 3), false = NO
+    pub prediction: bool,
     pub amount: u256,
     pub claimed: bool,
     pub is_winner: bool,
@@ -30,65 +30,52 @@ pub struct BetInfo {
 
 #[starknet::interface]
 pub trait IPredictionMarketV3<TContractState> {
-    // Winner eligibility (called by LeaderboardManager)
-    fn register_round_winner(
+    // V3 Integration - Called by GamePaymentHandler
+    fn receive_fee_share(ref self: TContractState, token: ContractAddress, amount: u256);
+
+    // Betting functions
+    fn create_market(
         ref self: TContractState,
         game_contract: ContractAddress,
         round: u32,
-        position: u32, // 0 = 1st, 1 = 2nd, 2 = 3rd
+        session_id: u256,
         player: ContractAddress
-    );
-
-    // User-created markets (past winners only)
-    fn create_self_prediction_market(
-        ref self: TContractState,
-        game_contract: ContractAddress,
-        target_round: u32,
-        prediction: bool, // "I will make top 3"
-        token: ContractAddress
     ) -> u256;
-
-    // Betting functions
     fn place_bet(
         ref self: TContractState,
         market_id: u256,
-        prediction: bool, // true = YES, false = NO
+        prediction: bool, // true = win, false = lose
         token: ContractAddress,
         amount: u256
     ) -> u256;
-
-    // Resolution (called by LeaderboardManager after round ends)
-    fn resolve_market_from_leaderboard(
-        ref self: TContractState,
-        market_id: u256,
-        player_final_position: u32 // 0-2 = top 3, 3+ = not top 3
-    ) -> bool;
-
+    fn resolve_market(ref self: TContractState, market_id: u256, player_won: bool) -> bool;
     fn claim_winnings(ref self: TContractState, bet_id: u256) -> u256;
 
     // Query functions
-    fn is_eligible_to_create(self: @TContractState, player: ContractAddress) -> bool;
-    fn get_round_winners(self: @TContractState, game: ContractAddress, round: u32) -> Array<ContractAddress>;
     fn get_market_info(self: @TContractState, market_id: u256) -> MarketInfo;
     fn get_bet_info(self: @TContractState, bet_id: u256) -> BetInfo;
     fn get_player_bets(self: @TContractState, player: ContractAddress, offset: u32, limit: u32) -> Array<u256>;
-    fn get_player_active_market(self: @TContractState, player: ContractAddress) -> Option<u256>;
-    fn get_market_stats(self: @TContractState, market_id: u256) -> (u256, u256, u256); // total_bets, yes_pool, no_pool
-    fn get_all_markets(self: @TContractState, offset: u32, limit: u32) -> Array<u256>;
+    fn get_market_stats(self: @TContractState, market_id: u256) -> (u256, u256, u256); // total_bets, win_pool, lose_pool
+    fn get_player_market_bet(self: @TContractState, market_id: u256, player: ContractAddress) -> Option<u256>; // Returns bet_id if exists
+
+    // Statistics
+    fn get_total_volume(self: @TContractState, token: ContractAddress) -> u256;
+    fn get_total_payouts(self: @TContractState, token: ContractAddress) -> u256;
+    fn get_house_earnings(self: @TContractState, token: ContractAddress) -> u256;
 
     // Admin functions
-    fn set_market_creation_fee(ref self: TContractState, fee: u256);
-    fn set_house_fee_percentage(ref self: TContractState, percentage: u16);
     fn claim_house_fees(ref self: TContractState, token: ContractAddress) -> u256;
-    fn authorize_game_contract(ref self: TContractState, game: ContractAddress);
-    fn revoke_game_contract(ref self: TContractState, game: ContractAddress);
+    fn set_house_fee_percentage(ref self: TContractState, percentage: u16); // in basis points (100 = 1%)
+    fn add_authorized_creator(ref self: TContractState, creator: ContractAddress);
+    fn remove_authorized_creator(ref self: TContractState, creator: ContractAddress);
+    fn delegate_admin(ref self: TContractState, new_admin: ContractAddress);
     fn pause_market(ref self: TContractState);
     fn unpause_market(ref self: TContractState);
 }
 
 #[starknet::contract]
 pub mod PredictionMarketV3 {
-    use starknet::{ContractAddress, get_caller_address, get_block_timestamp, get_contract_address};
+    use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
     use starknet::storage::{
         StoragePointerReadAccess, StoragePointerWriteAccess, Map,
         StorageMapReadAccess, StorageMapWriteAccess
@@ -99,49 +86,42 @@ pub mod PredictionMarketV3 {
     struct Storage {
         // Ownership & Admin
         owner: ContractAddress,
+        admin: ContractAddress,
         paused: bool,
 
         // Authorization
-        authorized_games: Map<ContractAddress, bool>, // Game contracts that can register winners
-
-        // Winner tracking (eligibility for market creation)
-        round_winners: Map<(ContractAddress, u32, u32), ContractAddress>, // (game, round, position) => player
-        round_winner_count: Map<(ContractAddress, u32), u32>, // (game, round) => count
-        is_past_winner: Map<ContractAddress, bool>, // Quick eligibility check
+        authorized_creators: Map<ContractAddress, bool>, // Game contracts authorized
+        authorized_depositors: Map<ContractAddress, bool>, // GamePaymentHandler authorized
 
         // Markets
         next_market_id: u256,
         markets: Map<u256, MarketInfo>,
-        market_count: u256,
-
-        // Player market tracking
-        player_active_market: Map<ContractAddress, u256>, // One active market per player
-        player_market_count: Map<ContractAddress, u32>,
-        player_markets: Map<(ContractAddress, u32), u256>, // (player, index) => market_id
 
         // Bets
         next_bet_id: u256,
         bets: Map<u256, BetInfo>,
         player_bet_count: Map<ContractAddress, u32>,
         player_bets: Map<(ContractAddress, u32), u256>, // (player, index) => bet_id
+
+        // Market lookup
         market_player_bet: Map<(u256, ContractAddress), u256>, // (market_id, player) => bet_id
         market_has_player_bet: Map<(u256, ContractAddress), bool>,
 
-        // Fees
-        market_creation_fee: u256, // 1 STRK default
-        house_fee_percentage: u16, // in basis points (500 = 5%)
+        // Fee tracking
+        house_fee_percentage: u16, // in basis points (100 = 1%)
         house_claimable: Map<ContractAddress, u256>,
-        house_total_earned: Map<ContractAddress, u256>,
+        available_pool: Map<ContractAddress, u256>,
 
         // Statistics
         total_volume: Map<ContractAddress, u256>,
         total_payouts: Map<ContractAddress, u256>,
+        house_total_earned: Map<ContractAddress, u256>,
     }
 
     #[event]
     #[derive(Drop, starknet::Event)]
     pub enum Event {
-        RoundWinnerRegistered: RoundWinnerRegistered,
+        FeeShareReceived: FeeShareReceived,
         MarketCreated: MarketCreated,
         BetPlaced: BetPlaced,
         MarketResolved: MarketResolved,
@@ -150,20 +130,19 @@ pub mod PredictionMarketV3 {
     }
 
     #[derive(Drop, starknet::Event)]
-    struct RoundWinnerRegistered {
-        game_contract: ContractAddress,
-        round: u32,
-        position: u32,
-        player: ContractAddress,
+    struct FeeShareReceived {
+        token: ContractAddress,
+        amount: u256,
+        from: ContractAddress,
     }
 
     #[derive(Drop, starknet::Event)]
     struct MarketCreated {
         market_id: u256,
-        creator: ContractAddress,
         game_contract: ContractAddress,
         round: u32,
-        prediction: bool,
+        session_id: u256,
+        player: ContractAddress,
     }
 
     #[derive(Drop, starknet::Event)]
@@ -178,7 +157,7 @@ pub mod PredictionMarketV3 {
     #[derive(Drop, starknet::Event)]
     struct MarketResolved {
         market_id: u256,
-        outcome: bool,
+        player_won: bool,
         total_payout: u256,
     }
 
@@ -195,7 +174,6 @@ pub mod PredictionMarketV3 {
         amount: u256,
     }
 
-    const DEFAULT_MARKET_CREATION_FEE: u256 = 1000000000000000000; // 1 STRK
     const DEFAULT_HOUSE_FEE_BPS: u16 = 500; // 5%
     const MAX_HOUSE_FEE_BPS: u16 = 2000; // 20% max
 
@@ -203,105 +181,72 @@ pub mod PredictionMarketV3 {
     fn constructor(
         ref self: ContractState,
         owner: ContractAddress,
+        admin: ContractAddress,
     ) {
         self.owner.write(owner);
+        self.admin.write(admin);
         self.next_market_id.write(1);
         self.next_bet_id.write(1);
-        self.market_creation_fee.write(DEFAULT_MARKET_CREATION_FEE);
         self.house_fee_percentage.write(DEFAULT_HOUSE_FEE_BPS);
         self.paused.write(false);
     }
 
     #[abi(embed_v0)]
     impl PredictionMarketV3Impl of super::IPredictionMarketV3<ContractState> {
-        fn register_round_winner(
-            ref self: ContractState,
-            game_contract: ContractAddress,
-            round: u32,
-            position: u32,
-            player: ContractAddress
-        ) {
-            assert!(self.authorized_games.read(game_contract), "Not authorized game");
-            assert!(position < 3, "Only top 3 positions");
+        fn receive_fee_share(ref self: ContractState, token: ContractAddress, amount: u256) {
+            let caller = get_caller_address();
+            assert!(self.authorized_depositors.read(caller), "Not authorized");
 
-            // Store winner
-            self.round_winners.write((game_contract, round, position), player);
+            let current_pool = self.available_pool.read(token);
+            self.available_pool.write(token, current_pool + amount);
 
-            // Update count
-            let count = self.round_winner_count.read((game_contract, round));
-            self.round_winner_count.write((game_contract, round), count + 1);
-
-            // Mark as past winner (eligible to create markets)
-            self.is_past_winner.write(player, true);
-
-            self.emit(RoundWinnerRegistered {
-                game_contract,
-                round,
-                position,
-                player,
+            self.emit(FeeShareReceived {
+                token,
+                amount,
+                from: caller,
             });
         }
 
-        fn create_self_prediction_market(
+        fn create_market(
             ref self: ContractState,
             game_contract: ContractAddress,
-            target_round: u32,
-            prediction: bool,
-            token: ContractAddress
+            round: u32,
+            session_id: u256,
+            player: ContractAddress
         ) -> u256 {
             assert!(!self.paused.read(), "Market is paused");
 
-            let creator = get_caller_address();
+            let caller = get_caller_address();
+            assert!(
+                self.authorized_creators.read(caller) || caller == self.owner.read() || caller == self.admin.read(),
+                "Not authorized"
+            );
 
-            // Check eligibility: must be a past winner
-            assert!(self.is_past_winner.read(creator), "Not eligible: must be a past round winner");
-
-            // Check if player already has an active market
-            let active_market_id = self.player_active_market.read(creator);
-            if active_market_id != 0 {
-                let active_market = self.markets.read(active_market_id);
-                assert!(active_market.resolved, "Already have an active market");
-            }
-
-            // Charge creation fee (1 STRK)
-            // Note: Requires ERC20 integration for actual token transfer
-            // For now, we just track it
-            let creation_fee = self.market_creation_fee.read();
-            // TODO: Transfer creation_fee from creator to contract
-
-            // Create market
             let market_id = self.next_market_id.read();
 
             let market = MarketInfo {
                 market_id,
                 game_contract,
-                round: target_round,
-                creator,
-                prediction,
+                round,
+                session_id,
+                target_player: player,
                 resolved: false,
-                outcome: false,
+                player_won: false,
                 total_bets: 0,
-                yes_pool: 0,
-                no_pool: 0,
+                win_pool: 0,
+                lose_pool: 0,
                 created_at: get_block_timestamp(),
             };
 
             self.markets.write(market_id, market);
             self.next_market_id.write(market_id + 1);
-            self.market_count.write(self.market_count.read() + 1);
-
-            // Track player's market
-            self.player_active_market.write(creator, market_id);
-            let player_market_count = self.player_market_count.read(creator);
-            self.player_markets.write((creator, player_market_count), market_id);
-            self.player_market_count.write(creator, player_market_count + 1);
 
             self.emit(MarketCreated {
                 market_id,
-                creator,
                 game_contract,
-                round: target_round,
-                prediction,
+                round,
+                session_id,
+                player,
             });
 
             market_id
@@ -321,7 +266,6 @@ pub mod PredictionMarketV3 {
             let mut market = self.markets.read(market_id);
 
             assert!(!market.resolved, "Market already resolved");
-            assert!(bettor != market.creator, "Cannot bet on your own market");
             assert!(!self.market_has_player_bet.read((market_id, bettor)), "Already bet on this market");
 
             // Calculate house fee
@@ -331,9 +275,9 @@ pub mod PredictionMarketV3 {
 
             // Update market pools
             if prediction {
-                market.yes_pool += bet_amount;
+                market.win_pool += bet_amount;
             } else {
-                market.no_pool += bet_amount;
+                market.lose_pool += bet_amount;
             }
             market.total_bets += bet_amount;
 
@@ -387,31 +331,20 @@ pub mod PredictionMarketV3 {
             bet_id
         }
 
-        fn resolve_market_from_leaderboard(
-            ref self: ContractState,
-            market_id: u256,
-            player_final_position: u32
-        ) -> bool {
-            let caller = get_caller_address();
-            let mut market = self.markets.read(market_id);
+        fn resolve_market(ref self: ContractState, market_id: u256, player_won: bool) -> bool {
+            self._only_admin();
 
-            // Only the game contract can resolve
-            assert!(caller == market.game_contract, "Only game contract can resolve");
+            let mut market = self.markets.read(market_id);
             assert!(!market.resolved, "Already resolved");
 
-            // Determine outcome: did they make top 3?
-            let made_top_3 = player_final_position < 3;
-            market.outcome = made_top_3;
             market.resolved = true;
+            market.player_won = player_won;
 
             self.markets.write(market_id, market);
 
-            // Clear active market for creator
-            self.player_active_market.write(market.creator, 0);
-
             self.emit(MarketResolved {
                 market_id,
-                outcome: made_top_3,
+                player_won,
                 total_payout: market.total_bets,
             });
 
@@ -431,13 +364,13 @@ pub mod PredictionMarketV3 {
             // Calculate payout
             let mut payout: u256 = 0;
 
-            if bet.prediction == market.outcome {
+            if bet.prediction == market.player_won {
                 // Winner
                 bet.is_winner = true;
 
                 // Calculate proportional payout
-                let winning_pool = if market.outcome { market.yes_pool } else { market.no_pool };
-                let losing_pool = if market.outcome { market.no_pool } else { market.yes_pool };
+                let winning_pool = if market.player_won { market.win_pool } else { market.lose_pool };
+                let losing_pool = if market.player_won { market.lose_pool } else { market.win_pool };
 
                 if winning_pool > 0 {
                     // Return original bet + proportional share of losing pool
@@ -450,12 +383,6 @@ pub mod PredictionMarketV3 {
             bet.payout = payout;
             self.bets.write(bet_id, bet);
 
-            if payout > 0 {
-                // TODO: Transfer payout tokens to bettor
-                let total_payouts = self.total_payouts.read(get_contract_address());
-                self.total_payouts.write(get_contract_address(), total_payouts + payout);
-            }
-
             self.emit(WinningsClaimed {
                 bet_id,
                 bettor,
@@ -463,28 +390,6 @@ pub mod PredictionMarketV3 {
             });
 
             payout
-        }
-
-        fn is_eligible_to_create(self: @ContractState, player: ContractAddress) -> bool {
-            self.is_past_winner.read(player)
-        }
-
-        fn get_round_winners(
-            self: @ContractState,
-            game: ContractAddress,
-            round: u32
-        ) -> Array<ContractAddress> {
-            let mut winners = ArrayTrait::new();
-            let count = self.round_winner_count.read((game, round));
-
-            let mut i: u32 = 0;
-            while i < count {
-                let winner = self.round_winners.read((game, round, i));
-                winners.append(winner);
-                i += 1;
-            };
-
-            winners
         }
 
         fn get_market_info(self: @ContractState, market_id: u256) -> MarketInfo {
@@ -516,85 +421,91 @@ pub mod PredictionMarketV3 {
             bet_ids
         }
 
-        fn get_player_active_market(self: @ContractState, player: ContractAddress) -> Option<u256> {
-            let market_id = self.player_active_market.read(player);
-            if market_id == 0 {
-                Option::None
+        fn get_market_stats(self: @ContractState, market_id: u256) -> (u256, u256, u256) {
+            let market = self.markets.read(market_id);
+            (market.total_bets, market.win_pool, market.lose_pool)
+        }
+
+        fn get_player_market_bet(
+            self: @ContractState,
+            market_id: u256,
+            player: ContractAddress
+        ) -> Option<u256> {
+            if self.market_has_player_bet.read((market_id, player)) {
+                Option::Some(self.market_player_bet.read((market_id, player)))
             } else {
-                Option::Some(market_id)
+                Option::None
             }
         }
 
-        fn get_market_stats(self: @ContractState, market_id: u256) -> (u256, u256, u256) {
-            let market = self.markets.read(market_id);
-            (market.total_bets, market.yes_pool, market.no_pool)
+        fn get_total_volume(self: @ContractState, token: ContractAddress) -> u256 {
+            self.total_volume.read(token)
         }
 
-        fn get_all_markets(self: @ContractState, offset: u32, limit: u32) -> Array<u256> {
-            let total: u32 = self.market_count.read().try_into().unwrap();
-            let mut market_ids = ArrayTrait::new();
-
-            let start: u256 = offset.into() + 1; // Markets start at ID 1
-            let end_offset: u256 = (offset + limit).into();
-            let end: u256 = if end_offset > self.next_market_id.read() {
-                self.next_market_id.read()
-            } else {
-                end_offset
-            };
-
-            let mut i = start;
-            while i < end {
-                market_ids.append(i);
-                i += 1;
-            };
-
-            market_ids
+        fn get_total_payouts(self: @ContractState, token: ContractAddress) -> u256 {
+            self.total_payouts.read(token)
         }
 
-        fn set_market_creation_fee(ref self: ContractState, fee: u256) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
-            self.market_creation_fee.write(fee);
-        }
-
-        fn set_house_fee_percentage(ref self: ContractState, percentage: u16) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
-            assert!(percentage <= MAX_HOUSE_FEE_BPS, "Fee too high");
-            self.house_fee_percentage.write(percentage);
+        fn get_house_earnings(self: @ContractState, token: ContractAddress) -> u256 {
+            self.house_total_earned.read(token)
         }
 
         fn claim_house_fees(ref self: ContractState, token: ContractAddress) -> u256 {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
+            self._only_owner();
 
             let amount = self.house_claimable.read(token);
             assert!(amount > 0, "No fees to claim");
 
             self.house_claimable.write(token, 0);
 
-            // TODO: Transfer tokens to owner
-
             self.emit(HouseFeesClaimed { token, amount });
 
             amount
         }
 
-        fn authorize_game_contract(ref self: ContractState, game: ContractAddress) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
-            self.authorized_games.write(game, true);
+        fn set_house_fee_percentage(ref self: ContractState, percentage: u16) {
+            self._only_owner();
+            assert!(percentage <= MAX_HOUSE_FEE_BPS, "Fee too high");
+            self.house_fee_percentage.write(percentage);
         }
 
-        fn revoke_game_contract(ref self: ContractState, game: ContractAddress) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
-            self.authorized_games.write(game, false);
+        fn add_authorized_creator(ref self: ContractState, creator: ContractAddress) {
+            self._only_owner();
+            self.authorized_creators.write(creator, true);
+        }
+
+        fn remove_authorized_creator(ref self: ContractState, creator: ContractAddress) {
+            self._only_owner();
+            self.authorized_creators.write(creator, false);
+        }
+
+        fn delegate_admin(ref self: ContractState, new_admin: ContractAddress) {
+            self._only_owner();
+            self.admin.write(new_admin);
         }
 
         fn pause_market(ref self: ContractState) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
+            self._only_admin();
             self.paused.write(true);
         }
 
         fn unpause_market(ref self: ContractState) {
-            assert!(get_caller_address() == self.owner.read(), "Only owner");
+            self._only_admin();
             self.paused.write(false);
+        }
+    }
+
+    #[generate_trait]
+    impl InternalFunctions of InternalFunctionsTrait {
+        fn _only_owner(self: @ContractState) {
+            let caller = get_caller_address();
+            assert!(caller == self.owner.read(), "Only owner");
+        }
+
+        fn _only_admin(self: @ContractState) {
+            let caller = get_caller_address();
+            let is_admin = caller == self.owner.read() || caller == self.admin.read();
+            assert!(is_admin, "Only admin");
         }
     }
 }

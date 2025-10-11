@@ -200,9 +200,10 @@ export function useSpeedMatchGame() {
 
         await submitScoreContract({
           args: [
-            currentGameId,
-            finalScore,
-            BigInt(duration), // time_taken in milliseconds
+            currentGameId.toString(), // u256 - as string
+            finalScore, // u32 - score
+            gameState.score, // u32 - correct_matches (use raw score as match count)
+            duration, // u32 - time_taken in milliseconds
           ],
         });
 

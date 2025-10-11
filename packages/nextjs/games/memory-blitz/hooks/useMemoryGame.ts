@@ -288,18 +288,49 @@ export const useMemoryGame = () => {
         sequenceLength: gameState.sequence.length
       });
 
-      if (currentGameId && address && finalScore > 0) {
+      if (currentGameId && address && finalScore > 0 && account && gameContractInfo) {
         try {
           toast.loading('Submitting score to Starknet...', { id: 'submit-score' });
 
-          await submitScoreContract({
-            args: [
-              currentGameId,
-              finalScore,
-              finalLevel, // level_reached
-              gameState.sequence.length, // sequence_length (current level's sequence length)
-            ],
+          // Use cairo.uint256 to properly format the game_id
+          const gameIdU256 = cairo.uint256(currentGameId);
+
+          console.log('Submitting score with params:', {
+            gameId: currentGameId,
+            gameIdU256,
+            score: finalScore,
+            levelReached: finalLevel,
+            types: {
+              gameIdLow: typeof gameIdU256.low,
+              gameIdHigh: typeof gameIdU256.high,
+              score: typeof finalScore,
+              level: typeof finalLevel,
+            }
           });
+
+          // Calldata: All values must be strings for Starknet.js
+          // The deployed contract expects 4 params: game_id (u256), score (u32), level_reached (u32), sequence_length (u32)
+          const calldata = [
+            gameIdU256.low,                        // game_id.low (u128)
+            gameIdU256.high,                       // game_id.high (u128)
+            String(finalScore),                    // score (u32)
+            String(finalLevel),                    // level_reached (u32)
+            String(gameState.sequence.length),     // sequence_length (u32) - THIS WAS MISSING!
+          ];
+
+          console.log('Calldata array:', calldata);
+          console.log('Calldata types:', calldata.map(v => typeof v));
+          console.log('Contract address:', gameContractInfo.address);
+
+          // Submit score directly using account.execute to avoid scaffold hook issues
+          const tx = await account.execute([{
+            contractAddress: gameContractInfo.address,
+            entrypoint: 'submit_score',
+            calldata: calldata
+          }]);
+
+          toast.loading('Waiting for score submission confirmation...', { id: 'submit-score' });
+          await provider.waitForTransaction(tx.transaction_hash);
 
           toast.success('Score submitted successfully!', { id: 'submit-score' });
         } catch (error: any) {

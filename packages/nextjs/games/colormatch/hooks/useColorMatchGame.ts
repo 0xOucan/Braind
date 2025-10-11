@@ -187,9 +187,9 @@ export function useColorMatchGame() {
 
         await submitScoreContract({
           args: [
-            currentGameId,
-            finalScore,
-            0, // color_matches (you can track this if needed)
+            currentGameId.toString(), // u256 - as string
+            finalScore, // u32 - score
+            0, // u32 - color_matches (can be tracked if needed)
           ],
         });
 
