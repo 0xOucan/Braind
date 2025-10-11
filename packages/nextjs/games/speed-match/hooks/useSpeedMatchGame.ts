@@ -101,7 +101,7 @@ export function useSpeedMatchGame() {
         {
           contractAddress: gameContractInfo?.address || '',
           entrypoint: 'start_game',
-          calldata: [difficultyNumber, STRK_TOKEN]
+          calldata: [STRK_TOKEN, difficultyNumber] // V3: token first, difficulty second
         }
       ]);
 
