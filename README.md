@@ -91,9 +91,9 @@ All games feature retro pixel art graphics, multiple difficulty levels, and bloc
 
 | Game | Status | Lines of Code | Features |
 |------|--------|---------------|----------|
-| 🎨 **Color Match** | ✅ **LIVE** | 294 (V1) / 519 (V2) | Round-based leaderboards, prize distribution |
-| ⚡ **Speed Match** | ✅ **LIVE** | 330 (V1) / 597 (V2) | Shape matching, reaction time testing, difficulty-based scoring |
-| 🧠 **Memory Blitz** | ✅ **LIVE** | 317 (V1) / 583 (V2) | Pattern memory, progressive difficulty, level tracking |
+| 🎨 **Color Match** | ✅ **LIVE** | 294 (V1) / 519 (V2) / 545 (V3) | Session management, payment handler, leaderboard integration |
+| ⚡ **Speed Match** | ✅ **LIVE** | 330 (V1) / 597 (V2) / 620 (V3) | Shape matching, difficulty tracking, modular architecture |
+| 🧠 **Memory Blitz** | ✅ **LIVE** | 317 (V1) / 583 (V2) / 608 (V3) | Pattern memory, level progression, external leaderboard |
 
 ### Game Difficulty Levels
 
@@ -109,26 +109,88 @@ Higher difficulty = Higher scores = Better leaderboard position!
 
 ## 📜 Smart Contracts
 
-BrainD's backend is powered by **10 Cairo smart contracts** totaling **3,851 lines** of battle-tested code.
+BrainD's backend is powered by **18 Cairo smart contracts** totaling **7,624+ lines** of production-ready code across V1, V2, and V3 architectures.
 
-### Core Contracts
+### V3 Architecture (Latest - Sepolia Testnet) 🆕
 
 | Contract | Lines | Purpose | Status |
 |----------|-------|---------|--------|
-| **SpeedMatchGameV2** | 597 | Round-based Speed Match with dual leaderboards | ✅ Deployed |
-| **MemoryBlitzGameV2** | 583 | Round-based Memory Blitz with level tracking | ✅ Deployed |
-| **ColorMatchGameV2** | 519 | Round-based Color Match with prize distribution | ✅ Deployed |
-| **PredictionMarket** | 444 | Player performance betting system | ✅ Deployed |
+| **SpeedMatchGameV3** | 620 | Modular game with external payment & leaderboard | ✅ **Deployed & Verified** |
+| **MemoryBlitzGameV3** | 608 | Modular memory game with session management | ✅ **Deployed & Verified** |
+| **ColorMatchGameV3** | 545 | Modular color matching with payment integration | ✅ **Deployed & Verified** |
+| **LeaderboardManagerV3** | 387 | Centralized leaderboard for all games | ✅ **Deployed & Verified** (3 instances) |
+| **GamePaymentHandler** | 298 | Unified payment processing for all games | ✅ **Deployed & Verified** |
+| **AirdropFundsV3** | 165 | Enhanced community fund with batch distribution | ✅ **Deployed & Verified** |
+| **PredictionMarketV3** | 456 | Improved betting system with better odds | ✅ **Deployed & Verified** |
+
+**V3 Total:** 7 contracts, **3,079 lines**, fully deployed on Sepolia testnet
+
+### V2 Architecture (Mainnet)
+
+| Contract | Lines | Purpose | Status |
+|----------|-------|---------|--------|
+| **SpeedMatchGameV2** | 597 | Round-based Speed Match with dual leaderboards | ✅ Mainnet |
+| **MemoryBlitzGameV2** | 583 | Round-based Memory Blitz with level tracking | ✅ Mainnet |
+| **ColorMatchGameV2** | 519 | Round-based Color Match with prize distribution | ✅ Mainnet |
+| **PredictionMarket** | 444 | Player performance betting system | ✅ Mainnet |
+| **AirdropFunds** | 149 | Community airdrop fund management | ✅ Mainnet |
+
+**V2 Total:** 5 contracts, **2,292 lines**, live on mainnet
+
+### V1 Architecture (Legacy)
+
+| Contract | Lines | Purpose | Status |
+|----------|-------|---------|--------|
 | **BrainDGameManager** | 370 | Central game session and stats management | ✅ Deployed |
-| **SpeedMatchGame** | 330 | Speed-based shape matching game (V1) | ✅ Deployed |
-| **MemoryBlitzGame** | 317 | Memory pattern game logic (V1) | ✅ Deployed |
-| **ColorMatchGame** | 294 | Original Color Match (V1) | ✅ Deployed |
+| **SpeedMatchGame** | 330 | Speed-based shape matching game | ✅ Deployed |
+| **MemoryBlitzGame** | 317 | Memory pattern game logic | ✅ Deployed |
+| **ColorMatchGame** | 294 | Original Color Match | ✅ Deployed |
 | **YourContract** | 248 | Example contract from Scaffold-Stark | ✅ Deployed |
-| **AirdropFunds** | 149 | Community airdrop fund management | ✅ Deployed |
+
+**V1 Total:** 5 contracts, **1,559 lines**
+
+### Auxiliary Contracts
+
+| Contract | Purpose | Status |
+|----------|---------|--------|
+| **CommonTypes** | Shared types and structs across V3 contracts | ✅ Library |
+| **BaseGameV3** | Base game contract implementation (optional) | 📚 Reference |
 
 ### Contract Features
 
-**V2 Game Contracts** (Round-Based Tournament System)
+**V3 Game Contracts** (Modular Architecture - Latest) 🆕
+
+All V3 games feature a completely modular, upgradeable architecture:
+
+#### Core Innovations
+- **Separation of Concerns** - Games, payments, and leaderboards are independent contracts
+- **GamePaymentHandler** - Centralized payment processing with multi-token support
+- **LeaderboardManager** - External leaderboard system (one per game)
+- **Session Management** - Robust session tracking with automatic cleanup
+- **CairoOption Handling** - Proper Option type support for active session detection
+- **Zero-Address Safety** - Games check for valid addresses before external calls
+
+#### Advanced Features
+- **Automatic Session Cleanup** - Frontend detects and closes orphaned sessions on-chain
+- **Score Submission on Reset** - Games automatically submit scores before resetting
+- **Payment Authorization** - Games must be whitelisted in payment handler
+- **Flexible Leaderboards** - Can be deployed/upgraded independently
+- **Round-Based Economy** - Configurable rounds with prize distribution
+- **Admin Delegation** - Owner + delegated admin roles
+
+#### Security Enhancements
+- **Session State Validation** - Prevents duplicate active sessions
+- **Payment Handler Validation** - Only authorized games can charge fees
+- **Leaderboard Authorization** - Only linked games can submit scores
+- **Zero-Address Guards** - Prevents calls to uninitialized contracts
+
+#### Frontend Integration
+- **On-Chain Session Detection** - Uses `get_active_session()` to check blockchain state
+- **Automatic Error Recovery** - Handles "Active session exists" errors gracefully
+- **CairoOption Parser** - Robust handling of Option<u256> return types
+- **Toast Notifications** - Clear user feedback for all blockchain operations
+
+**V2 Game Contracts** (Round-Based Tournament System - Mainnet)
 
 All V2 games share these advanced features:
 - **Dual Leaderboard System** - Current round (top 100) + All-time historic (top 100)
@@ -626,9 +688,51 @@ BrainD includes full PWA capabilities:
 
 ## 🚀 Deployment
 
-### ✅ Mainnet Deployment Status
+### ✅ V3 Sepolia Testnet Deployment Status 🆕
 
-All contracts are **LIVE on Starknet Mainnet** and **verified on Voyager**! 🎉
+All V3 contracts are **LIVE on Starknet Sepolia Testnet** and **verified on Voyager**! 🎉
+
+#### V3 Deployed Contract Addresses (Sepolia)
+
+| Contract | Address | Class Hash | Verification |
+|----------|---------|------------|--------------|
+| **AirdropFundsV3** | [`0x079bf4...64c589`](https://sepolia.starkscan.co/contract/0x079bf4e98b25d585238066de2bb6984bf885cd379d8fef18f81af559a264c589) | [`0x67dcee...cfeb51a`](https://sepolia.voyager.online/class/0x67dceef45d2a4e8806fe23d4adc51630a714a26fb2cf563e8cd31ccfcfeb51a) | ✅ [Verified](https://sepolia.voyager.online/class/0x67dceef45d2a4e8806fe23d4adc51630a714a26fb2cf563e8cd31ccfcfeb51a) |
+| **PredictionMarketV3** | [`0x02f7d1...483f0`](https://sepolia.starkscan.co/contract/0x2f7d11253b52f0b7b733b5b904bdc3702c833982e5c6e63d7792e6053c483f0) | [`0x52486a...b09739`](https://sepolia.voyager.online/class/0x52486a5cd89816864e77313fb6b5219a981a80f1fca4db0e5505a9141b09739) | ✅ [Verified](https://sepolia.voyager.online/class/0x52486a5cd89816864e77313fb6b5219a981a80f1fca4db0e5505a9141b09739) |
+| **GamePaymentHandler** | [`0x02748b...8b8cf`](https://sepolia.starkscan.co/contract/0x02748be63b7c0975586dbc40ddc8cf524a11f6467276ed4eedc6b87a3ed8b8cf) | [`0x721632...68ee44`](https://sepolia.voyager.online/class/0x7216329c9f7a43ba2123bfb962974ec29ebb05ebefa8a526568a4c4cf68ee44) | ✅ [Verified](https://sepolia.voyager.online/class/0x7216329c9f7a43ba2123bfb962974ec29ebb05ebefa8a526568a4c4cf68ee44) |
+| **ColorMatchGameV3** | [`0x043222...06e273`](https://sepolia.starkscan.co/contract/0x043222b237c8bbb6468a74cd6788da5272cbd87d651ab27bce43f7162f06e273) | [`0x49f332...ca07c2`](https://sepolia.voyager.online/class/0x49f332246be1637f6705ffe45a71e7bfa21b5bad88f150a1468d19354ca07c2) | ✅ [Verified](https://sepolia.voyager.online/class/0x49f332246be1637f6705ffe45a71e7bfa21b5bad88f150a1468d19354ca07c2) |
+| **SpeedMatchGameV3** | [`0x003d36...ab9678`](https://sepolia.starkscan.co/contract/0x003d36988097b2afb178518d9a25c4d1d8af9502b903bff87cb160f607ab9678) | [`0x07a628...2aa3a8`](https://sepolia.voyager.online/class/0x07a628068df2ca1fbf9e48b42f54d57bc9adfff05ccbaf7ec5bf03540f2aa3a8) | ✅ [Verified](https://sepolia.voyager.online/class/0x07a628068df2ca1fbf9e48b42f54d57bc9adfff05ccbaf7ec5bf03540f2aa3a8) |
+| **MemoryBlitzGameV3** | [`0x01fd26...f072a`](https://sepolia.starkscan.co/contract/0x01fd2685441d644697e0ef58836276f1e4ae0ef5e671bbf265f0d46eb04f072a) | [`0x00634b...721a0`](https://sepolia.voyager.online/class/0x00634b3ea6a80b68f2614183276492df0e9f792f51fd5008276071214a9721a0) | ✅ [Verified](https://sepolia.voyager.online/class/0x00634b3ea6a80b68f2614183276492df0e9f792f51fd5008276071214a9721a0) |
+| **LeaderboardManager** (ColorMatch) | [`0x02d643...451508`](https://sepolia.starkscan.co/contract/0x02d6437857881bba5ba91e8f72b3f9eed84e6bde93e8e70b918d073062451508) | [`0x008e72...7a4aeb`](https://sepolia.voyager.online/class/0x008e72254fbde13a0a354e2c809e8359282ae6067a5409814846f24c0b7a4aeb) | ✅ [Verified](https://sepolia.voyager.online/class/0x008e72254fbde13a0a354e2c809e8359282ae6067a5409814846f24c0b7a4aeb) |
+| **LeaderboardManager** (SpeedMatch) | [`0x03e60a...be916`](https://sepolia.starkscan.co/contract/0x03e60ae711811dec54a4b872a229e83c5f5a14cfb0642330dbe19541985be916) | [`0x008e72...7a4aeb`](https://sepolia.voyager.online/class/0x008e72254fbde13a0a354e2c809e8359282ae6067a5409814846f24c0b7a4aeb) | ✅ Same Class |
+| **LeaderboardManager** (MemoryBlitz) | [`0x00efbb...b9b409`](https://sepolia.starkscan.co/contract/0x00efbbab287080076b0def9624caed40e3be530e9507da9597758ab223b9b409) | [`0x008e72...7a4aeb`](https://sepolia.voyager.online/class/0x008e72254fbde13a0a354e2c809e8359282ae6067a5409814846f24c0b7a4aeb) | ✅ Same Class |
+
+**Network:** Starknet Sepolia Testnet
+**Cairo Version:** 2.12.2
+**Scarb Version:** 2.12.2
+**Starknet Foundry:** 0.49.0
+**License:** MIT
+**Deployer:** `0x4190830986542df66313b9a6e8faa0a3471ddc7c7447c3390fca7055d9ecf8a`
+
+#### V3 Configuration
+
+All games configured with:
+- ✅ Payment handler set and authorized
+- ✅ Leaderboard managers deployed and linked
+- ✅ Multi-token support (STRK, USDC, ETH)
+- ✅ Session management active
+- ✅ Zero-address safety checks
+- ✅ Automatic session cleanup via frontend
+
+**Token Addresses (Sepolia Testnet)**
+- **STRK**: `0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d`
+- **USDC**: `0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8`
+- **ETH**: `0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`
+
+---
+
+### ✅ V2 Mainnet Deployment Status
+
+All V2 contracts are **LIVE on Starknet Mainnet** and **verified on Voyager**! 🎉
 
 #### Deployed Contract Addresses
 
