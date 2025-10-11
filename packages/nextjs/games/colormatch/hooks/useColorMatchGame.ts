@@ -12,7 +12,7 @@ import {
   getGameDuration
 } from '../utils/gameLogic';
 import { GAME_DIFFICULTIES } from '../utils/constants';
-import { useScaffoldWriteContract, useDeployedContractInfo } from '~~/hooks/scaffold-stark';
+import { useScaffoldWriteContract, useScaffoldReadContract, useDeployedContractInfo } from '~~/hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
 import { cairo, hash } from 'starknet';
@@ -40,6 +40,13 @@ export function useColorMatchGame() {
   const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 
   // Get game contract info
+  // Read contract hooks
+  const { data: activeSessionData } = useScaffoldReadContract({
+    contractName: 'ColorMatchGameV3',
+    functionName: 'get_active_session',
+    args: address ? [address] : undefined,
+    watch: true,
+  });
   const { data: gameContractInfo } = useDeployedContractInfo('ColorMatchGameV3');
 
   // Write contract hooks
@@ -74,21 +81,31 @@ export function useColorMatchGame() {
     }
 
     try {
-      // Check for active session and close it if exists
-      if (currentGameId) {
-        console.log('Closing previous session before starting new game:', currentGameId);
+      // Check for active session on-chain and close it if exists
+      const activeSessionId = activeSessionData as bigint | undefined;
+      if (activeSessionId && activeSessionId > 0n) {
+        console.log('Active session detected on-chain, closing it:', activeSessionId);
         try {
-          toast.loading('Closing previous game session...', { id: 'start-game' });
-          await submitScoreContract({
-            args: [
-              currentGameId.toString(),
-              0, // score
-              0, // color_matches
-            ],
-          });
-          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for transaction
-        } catch (error) {
-          console.log('Could not close previous session, will try to start anyway:', error);
+          toast.loading('Closing active game session...', { id: 'start-game' });
+
+          const gameIdU256 = cairo.uint256(activeSessionId);
+          await account.execute([{
+            contractAddress: gameContractInfo?.address || '',
+            entrypoint: 'submit_score',
+            calldata: [
+              gameIdU256.low,
+              gameIdU256.high,
+              String(0), // score
+              String(0), // color_matches
+            ]
+          }]);
+
+          toast.success('Previous session closed', { id: 'start-game' });
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        } catch (error: any) {
+          console.error('Failed to close previous session:', error);
+          toast.error('Could not close previous session. Try again.', { id: 'start-game' });
+          return;
         }
       }
 

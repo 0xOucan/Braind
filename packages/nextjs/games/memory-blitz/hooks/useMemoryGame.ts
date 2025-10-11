@@ -36,6 +36,14 @@ export const useMemoryGame = () => {
   // Get game contract info
   const { data: gameContractInfo } = useDeployedContractInfo('MemoryBlitzGameV3');
 
+  // Read contract hooks
+  const { data: activeSessionData } = useScaffoldReadContract({
+    contractName: 'MemoryBlitzGameV3',
+    functionName: 'get_active_session',
+    args: address ? [address] : undefined,
+    watch: true,
+  });
+
   // Read STRK balance (using a simple read - assuming standard ERC20)
   // Note: This is a basic implementation, you may need to adjust based on actual balance display
 
@@ -78,12 +86,14 @@ export const useMemoryGame = () => {
     }
 
     try {
-      // Check for active session and close it if exists
-      if (currentGameId) {
-        console.log('Closing previous session before starting new game:', currentGameId);
+      // Check for active session on-chain and close it if exists
+      const activeSessionId = activeSessionData as bigint | undefined;
+      if (activeSessionId && activeSessionId > 0n) {
+        console.log('Active session detected on-chain, closing it:', activeSessionId);
         try {
-          toast.loading('Closing previous game session...', { id: 'start-game' });
-          const gameIdU256 = cairo.uint256(currentGameId);
+          toast.loading('Closing active game session...', { id: 'start-game' });
+
+          const gameIdU256 = cairo.uint256(activeSessionId);
           await account.execute([{
             contractAddress: gameContractInfo?.address || '',
             entrypoint: 'submit_score',
@@ -95,9 +105,13 @@ export const useMemoryGame = () => {
               String(0), // sequence_length
             ]
           }]);
-          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for transaction
-        } catch (error) {
-          console.log('Could not close previous session, will try to start anyway:', error);
+
+          toast.success('Previous session closed', { id: 'start-game' });
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        } catch (error: any) {
+          console.error('Failed to close previous session:', error);
+          toast.error('Could not close previous session. Try again.', { id: 'start-game' });
+          return;
         }
       }
 
