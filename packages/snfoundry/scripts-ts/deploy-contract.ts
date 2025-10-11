@@ -44,6 +44,11 @@ const validateConstructorArgsWithStarknetJS = (
           arg.type === "core::starknet::contract_address::ContractAddress" &&
           constructorArgs[arg.name]
         ) {
+          // Allow 0x0 for leaderboard_manager (will be set later)
+          if (arg.name === "leaderboard_manager") {
+            continue;
+          }
+
           const addressValue = constructorArgs[arg.name];
           try {
             const addressBigInt = BigInt(addressValue);

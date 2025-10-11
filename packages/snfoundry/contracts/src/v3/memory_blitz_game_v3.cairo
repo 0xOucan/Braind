@@ -39,6 +39,7 @@ pub trait IMemoryBlitzGameV3<TContractState> {
 #[starknet::contract]
 pub mod MemoryBlitzGameV3 {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use core::num::traits::Zero;
     use starknet::storage::{
         StoragePointerReadAccess, StoragePointerWriteAccess, Map,
         StorageMapReadAccess, StorageMapWriteAccess
@@ -262,11 +263,14 @@ pub mod MemoryBlitzGameV3 {
             let total_sequences = self.player_total_sequences.read(player);
             self.player_total_sequences.write(player, total_sequences + sequence_length);
 
-            // Add to main leaderboard (use level as additional metric)
-            let manager = ILeaderboardManagerDispatcher {
-                contract_address: self.leaderboard_manager.read()
-            };
-            manager.add_score(player, score, level_reached, session_id);
+            // Add to main leaderboard (use level as additional metric, only if leaderboard manager is set)
+            let leaderboard_addr = self.leaderboard_manager.read();
+            if !leaderboard_addr.is_zero() {
+                let manager = ILeaderboardManagerDispatcher {
+                    contract_address: leaderboard_addr
+                };
+                manager.add_score(player, score, level_reached, session_id);
+            }
 
             // Add to level-specific leaderboard
             self._insert_level_leaderboard(level_reached, player, score, sequence_length);

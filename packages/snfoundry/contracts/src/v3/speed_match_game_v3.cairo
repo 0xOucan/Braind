@@ -39,6 +39,7 @@ pub trait ISpeedMatchGameV3<TContractState> {
 #[starknet::contract]
 pub mod SpeedMatchGameV3 {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use core::num::traits::Zero;
     use starknet::storage::{
         StoragePointerReadAccess, StoragePointerWriteAccess, Map,
         StorageMapReadAccess, StorageMapWriteAccess
@@ -259,11 +260,14 @@ pub mod SpeedMatchGameV3 {
             let total_matches = self.player_total_matches.read(player);
             self.player_total_matches.write(player, total_matches + correct_matches);
 
-            // Add to main leaderboard
-            let manager = ILeaderboardManagerDispatcher {
-                contract_address: self.leaderboard_manager.read()
-            };
-            manager.add_score(player, score, 0, session_id);
+            // Add to main leaderboard (only if leaderboard manager is set)
+            let leaderboard_addr = self.leaderboard_manager.read();
+            if !leaderboard_addr.is_zero() {
+                let manager = ILeaderboardManagerDispatcher {
+                    contract_address: leaderboard_addr
+                };
+                manager.add_score(player, score, 0, session_id);
+            }
 
             // Add to difficulty-specific leaderboard
             let difficulty = self.session_difficulty.read(session_id);

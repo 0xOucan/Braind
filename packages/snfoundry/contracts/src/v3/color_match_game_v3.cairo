@@ -37,6 +37,7 @@ pub trait IColorMatchGameV3<TContractState> {
 #[starknet::contract]
 pub mod ColorMatchGameV3 {
     use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use core::num::traits::Zero;
     use starknet::storage::{
         StoragePointerReadAccess, StoragePointerWriteAccess, Map,
         StorageMapReadAccess, StorageMapWriteAccess
@@ -235,11 +236,14 @@ pub mod ColorMatchGameV3 {
             let total_matches = self.player_total_matches.read(player);
             self.player_total_matches.write(player, total_matches + color_matches);
 
-            // Add to leaderboard
-            let manager = ILeaderboardManagerDispatcher {
-                contract_address: self.leaderboard_manager.read()
-            };
-            manager.add_score(player, score, 0, session_id);
+            // Add to leaderboard (only if leaderboard manager is set)
+            let leaderboard_addr = self.leaderboard_manager.read();
+            if !leaderboard_addr.is_zero() {
+                let manager = ILeaderboardManagerDispatcher {
+                    contract_address: leaderboard_addr
+                };
+                manager.add_score(player, score, 0, session_id);
+            }
 
             self.emit(ScoreSubmitted { session_id, player, score, end_time: current_time });
             self.emit(ColorMatched { session_id, player, color_matches });
