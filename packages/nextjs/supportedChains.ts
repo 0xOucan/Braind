@@ -3,6 +3,10 @@ import * as chains from "@starknet-react/chains";
 const rpcUrlDevnet =
   process.env.NEXT_PUBLIC_DEVNET_PROVIDER_URL || "http://127.0.0.1:5050";
 
+const rpcUrlSepolia =
+  process.env.NEXT_PUBLIC_SEPOLIA_PROVIDER_URL ||
+  "https://starknet-sepolia.public.blastapi.io/rpc/v0_9";
+
 const rpcUrlMainnet =
   process.env.NEXT_PUBLIC_MAINNET_PROVIDER_URL ||
   "https://starknet-mainnet.public.blastapi.io/rpc/v0_7";
@@ -48,4 +52,16 @@ const devnet = {
   },
 } as const satisfies chains.Chain;
 
-export const supportedChains = { ...chains, devnet, mainnetFork };
+const sepolia = {
+  ...chains.sepolia,
+  rpcUrls: {
+    default: {
+      http: [rpcUrlSepolia],
+    },
+    public: {
+      http: [rpcUrlSepolia],
+    },
+  },
+} as const satisfies chains.Chain;
+
+export const supportedChains = { ...chains, devnet, sepolia, mainnetFork };

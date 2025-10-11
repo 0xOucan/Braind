@@ -10,9 +10,9 @@ export type ScaffoldConfig = {
 };
 
 const scaffoldConfig = {
-  // Connect directly to Starknet Mainnet for local testing
-  // Uses real deployed contracts on mainnet
-  targetNetworks: [chains.mainnet],
+  // Connect to Starknet Sepolia testnet
+  // Uses V3 game contracts deployed on Sepolia
+  targetNetworks: [chains.sepolia],
   // Only show the Burner Wallet when running on devnet
   onlyLocalBurnerWallet: false,
   // The interval at which your front-end polls the RPC servers for new data
