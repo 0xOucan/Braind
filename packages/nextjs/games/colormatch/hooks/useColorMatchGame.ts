@@ -82,7 +82,37 @@ export function useColorMatchGame() {
 
     try {
       // Check for active session on-chain and close it if exists
-      const activeSessionId = activeSessionData as bigint | undefined;
+      console.log('Active session data from contract:', activeSessionData);
+
+      // The contract returns Option<u256>, which could be:
+      // - undefined/null if no session
+      // - { variant: { Some: session_id } } in some serializations
+      // - direct session_id value in others
+      let activeSessionId: bigint | undefined;
+
+      if (activeSessionData !== undefined && activeSessionData !== null) {
+        // Handle different possible return formats
+        if (typeof activeSessionData === 'bigint') {
+          activeSessionId = activeSessionData;
+        } else if (typeof activeSessionData === 'object' && 'Some' in activeSessionData) {
+          activeSessionId = (activeSessionData as any).Some;
+        } else if (typeof activeSessionData === 'object' && 'variant' in activeSessionData) {
+          const variant = (activeSessionData as any).variant;
+          if (variant && 'Some' in variant) {
+            activeSessionId = variant.Some;
+          }
+        } else {
+          // Try to convert to bigint
+          try {
+            activeSessionId = BigInt(activeSessionData as any);
+          } catch (e) {
+            console.warn('Could not parse active session data:', activeSessionData);
+          }
+        }
+      }
+
+      console.log('Parsed active session ID:', activeSessionId);
+
       if (activeSessionId && activeSessionId > 0n) {
         console.log('Active session detected on-chain, closing it:', activeSessionId);
         try {
