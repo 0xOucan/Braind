@@ -84,30 +84,24 @@ export function useColorMatchGame() {
       // Check for active session on-chain and close it if exists
       console.log('Active session data from contract:', activeSessionData);
 
-      // The contract returns Option<u256>, which could be:
-      // - undefined/null if no session
-      // - { variant: { Some: session_id } } in some serializations
-      // - direct session_id value in others
+      // Handle CairoOption type returned from contract
       let activeSessionId: bigint | undefined;
 
       if (activeSessionData !== undefined && activeSessionData !== null) {
-        // Handle different possible return formats
-        if (typeof activeSessionData === 'bigint') {
-          activeSessionId = activeSessionData;
-        } else if (typeof activeSessionData === 'object' && 'Some' in activeSessionData) {
+        // Check if it's a CairoOption instance with isSome() method
+        if (typeof activeSessionData === 'object' && 'isSome' in activeSessionData) {
+          const option = activeSessionData as any;
+          if (option.isSome()) {
+            activeSessionId = option.unwrap();
+          }
+        }
+        // Fallback: try to access Some property directly
+        else if (typeof activeSessionData === 'object' && 'Some' in activeSessionData) {
           activeSessionId = (activeSessionData as any).Some;
-        } else if (typeof activeSessionData === 'object' && 'variant' in activeSessionData) {
-          const variant = (activeSessionData as any).variant;
-          if (variant && 'Some' in variant) {
-            activeSessionId = variant.Some;
-          }
-        } else {
-          // Try to convert to bigint
-          try {
-            activeSessionId = BigInt(activeSessionData as any);
-          } catch (e) {
-            console.warn('Could not parse active session data:', activeSessionData);
-          }
+        }
+        // Direct bigint value
+        else if (typeof activeSessionData === 'bigint') {
+          activeSessionId = activeSessionData;
         }
       }
 
