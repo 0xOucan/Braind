@@ -5,3257 +5,6797 @@
 
 const deployedContracts = {
   devnet: {
-    ColorMatchGameV2: {
-      address:
-        "0x1234567890123456789012345678901234567890123456789012345678901234",
-      abi: [
-        {
-          type: "impl",
-          name: "ColorMatchGameV2Impl",
-          interface_name: "contracts::color_match_game_v2::IColorMatchGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::color_match_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::color_match_game_v2::IColorMatchGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "color_matches",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x1234567890123456789012345678901234567890123456789012345678901234",
-    },
-    PredictionMarket: {
-      address:
-        "0x2345678901234567890123456789012345678901234567890123456789012345",
-      abi: [
-        {
-          type: "impl",
-          name: "PredictionMarketImpl",
-          interface_name: "contracts::prediction_market::IPredictionMarket",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::MarketInfo",
-          members: [
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "game_contract",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "round",
-              type: "core::integer::u32",
-            },
-            {
-              name: "target_player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "resolved",
-              type: "core::bool",
-            },
-            {
-              name: "player_won",
-              type: "core::bool",
-            },
-            {
-              name: "total_bets",
-              type: "core::integer::u256",
-            },
-            {
-              name: "win_pool",
-              type: "core::integer::u256",
-            },
-            {
-              name: "lose_pool",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::BetInfo",
-          members: [
-            {
-              name: "bet_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "bettor",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "prediction",
-              type: "core::bool",
-            },
-            {
-              name: "amount",
-              type: "core::integer::u256",
-            },
-            {
-              name: "claimed",
-              type: "core::bool",
-            },
-            {
-              name: "is_winner",
-              type: "core::bool",
-            },
-            {
-              name: "payout",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::prediction_market::IPredictionMarket",
-          items: [
-            {
-              type: "function",
-              name: "create_market",
-              inputs: [
-                {
-                  name: "game_contract",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "round",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "place_bet",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "prediction",
-                  type: "core::bool",
-                },
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "resolve_market",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "player_won",
-                  type: "core::bool",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_winnings",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_market_info",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::MarketInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_bet_info",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::BetInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_bets",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<core::integer::u256>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x2345678901234567890123456789012345678901234567890123456789012345",
-    },
-    AirdropFunds: {
-      address:
-        "0x3456789012345678901234567890123456789012345678901234567890123456",
-      abi: [
-        {
-          type: "impl",
-          name: "AirdropFundsImpl",
-          interface_name: "contracts::airdrop_funds::IAirdropFunds",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::airdrop_funds::IAirdropFunds",
-          items: [
-            {
-              type: "function",
-              name: "get_balance",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "deposit_funds",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x3456789012345678901234567890123456789012345678901234567890123456",
-    },
-    YourContract: {
-      address:
-        "0x1a2542704c7588b9c5eb86c9a1b2391b93b77b67694268b74db51097031839d",
-      abi: [
-        {
-          type: "impl",
-          name: "YourContractImpl",
-          interface_name: "contracts::YourContract::IYourContract",
-        },
-        {
-          type: "struct",
-          name: "core::byte_array::ByteArray",
-          members: [
-            {
-              name: "data",
-              type: "core::array::Array::<core::bytes_31::bytes31>",
-            },
-            {
-              name: "pending_word",
-              type: "core::felt252",
-            },
-            {
-              name: "pending_word_len",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::option::Option::<core::integer::u256>",
-          variants: [
-            {
-              name: "Some",
-              type: "core::integer::u256",
-            },
-            {
-              name: "None",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::YourContract::IYourContract",
-          items: [
-            {
-              type: "function",
-              name: "greeting",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::byte_array::ByteArray",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_greeting",
-              inputs: [
-                {
-                  name: "new_greeting",
-                  type: "core::byte_array::ByteArray",
-                },
-                {
-                  name: "amount_strk",
-                  type: "core::option::Option::<core::integer::u256>",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "withdraw",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "premium",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "view",
-            },
-          ],
-        },
-        {
-          type: "impl",
-          name: "OwnableImpl",
-          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
-        },
-        {
-          type: "interface",
-          name: "openzeppelin_access::ownable::interface::IOwnable",
-          items: [
-            {
-              type: "function",
-              name: "owner",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "transfer_ownership",
-              inputs: [
-                {
-                  name: "new_owner",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "renounce_ownership",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-        {
-          type: "constructor",
-          name: "constructor",
-          inputs: [
-            {
-              name: "owner",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "OwnershipTransferred",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-              kind: "nested",
-            },
-            {
-              name: "OwnershipTransferStarted",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-              kind: "nested",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "contracts::YourContract::YourContract::GreetingChanged",
-          kind: "struct",
-          members: [
-            {
-              name: "greeting_setter",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_greeting",
-              type: "core::byte_array::ByteArray",
-              kind: "key",
-            },
-            {
-              name: "premium",
-              type: "core::bool",
-              kind: "data",
-            },
-            {
-              name: "value",
-              type: "core::option::Option::<core::integer::u256>",
-              kind: "data",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "contracts::YourContract::YourContract::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "OwnableEvent",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-              kind: "flat",
-            },
-            {
-              name: "GreetingChanged",
-              type: "contracts::YourContract::YourContract::GreetingChanged",
-              kind: "nested",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x5e4c766477764df946dcce9b0d2c865468882ac572c0d3767aeb98d23cbe74b",
-    },
+  "AirdropFundsV3": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901234",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "AirdropFundsV3Impl",
+        "interface_name": "contracts::v3::airdrop_funds_v3::IAirdropFundsV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::airdrop_funds_v3::IAirdropFundsV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "receive_fee_share",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "deposit_funds",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_balance",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "execute_airdrop",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "recipients",
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              },
+              {
+                "name": "amount_per_recipient",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "schedule_airdrop_for_round",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "recipients",
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              },
+              {
+                "name": "amount_per_recipient",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "execute_scheduled_airdrop",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "withdraw_to_admin",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_total_received",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_total_distributed",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_pending_airdrop_amount",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "is_authorized_depositor",
+            "inputs": [
+              {
+                "name": "address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "transfer_ownership",
+            "inputs": [
+              {
+                "name": "new_owner",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "add_authorized_depositor",
+            "inputs": [
+              {
+                "name": "depositor",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "remove_authorized_depositor",
+            "inputs": [
+              {
+                "name": "depositor",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_owner",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "state_mutability": "view"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FundsDeposited",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FeeShareReceived",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "from",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropExecuted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "total_amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "recipient_count",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropScheduled",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "recipient_count",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "amount_per_recipient",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::ScheduledAirdropExecuted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "total_amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::OwnershipTransferred",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "previous_owner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "new_owner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorAuthorized",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorRevoked",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "FundsDeposited",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FundsDeposited",
+            "kind": "nested"
+          },
+          {
+            "name": "FeeShareReceived",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FeeShareReceived",
+            "kind": "nested"
+          },
+          {
+            "name": "AirdropExecuted",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropExecuted",
+            "kind": "nested"
+          },
+          {
+            "name": "AirdropScheduled",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropScheduled",
+            "kind": "nested"
+          },
+          {
+            "name": "ScheduledAirdropExecuted",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::ScheduledAirdropExecuted",
+            "kind": "nested"
+          },
+          {
+            "name": "OwnershipTransferred",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::OwnershipTransferred",
+            "kind": "nested"
+          },
+          {
+            "name": "DepositorAuthorized",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorAuthorized",
+            "kind": "nested"
+          },
+          {
+            "name": "DepositorRevoked",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorRevoked",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
   },
-  mainnet: {
-    ColorMatchGameV2: {
-      address:
-        "0x054bb49e1ff312972ba1bc1a3022f946f860495b005db31d47806ab2892f4fec",
-      abi: [
-        {
-          type: "impl",
-          name: "ColorMatchGameV2Impl",
-          interface_name: "contracts::color_match_game_v2::IColorMatchGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::color_match_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::color_match_game_v2::IColorMatchGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "color_matches",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x07364b3fe5f70ddbf1d6d4ce564660c399aa122a510b0fcddaf0a644f2e71726",
-    },
-    SpeedMatchGameV2: {
-      address:
-        "0x07e8a78427ae80aa553806867a62555d983ef9b0b757738a0744f409961af1fb",
-      abi: [
-        {
-          type: "impl",
-          name: "SpeedMatchGameV2Impl",
-          interface_name: "contracts::speed_match_game_v2::ISpeedMatchGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::speed_match_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "time_taken",
-              type: "core::integer::u64",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::speed_match_game_v2::ISpeedMatchGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "difficulty",
-                  type: "core::integer::u8",
-                },
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "time_taken",
-                  type: "core::integer::u64",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::speed_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::speed_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x023ee449b9b84da106cd23456f460767fe2c1e33bb0446413502435d8d5cc81a",
-    },
-    MemoryBlitzGameV2: {
-      address:
-        "0x0639b75944b41f01d41c86ffe81214b7c992ec4dc5456ef8182ea39ef3e67aef",
-      abi: [
-        {
-          type: "impl",
-          name: "MemoryBlitzGameV2Impl",
-          interface_name: "contracts::memory_blitz_game_v2::IMemoryBlitzGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::memory_blitz_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "level_reached",
-              type: "core::integer::u32",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::memory_blitz_game_v2::IMemoryBlitzGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "level_reached",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::memory_blitz_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::memory_blitz_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x067539c8fee4b7362d1cd7f32b23cbf44c633e60daec5ad757295282928fd2df",
-    },
-    PredictionMarket: {
-      address:
-        "0x0005ee116e87e40e457fb9435fb79895374fb9dd059d572f955445566ee6b91e",
-      abi: [
-        {
-          type: "impl",
-          name: "PredictionMarketImpl",
-          interface_name: "contracts::prediction_market::IPredictionMarket",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::MarketInfo",
-          members: [
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "game_contract",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "round",
-              type: "core::integer::u32",
-            },
-            {
-              name: "target_player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "resolved",
-              type: "core::bool",
-            },
-            {
-              name: "player_won",
-              type: "core::bool",
-            },
-            {
-              name: "total_bets",
-              type: "core::integer::u256",
-            },
-            {
-              name: "win_pool",
-              type: "core::integer::u256",
-            },
-            {
-              name: "lose_pool",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::BetInfo",
-          members: [
-            {
-              name: "bet_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "bettor",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "prediction",
-              type: "core::bool",
-            },
-            {
-              name: "amount",
-              type: "core::integer::u256",
-            },
-            {
-              name: "claimed",
-              type: "core::bool",
-            },
-            {
-              name: "is_winner",
-              type: "core::bool",
-            },
-            {
-              name: "payout",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::prediction_market::IPredictionMarket",
-          items: [
-            {
-              type: "function",
-              name: "create_market",
-              inputs: [
-                {
-                  name: "game_contract",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "round",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "place_bet",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "prediction",
-                  type: "core::bool",
-                },
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "resolve_market",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "player_won",
-                  type: "core::bool",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_winnings",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_market_info",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::MarketInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_bet_info",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::BetInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_bets",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<core::integer::u256>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x016dd45f55f14fbc761b39a0b9a198d4bbab77cbd92bac323e36082620971474",
-    },
-    AirdropFunds: {
-      address:
-        "0x046256fb3e69776a119b174f60e9123f3592e1f01e908dc5f1ee8e035395da44",
-      abi: [
-        {
-          type: "impl",
-          name: "AirdropFundsImpl",
-          interface_name: "contracts::airdrop_funds::IAirdropFunds",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::airdrop_funds::IAirdropFunds",
-          items: [
-            {
-              type: "function",
-              name: "get_balance",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "deposit_funds",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x021e07b36ba7d70633dcae23e6b3a8904226909feabf35e0441eb896f37c9386",
-    },
+  "PredictionMarketV3": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901235",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "PredictionMarketV3Impl",
+        "interface_name": "contracts::v3::prediction_market_v3::IPredictionMarketV3"
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::prediction_market_v3::MarketInfo",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "creator",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool"
+          },
+          {
+            "name": "resolved",
+            "type": "core::bool"
+          },
+          {
+            "name": "outcome",
+            "type": "core::bool"
+          },
+          {
+            "name": "total_bets",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "yes_pool",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "no_pool",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "created_at",
+            "type": "core::integer::u64"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::prediction_market_v3::BetInfo",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "market_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "claimed",
+            "type": "core::bool"
+          },
+          {
+            "name": "is_winner",
+            "type": "core::bool"
+          },
+          {
+            "name": "payout",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::prediction_market_v3::IPredictionMarketV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "register_round_winner",
+            "inputs": [
+              {
+                "name": "game_contract",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "position",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "create_self_prediction_market",
+            "inputs": [
+              {
+                "name": "game_contract",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "target_round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "prediction",
+                "type": "core::bool"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "place_bet",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "prediction",
+                "type": "core::bool"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "resolve_market_from_leaderboard",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "player_final_position",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_winnings",
+            "inputs": [
+              {
+                "name": "bet_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "is_eligible_to_create",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_round_winners",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_market_info",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::prediction_market_v3::MarketInfo"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_bet_info",
+            "inputs": [
+              {
+                "name": "bet_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::prediction_market_v3::BetInfo"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_bets",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_active_market",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_market_stats",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u256, core::integer::u256, core::integer::u256)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_all_markets",
+            "inputs": [
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_market_creation_fee",
+            "inputs": [
+              {
+                "name": "fee",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_house_fee_percentage",
+            "inputs": [
+              {
+                "name": "percentage",
+                "type": "core::integer::u16"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_house_fees",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "authorize_game_contract",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "revoke_game_contract",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_market",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_market",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::RoundWinnerRegistered",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "position",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketCreated",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "creator",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::BetPlaced",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketResolved",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "outcome",
+            "type": "core::bool",
+            "kind": "data"
+          },
+          {
+            "name": "total_payout",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::WinningsClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "payout",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::HouseFeesClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "RoundWinnerRegistered",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::RoundWinnerRegistered",
+            "kind": "nested"
+          },
+          {
+            "name": "MarketCreated",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketCreated",
+            "kind": "nested"
+          },
+          {
+            "name": "BetPlaced",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::BetPlaced",
+            "kind": "nested"
+          },
+          {
+            "name": "MarketResolved",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketResolved",
+            "kind": "nested"
+          },
+          {
+            "name": "WinningsClaimed",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::WinningsClaimed",
+            "kind": "nested"
+          },
+          {
+            "name": "HouseFeesClaimed",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::HouseFeesClaimed",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
   },
+  "GamePaymentHandler": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901236",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "GamePaymentHandlerImpl",
+        "interface_name": "contracts::v3::game_payment_handler::IGamePaymentHandler"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::FeeConfig",
+        "members": [
+          {
+            "name": "house_fee_bps",
+            "type": "core::integer::u16"
+          },
+          {
+            "name": "airdrop_fee_bps",
+            "type": "core::integer::u16"
+          },
+          {
+            "name": "prediction_fee_bps",
+            "type": "core::integer::u16"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::game_payment_handler::IGamePaymentHandler",
+        "items": [
+          {
+            "type": "function",
+            "name": "approve_for_games",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_allowance",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "charge_game_fee",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_game_fee",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "fee",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_fee_config",
+            "inputs": [
+              {
+                "name": "config",
+                "type": "contracts::v3::common_types::FeeConfig"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_airdrop_contract",
+            "inputs": [
+              {
+                "name": "airdrop",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_prediction_market",
+            "inputs": [
+              {
+                "name": "market",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "add_authorized_game",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "remove_authorized_game",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_house_fees",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_game_fee",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_fee_config",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::FeeConfig"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "is_game_authorized",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "airdrop",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction_market",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::GameFeeCharged",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "game",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::AllowanceSet",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::FeeConfigUpdated",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "house_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          },
+          {
+            "name": "airdrop_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          },
+          {
+            "name": "prediction_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::HouseFeesClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameFeeCharged",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::GameFeeCharged",
+            "kind": "nested"
+          },
+          {
+            "name": "AllowanceSet",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::AllowanceSet",
+            "kind": "nested"
+          },
+          {
+            "name": "FeeConfigUpdated",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::FeeConfigUpdated",
+            "kind": "nested"
+          },
+          {
+            "name": "HouseFeesClaimed",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::HouseFeesClaimed",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "ColorMatchGameV3": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901237",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "ColorMatchGameV3Impl",
+        "interface_name": "contracts::v3::color_match_game_v3::IColorMatchGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::color_match_game_v3::IColorMatchGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "color_matches",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ColorMatched",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "color_matches",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "ColorMatched",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ColorMatched",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "SpeedMatchGameV3": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901238",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "SpeedMatchGameV3Impl",
+        "interface_name": "contracts::v3::speed_match_game_v3::ISpeedMatchGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::speed_match_game_v3::ISpeedMatchGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "difficulty",
+                "type": "core::integer::u8"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "correct_matches",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "time_taken",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_by_difficulty",
+            "inputs": [
+              {
+                "name": "difficulty",
+                "type": "core::integer::u8"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<(core::starknet::contract_address::ContractAddress, core::integer::u32, core::integer::u32)>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "difficulty",
+            "type": "core::integer::u8",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "time_taken",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SpeedMatched",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "correct_matches",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "time_taken",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "difficulty",
+            "type": "core::integer::u8",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "SpeedMatched",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SpeedMatched",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "MemoryBlitzGameV3": {
+    "address": "0x1234567890123456789012345678901234567890123456789012345678901239",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "MemoryBlitzGameV3Impl",
+        "interface_name": "contracts::v3::memory_blitz_game_v3::IMemoryBlitzGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::memory_blitz_game_v3::IMemoryBlitzGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "level_reached",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "sequence_length",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_by_level",
+            "inputs": [
+              {
+                "name": "level",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<(core::starknet::contract_address::ContractAddress, core::integer::u32, core::integer::u32)>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "level_reached",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::MemoryBlitzCompleted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "level_reached",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "sequence_length",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "MemoryBlitzCompleted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::MemoryBlitzCompleted",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "LeaderboardManager": {
+    "address": "0x123456789012345678901234567890123456789012345678901234567890123a",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "LeaderboardManagerImpl",
+        "interface_name": "contracts::v3::leaderboard_manager_v3::ILeaderboardManager"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::leaderboard_manager_v3::ILeaderboardManager",
+        "items": [
+          {
+            "type": "function",
+            "name": "add_score",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "level",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_top_scores",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_best_score",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_rank",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_size",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_round_leaderboard",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_max_leaderboard_size",
+            "inputs": [
+              {
+                "name": "size",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "max_size",
+            "type": "core::integer::u32"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::ScoreAdded",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "position",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::RoundEnded",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "winner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "winning_score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ScoreAdded",
+            "type": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::ScoreAdded",
+            "kind": "nested"
+          },
+          {
+            "name": "RoundEnded",
+            "type": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::RoundEnded",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  }
+},
   sepolia: {
-    YourContract: {
-      address:
-        "0x62eb9272c7523ee445d223bae15b5b44a79c3fdbb5216d3412534a47bcc5255",
-      abi: [
-        {
-          type: "impl",
-          name: "YourContractImpl",
-          interface_name: "contracts::YourContract::IYourContract",
-        },
-        {
-          type: "struct",
-          name: "core::byte_array::ByteArray",
-          members: [
-            {
-              name: "data",
-              type: "core::array::Array::<core::bytes_31::bytes31>",
-            },
-            {
-              name: "pending_word",
-              type: "core::felt252",
-            },
-            {
-              name: "pending_word_len",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::option::Option::<core::integer::u256>",
-          variants: [
-            {
-              name: "Some",
-              type: "core::integer::u256",
-            },
-            {
-              name: "None",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::YourContract::IYourContract",
-          items: [
-            {
-              type: "function",
-              name: "greeting",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::byte_array::ByteArray",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_greeting",
-              inputs: [
-                {
-                  name: "new_greeting",
-                  type: "core::byte_array::ByteArray",
-                },
-                {
-                  name: "amount_strk",
-                  type: "core::option::Option::<core::integer::u256>",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "withdraw",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "premium",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "view",
-            },
-          ],
-        },
-        {
-          type: "impl",
-          name: "OwnableImpl",
-          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
-        },
-        {
-          type: "interface",
-          name: "openzeppelin_access::ownable::interface::IOwnable",
-          items: [
-            {
-              type: "function",
-              name: "owner",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "transfer_ownership",
-              inputs: [
-                {
-                  name: "new_owner",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "renounce_ownership",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-        {
-          type: "constructor",
-          name: "constructor",
-          inputs: [
-            {
-              name: "owner",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-          kind: "struct",
-          members: [
-            {
-              name: "previous_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_owner",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "OwnershipTransferred",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
-              kind: "nested",
-            },
-            {
-              name: "OwnershipTransferStarted",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
-              kind: "nested",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "contracts::YourContract::YourContract::GreetingChanged",
-          kind: "struct",
-          members: [
-            {
-              name: "greeting_setter",
-              type: "core::starknet::contract_address::ContractAddress",
-              kind: "key",
-            },
-            {
-              name: "new_greeting",
-              type: "core::byte_array::ByteArray",
-              kind: "key",
-            },
-            {
-              name: "premium",
-              type: "core::bool",
-              kind: "data",
-            },
-            {
-              name: "value",
-              type: "core::option::Option::<core::integer::u256>",
-              kind: "data",
-            },
-          ],
-        },
-        {
-          type: "event",
-          name: "contracts::YourContract::YourContract::Event",
-          kind: "enum",
-          variants: [
-            {
-              name: "OwnableEvent",
-              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
-              kind: "flat",
-            },
-            {
-              name: "GreetingChanged",
-              type: "contracts::YourContract::YourContract::GreetingChanged",
-              kind: "nested",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x5e4c766477764df946dcce9b0d2c865468882ac572c0d3767aeb98d23cbe74b",
-    },
+  "AirdropFundsV3": {
+    "address": "0x79bf4e98b25d585238066de2bb6984bf885cd379d8fef18f81af559a264c589",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "AirdropFundsV3Impl",
+        "interface_name": "contracts::v3::airdrop_funds_v3::IAirdropFundsV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::airdrop_funds_v3::IAirdropFundsV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "receive_fee_share",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "deposit_funds",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_balance",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "execute_airdrop",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "recipients",
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              },
+              {
+                "name": "amount_per_recipient",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "schedule_airdrop_for_round",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "recipients",
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              },
+              {
+                "name": "amount_per_recipient",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "execute_scheduled_airdrop",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "withdraw_to_admin",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_total_received",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_total_distributed",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_pending_airdrop_amount",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "is_authorized_depositor",
+            "inputs": [
+              {
+                "name": "address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "transfer_ownership",
+            "inputs": [
+              {
+                "name": "new_owner",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "add_authorized_depositor",
+            "inputs": [
+              {
+                "name": "depositor",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "remove_authorized_depositor",
+            "inputs": [
+              {
+                "name": "depositor",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_owner",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "state_mutability": "view"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FundsDeposited",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FeeShareReceived",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "from",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropExecuted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "total_amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "recipient_count",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropScheduled",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "recipient_count",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "amount_per_recipient",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::ScheduledAirdropExecuted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "total_amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::OwnershipTransferred",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "previous_owner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "new_owner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorAuthorized",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorRevoked",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "depositor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "FundsDeposited",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FundsDeposited",
+            "kind": "nested"
+          },
+          {
+            "name": "FeeShareReceived",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::FeeShareReceived",
+            "kind": "nested"
+          },
+          {
+            "name": "AirdropExecuted",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropExecuted",
+            "kind": "nested"
+          },
+          {
+            "name": "AirdropScheduled",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::AirdropScheduled",
+            "kind": "nested"
+          },
+          {
+            "name": "ScheduledAirdropExecuted",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::ScheduledAirdropExecuted",
+            "kind": "nested"
+          },
+          {
+            "name": "OwnershipTransferred",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::OwnershipTransferred",
+            "kind": "nested"
+          },
+          {
+            "name": "DepositorAuthorized",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorAuthorized",
+            "kind": "nested"
+          },
+          {
+            "name": "DepositorRevoked",
+            "type": "contracts::v3::airdrop_funds_v3::AirdropFundsV3::DepositorRevoked",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
   },
-  mainnetFork: {
-    ColorMatchGameV2: {
-      address:
-        "0x054bb49e1ff312972ba1bc1a3022f946f860495b005db31d47806ab2892f4fec",
-      abi: [
-        {
-          type: "impl",
-          name: "ColorMatchGameV2Impl",
-          interface_name: "contracts::color_match_game_v2::IColorMatchGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::color_match_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::color_match_game_v2::IColorMatchGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "color_matches",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::color_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x07364b3fe5f70ddbf1d6d4ce564660c399aa122a510b0fcddaf0a644f2e71726",
-    },
-    SpeedMatchGameV2: {
-      address:
-        "0x07e8a78427ae80aa553806867a62555d983ef9b0b757738a0744f409961af1fb",
-      abi: [
-        {
-          type: "impl",
-          name: "SpeedMatchGameV2Impl",
-          interface_name: "contracts::speed_match_game_v2::ISpeedMatchGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::speed_match_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "time_taken",
-              type: "core::integer::u64",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::speed_match_game_v2::ISpeedMatchGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "difficulty",
-                  type: "core::integer::u8",
-                },
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "time_taken",
-                  type: "core::integer::u64",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::speed_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::speed_match_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x023ee449b9b84da106cd23456f460767fe2c1e33bb0446413502435d8d5cc81a",
-    },
-    MemoryBlitzGameV2: {
-      address:
-        "0x0639b75944b41f01d41c86ffe81214b7c992ec4dc5456ef8182ea39ef3e67aef",
-      abi: [
-        {
-          type: "impl",
-          name: "MemoryBlitzGameV2Impl",
-          interface_name: "contracts::memory_blitz_game_v2::IMemoryBlitzGameV2",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::memory_blitz_game_v2::LeaderboardEntry",
-          members: [
-            {
-              name: "player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "score",
-              type: "core::integer::u32",
-            },
-            {
-              name: "level_reached",
-              type: "core::integer::u32",
-            },
-            {
-              name: "position",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::memory_blitz_game_v2::IMemoryBlitzGameV2",
-          items: [
-            {
-              type: "function",
-              name: "start_game",
-              inputs: [
-                {
-                  name: "payment_token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "submit_score",
-              inputs: [
-                {
-                  name: "game_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "score",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "level_reached",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_current_round_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::memory_blitz_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_historic_leaderboard",
-              inputs: [
-                {
-                  name: "limit",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<contracts::memory_blitz_game_v2::LeaderboardEntry>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_round_position",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_games_in_current_round",
-              inputs: [],
-              outputs: [
-                {
-                  type: "core::integer::u32",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "set_games_per_round",
-              inputs: [
-                {
-                  name: "games",
-                  type: "core::integer::u32",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x067539c8fee4b7362d1cd7f32b23cbf44c633e60daec5ad757295282928fd2df",
-    },
-    PredictionMarket: {
-      address:
-        "0x0005ee116e87e40e457fb9435fb79895374fb9dd059d572f955445566ee6b91e",
-      abi: [
-        {
-          type: "impl",
-          name: "PredictionMarketImpl",
-          interface_name: "contracts::prediction_market::IPredictionMarket",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::MarketInfo",
-          members: [
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "game_contract",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "round",
-              type: "core::integer::u32",
-            },
-            {
-              name: "target_player",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "resolved",
-              type: "core::bool",
-            },
-            {
-              name: "player_won",
-              type: "core::bool",
-            },
-            {
-              name: "total_bets",
-              type: "core::integer::u256",
-            },
-            {
-              name: "win_pool",
-              type: "core::integer::u256",
-            },
-            {
-              name: "lose_pool",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "contracts::prediction_market::BetInfo",
-          members: [
-            {
-              name: "bet_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "market_id",
-              type: "core::integer::u256",
-            },
-            {
-              name: "bettor",
-              type: "core::starknet::contract_address::ContractAddress",
-            },
-            {
-              name: "prediction",
-              type: "core::bool",
-            },
-            {
-              name: "amount",
-              type: "core::integer::u256",
-            },
-            {
-              name: "claimed",
-              type: "core::bool",
-            },
-            {
-              name: "is_winner",
-              type: "core::bool",
-            },
-            {
-              name: "payout",
-              type: "core::integer::u256",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::prediction_market::IPredictionMarket",
-          items: [
-            {
-              type: "function",
-              name: "create_market",
-              inputs: [
-                {
-                  name: "game_contract",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "round",
-                  type: "core::integer::u32",
-                },
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "place_bet",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "prediction",
-                  type: "core::bool",
-                },
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "resolve_market",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-                {
-                  name: "player_won",
-                  type: "core::bool",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::bool",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "claim_winnings",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "get_market_info",
-              inputs: [
-                {
-                  name: "market_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::MarketInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_bet_info",
-              inputs: [
-                {
-                  name: "bet_id",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [
-                {
-                  type: "contracts::prediction_market::BetInfo",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "get_player_bets",
-              inputs: [
-                {
-                  name: "player",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::array::Array::<core::integer::u256>",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "claim_house_fees",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "delegate_admin",
-              inputs: [
-                {
-                  name: "new_admin",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x016dd45f55f14fbc761b39a0b9a198d4bbab77cbd92bac323e36082620971474",
-    },
-    AirdropFunds: {
-      address:
-        "0x046256fb3e69776a119b174f60e9123f3592e1f01e908dc5f1ee8e035395da44",
-      abi: [
-        {
-          type: "impl",
-          name: "AirdropFundsImpl",
-          interface_name: "contracts::airdrop_funds::IAirdropFunds",
-        },
-        {
-          type: "struct",
-          name: "core::starknet::contract_address::ContractAddress",
-          members: [],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::bool",
-          variants: [
-            {
-              name: "False",
-              type: "()",
-            },
-            {
-              name: "True",
-              type: "()",
-            },
-          ],
-        },
-        {
-          type: "interface",
-          name: "contracts::airdrop_funds::IAirdropFunds",
-          items: [
-            {
-              type: "function",
-              name: "get_balance",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-              ],
-              outputs: [
-                {
-                  type: "core::integer::u256",
-                },
-              ],
-              state_mutability: "view",
-            },
-            {
-              type: "function",
-              name: "deposit_funds",
-              inputs: [
-                {
-                  name: "token",
-                  type: "core::starknet::contract_address::ContractAddress",
-                },
-                {
-                  name: "amount",
-                  type: "core::integer::u256",
-                },
-              ],
-              outputs: [],
-              state_mutability: "external",
-            },
-          ],
-        },
-      ],
-      classHash:
-        "0x021e07b36ba7d70633dcae23e6b3a8904226909feabf35e0441eb896f37c9386",
-    },
+  "PredictionMarketV3": {
+    "address": "0x2f7d11253b52f0b7b733b5b904bdc3702c833982e5c6e63d7792e6053c483f0",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "PredictionMarketV3Impl",
+        "interface_name": "contracts::v3::prediction_market_v3::IPredictionMarketV3"
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::prediction_market_v3::MarketInfo",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "creator",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool"
+          },
+          {
+            "name": "resolved",
+            "type": "core::bool"
+          },
+          {
+            "name": "outcome",
+            "type": "core::bool"
+          },
+          {
+            "name": "total_bets",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "yes_pool",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "no_pool",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "created_at",
+            "type": "core::integer::u64"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::prediction_market_v3::BetInfo",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "market_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "claimed",
+            "type": "core::bool"
+          },
+          {
+            "name": "is_winner",
+            "type": "core::bool"
+          },
+          {
+            "name": "payout",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::prediction_market_v3::IPredictionMarketV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "register_round_winner",
+            "inputs": [
+              {
+                "name": "game_contract",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "position",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "create_self_prediction_market",
+            "inputs": [
+              {
+                "name": "game_contract",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "target_round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "prediction",
+                "type": "core::bool"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "place_bet",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "prediction",
+                "type": "core::bool"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "resolve_market_from_leaderboard",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "player_final_position",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_winnings",
+            "inputs": [
+              {
+                "name": "bet_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "is_eligible_to_create",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_round_winners",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_market_info",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::prediction_market_v3::MarketInfo"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_bet_info",
+            "inputs": [
+              {
+                "name": "bet_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::prediction_market_v3::BetInfo"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_bets",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_active_market",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_market_stats",
+            "inputs": [
+              {
+                "name": "market_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u256, core::integer::u256, core::integer::u256)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_all_markets",
+            "inputs": [
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_market_creation_fee",
+            "inputs": [
+              {
+                "name": "fee",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_house_fee_percentage",
+            "inputs": [
+              {
+                "name": "percentage",
+                "type": "core::integer::u16"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_house_fees",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "authorize_game_contract",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "revoke_game_contract",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_market",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_market",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::RoundWinnerRegistered",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "position",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketCreated",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "creator",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::BetPlaced",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "prediction",
+            "type": "core::bool",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketResolved",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "market_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "outcome",
+            "type": "core::bool",
+            "kind": "data"
+          },
+          {
+            "name": "total_payout",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::WinningsClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "bet_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "bettor",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "payout",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::HouseFeesClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::prediction_market_v3::PredictionMarketV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "RoundWinnerRegistered",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::RoundWinnerRegistered",
+            "kind": "nested"
+          },
+          {
+            "name": "MarketCreated",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketCreated",
+            "kind": "nested"
+          },
+          {
+            "name": "BetPlaced",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::BetPlaced",
+            "kind": "nested"
+          },
+          {
+            "name": "MarketResolved",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::MarketResolved",
+            "kind": "nested"
+          },
+          {
+            "name": "WinningsClaimed",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::WinningsClaimed",
+            "kind": "nested"
+          },
+          {
+            "name": "HouseFeesClaimed",
+            "type": "contracts::v3::prediction_market_v3::PredictionMarketV3::HouseFeesClaimed",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
   },
+  "GamePaymentHandler": {
+    "address": "0x23de23a7f6271e87df4e82c7cff674d0837b2eee12893e4e2ca3fff105b5e6b",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "GamePaymentHandlerImpl",
+        "interface_name": "contracts::v3::game_payment_handler::IGamePaymentHandler"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::FeeConfig",
+        "members": [
+          {
+            "name": "house_fee_bps",
+            "type": "core::integer::u16"
+          },
+          {
+            "name": "airdrop_fee_bps",
+            "type": "core::integer::u16"
+          },
+          {
+            "name": "prediction_fee_bps",
+            "type": "core::integer::u16"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::game_payment_handler::IGamePaymentHandler",
+        "items": [
+          {
+            "type": "function",
+            "name": "approve_for_games",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "amount",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_allowance",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "charge_game_fee",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_game_fee",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "fee",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_fee_config",
+            "inputs": [
+              {
+                "name": "config",
+                "type": "contracts::v3::common_types::FeeConfig"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_airdrop_contract",
+            "inputs": [
+              {
+                "name": "airdrop",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_prediction_market",
+            "inputs": [
+              {
+                "name": "market",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "add_authorized_game",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "remove_authorized_game",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "claim_house_fees",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_game_fee",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_fee_config",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::FeeConfig"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "is_game_authorized",
+            "inputs": [
+              {
+                "name": "game",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "airdrop",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "prediction_market",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::GameFeeCharged",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "game",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::AllowanceSet",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::FeeConfigUpdated",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "house_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          },
+          {
+            "name": "airdrop_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          },
+          {
+            "name": "prediction_bps",
+            "type": "core::integer::u16",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::HouseFeesClaimed",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "token",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "amount",
+            "type": "core::integer::u256",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::game_payment_handler::GamePaymentHandler::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameFeeCharged",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::GameFeeCharged",
+            "kind": "nested"
+          },
+          {
+            "name": "AllowanceSet",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::AllowanceSet",
+            "kind": "nested"
+          },
+          {
+            "name": "FeeConfigUpdated",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::FeeConfigUpdated",
+            "kind": "nested"
+          },
+          {
+            "name": "HouseFeesClaimed",
+            "type": "contracts::v3::game_payment_handler::GamePaymentHandler::HouseFeesClaimed",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "ColorMatchGameV3": {
+    "address": "0x0ec31b78ba4f4ccb1f66aa2c79e485bdfd33d02b8546824c69c1bf5fd631531",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "ColorMatchGameV3Impl",
+        "interface_name": "contracts::v3::color_match_game_v3::IColorMatchGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::color_match_game_v3::IColorMatchGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "color_matches",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ColorMatched",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "color_matches",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::color_match_game_v3::ColorMatchGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "ColorMatched",
+            "type": "contracts::v3::color_match_game_v3::ColorMatchGameV3::ColorMatched",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "SpeedMatchGameV3": {
+    "address": "0x003d36988097b2afb178518d9a25c4d1d8af9502b903bff87cb160f607ab9678",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "SpeedMatchGameV3Impl",
+        "interface_name": "contracts::v3::speed_match_game_v3::ISpeedMatchGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::speed_match_game_v3::ISpeedMatchGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "difficulty",
+                "type": "core::integer::u8"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "correct_matches",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "time_taken",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_by_difficulty",
+            "inputs": [
+              {
+                "name": "difficulty",
+                "type": "core::integer::u8"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<(core::starknet::contract_address::ContractAddress, core::integer::u32, core::integer::u32)>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "difficulty",
+            "type": "core::integer::u8",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "time_taken",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SpeedMatched",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "correct_matches",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "time_taken",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "difficulty",
+            "type": "core::integer::u8",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "SpeedMatched",
+            "type": "contracts::v3::speed_match_game_v3::SpeedMatchGameV3::SpeedMatched",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "MemoryBlitzGameV3": {
+    "address": "0x01fd2685441d644697e0ef58836276f1e4ae0ef5e671bbf265f0d46eb04f072a",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "MemoryBlitzGameV3Impl",
+        "interface_name": "contracts::v3::memory_blitz_game_v3::IMemoryBlitzGameV3"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "contracts::v3::common_types::GameStatus",
+        "variants": [
+          {
+            "name": "Active",
+            "type": "()"
+          },
+          {
+            "name": "Completed",
+            "type": "()"
+          },
+          {
+            "name": "Expired",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::common_types::GameSession",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_type",
+            "type": "core::felt252"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "status",
+            "type": "contracts::v3::common_types::GameStatus"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::option::Option::<core::integer::u256>",
+        "variants": [
+          {
+            "name": "Some",
+            "type": "core::integer::u256"
+          },
+          {
+            "name": "None",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::memory_blitz_game_v3::IMemoryBlitzGameV3",
+        "items": [
+          {
+            "type": "function",
+            "name": "start_game",
+            "inputs": [
+              {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u256"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "submit_score",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "level_reached",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "sequence_length",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_session",
+            "inputs": [
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::common_types::GameSession"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_sessions",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_active_session",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::option::Option::<core::integer::u256>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_by_level",
+            "inputs": [
+              {
+                "name": "level",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<(core::starknet::contract_address::ContractAddress, core::integer::u32, core::integer::u32)>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_stats",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::integer::u32, core::integer::u32, core::integer::u32, core::integer::u32)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_payment_handler",
+            "inputs": [
+              {
+                "name": "handler",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_leaderboard_manager",
+            "inputs": [
+              {
+                "name": "manager",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "pause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "unpause_game",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "payment_handler",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "leaderboard_manager",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameStarted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "start_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::ScoreSubmitted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "level_reached",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "end_time",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::SessionExpired",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GamePaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameUnpaused",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::MemoryBlitzCompleted",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "session_id",
+            "type": "core::integer::u256",
+            "kind": "data"
+          },
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "level_reached",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "sequence_length",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GameStarted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameStarted",
+            "kind": "nested"
+          },
+          {
+            "name": "ScoreSubmitted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::ScoreSubmitted",
+            "kind": "nested"
+          },
+          {
+            "name": "SessionExpired",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::SessionExpired",
+            "kind": "nested"
+          },
+          {
+            "name": "GamePaused",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GamePaused",
+            "kind": "nested"
+          },
+          {
+            "name": "GameUnpaused",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::GameUnpaused",
+            "kind": "nested"
+          },
+          {
+            "name": "MemoryBlitzCompleted",
+            "type": "contracts::v3::memory_blitz_game_v3::MemoryBlitzGameV3::MemoryBlitzCompleted",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "LeaderboardManager": {
+    "address": "0x0088d4670b7a95fa716ea4147bac5043aca8224e23e791cc49965d0a18db101c",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "LeaderboardManagerImpl",
+        "interface_name": "contracts::v3::leaderboard_manager_v3::ILeaderboardManager"
+      },
+      {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+          {
+            "name": "low",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "high",
+            "type": "core::integer::u128"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "level",
+            "type": "core::integer::u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64"
+          },
+          {
+            "name": "session_id",
+            "type": "core::integer::u256"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "contracts::v3::leaderboard_manager_v3::ILeaderboardManager",
+        "items": [
+          {
+            "type": "function",
+            "name": "add_score",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "score",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "level",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "session_id",
+                "type": "core::integer::u256"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "get_top_scores",
+            "inputs": [
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_best_score",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "contracts::v3::leaderboard_manager_v3::LeaderboardEntry"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_player_rank",
+            "inputs": [
+              {
+                "name": "player",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_leaderboard_size",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_current_round",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "get_round_leaderboard",
+            "inputs": [
+              {
+                "name": "round",
+                "type": "core::integer::u32"
+              },
+              {
+                "name": "limit",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Array::<contracts::v3::leaderboard_manager_v3::LeaderboardEntry>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "end_current_round",
+            "inputs": [],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "set_max_leaderboard_size",
+            "inputs": [
+              {
+                "name": "size",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "game_contract",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "max_size",
+            "type": "core::integer::u32"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::ScoreAdded",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "player",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "position",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::RoundEnded",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "round",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "winner",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "winning_score",
+            "type": "core::integer::u32",
+            "kind": "data"
+          },
+          {
+            "name": "timestamp",
+            "type": "core::integer::u64",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ScoreAdded",
+            "type": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::ScoreAdded",
+            "kind": "nested"
+          },
+          {
+            "name": "RoundEnded",
+            "type": "contracts::v3::leaderboard_manager_v3::LeaderboardManager::RoundEnded",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  }
+},
 } as const;
 
 export default deployedContracts;
