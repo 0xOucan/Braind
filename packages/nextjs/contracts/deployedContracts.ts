@@ -4975,7 +4975,7 @@ const deployedContracts = {
     ]
   },
   "ColorMatchGameV3": {
-    "address": "0x0ec31b78ba4f4ccb1f66aa2c79e485bdfd33d02b8546824c69c1bf5fd631531",
+    "address": "0x043222b237c8bbb6468a74cd6788da5272cbd87d651ab27bce43f7162f06e273",
     "abi": [
       {
         "type": "impl",
