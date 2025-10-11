@@ -242,7 +242,14 @@ export function useSpeedMatchGame() {
     generateNext();
   }, [gameState.playing, gameState.prevShape, gameState.currentShape, gameState.score, generateNext]);
 
-  const resetGame = useCallback(() => {
+  const resetGame = useCallback(async () => {
+    // If game is active, end it first to submit score
+    if (gameState.playing || (gameState.gameStarted && !gameState.gameOver)) {
+      await endGame();
+      // Wait a moment for score submission to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -257,7 +264,7 @@ export function useSpeedMatchGame() {
       gameStarted: false,
       gameOver: false
     });
-  }, []);
+  }, [gameState.playing, gameState.gameStarted, gameState.gameOver, endGame]);
 
   // Handle game end when time runs out
   useEffect(() => {

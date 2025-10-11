@@ -222,7 +222,14 @@ export function useColorMatchGame() {
     generateNextWord();
   }, [gameState.playing, gameState.current, gameState.score, generateNextWord]);
 
-  const resetGame = useCallback(() => {
+  const resetGame = useCallback(async () => {
+    // If game is active, end it first to submit score
+    if (gameState.playing || (gameState.gameStarted && !gameState.gameOver)) {
+      await endGame();
+      // Wait a moment for score submission to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -236,7 +243,7 @@ export function useColorMatchGame() {
       gameStarted: false,
       gameOver: false
     });
-  }, []);
+  }, [gameState.playing, gameState.gameStarted, gameState.gameOver, endGame]);
 
   // Handle game end when time runs out
   useEffect(() => {
