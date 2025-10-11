@@ -12,8 +12,7 @@ import {
   getGameDuration
 } from '../utils/gameLogic';
 import { GAME_DIFFICULTIES } from '../utils/constants';
-import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
-import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
+import { useScaffoldWriteContract, useDeployedContractInfo } from '~~/hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
 import { cairo, hash } from 'starknet';
@@ -42,16 +41,16 @@ export function useSpeedMatchGame() {
   const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 
   // Get game contract info
-  const { data: gameContractInfo } = useDeployedContractInfo('SpeedMatchGameV2');
+  const { data: gameContractInfo } = useDeployedContractInfo('SpeedMatchGameV3');
 
   // Write contract hooks
   const { sendAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
-    contractName: 'SpeedMatchGameV2',
+    contractName: 'SpeedMatchGameV3',
     functionName: 'start_game',
   });
 
   const { sendAsync: submitScoreContract, isPending: isSubmitting } = useScaffoldWriteContract({
-    contractName: 'SpeedMatchGameV2',
+    contractName: 'SpeedMatchGameV3',
     functionName: 'submit_score',
   });
 

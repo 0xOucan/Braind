@@ -3,9 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { MemoryGameState, GameState, GameStats } from '../types';
 import { MEMORY_GAME_CONSTANTS } from '../utils/constants';
-import { useScaffoldWriteContract } from '../../../hooks/scaffold-stark/useScaffoldWriteContract';
-import { useScaffoldReadContract } from '../../../hooks/scaffold-stark/useScaffoldReadContract';
-import { useDeployedContractInfo } from '../../../hooks/scaffold-stark';
+import { useScaffoldWriteContract, useScaffoldReadContract, useDeployedContractInfo } from '~~/hooks/scaffold-stark';
 import { useAccount, useProvider } from '@starknet-react/core';
 import { toast } from 'react-hot-toast';
 import { cairo, hash } from 'starknet';
@@ -36,19 +34,19 @@ export const useMemoryGame = () => {
   const STRK_TOKEN = '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d';
 
   // Get game contract info
-  const { data: gameContractInfo } = useDeployedContractInfo('MemoryBlitzGameV2');
+  const { data: gameContractInfo } = useDeployedContractInfo('MemoryBlitzGameV3');
 
   // Read STRK balance (using a simple read - assuming standard ERC20)
   // Note: This is a basic implementation, you may need to adjust based on actual balance display
 
   // Write contract hooks
   const { sendAsync: startGameContract, isPending: isStarting } = useScaffoldWriteContract({
-    contractName: 'MemoryBlitzGameV2',
+    contractName: 'MemoryBlitzGameV3',
     functionName: 'start_game',
   });
 
   const { sendAsync: submitScoreContract, isPending: isSubmitting } = useScaffoldWriteContract({
-    contractName: 'MemoryBlitzGameV2',
+    contractName: 'MemoryBlitzGameV3',
     functionName: 'submit_score',
   });
 
