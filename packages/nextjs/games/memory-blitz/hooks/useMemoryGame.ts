@@ -78,6 +78,29 @@ export const useMemoryGame = () => {
     }
 
     try {
+      // Check for active session and close it if exists
+      if (currentGameId) {
+        console.log('Closing previous session before starting new game:', currentGameId);
+        try {
+          toast.loading('Closing previous game session...', { id: 'start-game' });
+          const gameIdU256 = cairo.uint256(currentGameId);
+          await account.execute([{
+            contractAddress: gameContractInfo?.address || '',
+            entrypoint: 'submit_score',
+            calldata: [
+              gameIdU256.low,
+              gameIdU256.high,
+              String(0), // score
+              String(0), // level_reached
+              String(0), // sequence_length
+            ]
+          }]);
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for transaction
+        } catch (error) {
+          console.log('Could not close previous session, will try to start anyway:', error);
+        }
+      }
+
       toast.loading('Approving STRK and starting game...', { id: 'start-game' });
 
       // Approve a large amount of STRK (100 STRK for multiple games)
