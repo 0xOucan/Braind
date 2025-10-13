@@ -12,7 +12,7 @@ import {
   ContractName,
 } from "~~/utils/scaffold-stark/contract";
 import { ContractVariables } from "./ContractVariables";
-import { ClassHash } from "~~/components/scaffold-stark/ClassHash";
+// import { ClassHash } from "~~/components/scaffold-stark/ClassHash"; // Temporarily commented for build
 
 const ContractWriteMethods = dynamic(() =>
   import("./ContractWriteMethods").then((mod) => mod.ContractWriteMethods),
@@ -81,10 +81,11 @@ export const ContractUI = ({
               <div className="flex flex-col gap-1">
                 <span className="font-bold">{contractName}</span>
                 <Address address={deployedContractData.address} />
-                <ClassHash
+                {/* ClassHash temporarily commented for build fix */}
+                {/* <ClassHash
                   classHash={deployedContractData.classHash}
                   size="xs"
-                />
+                /> */}
                 <div className="flex gap-1 items-center h-5">
                   <span className="font-bold text-sm">Balance:</span>
                   <Balance
