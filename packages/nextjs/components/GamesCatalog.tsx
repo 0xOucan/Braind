@@ -80,19 +80,21 @@ const games = [
 export function GamesCatalog() {
   const { address } = useAccount();
 
-  // Example of reading game statistics from smart contract
-  const { data: totalPlayers } = useScaffoldReadContract({
-    contractName: "YourContract", // This will be created in Phase 5
-    functionName: "premium",
-    watch: true,
-  });
+  // Temporarily commented - YourContract not in deployed contracts
+  // const { data: totalPlayers } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   watch: true,
+  // });
+  const totalPlayers: number | null = null;
 
-  const { data: playerStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "greeting",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // const { data: playerStats } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "greeting",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const playerStats: any = null;
 
   return (
     <section id="games" className="py-20 px-4 bg-container/50 pixel-grid-bg relative">
@@ -102,11 +104,12 @@ export function GamesCatalog() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto retro-font">
             &gt; Choose your challenge and train your brain &lt;
           </p>
-          {totalPlayers && (
+          {/* Temporarily hidden - YourContract stats not available */}
+          {/* {totalPlayers && (
             <p className="text-sm text-accent mt-2 pixel-font">
               {totalPlayers.toString()} players worldwide!
             </p>
-          )}
+          )} */}
         </div>
 
         <div className="pixel-grid">

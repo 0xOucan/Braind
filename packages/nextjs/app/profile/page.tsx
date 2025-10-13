@@ -34,26 +34,30 @@ const gameIcons = {
 export default function ProfilePage() {
   const { address, status } = useAccount();
 
-  const { data: playerStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "greeting",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // Temporarily commented - YourContract not in deployed contracts
+  // const { data: playerStats } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "greeting",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const playerStats = null;
 
-  const { data: gameHistory } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // const { data: gameHistory } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const gameHistory: any[] = [];
 
-  const { data: achievements } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // const { data: achievements } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const achievements: any[] = [];
 
   if (status !== "connected" || !address) {
     return (

@@ -8,6 +8,9 @@ export const metadata = getMetadata({
     "Debug your deployed BrainD smart contracts with a retro-styled interface",
 });
 
+// Force dynamic rendering to avoid static generation errors
+export const dynamic = 'force-dynamic';
+
 const Debug: NextPage = () => {
   return (
     <div className="min-h-screen bg-main pt-24">

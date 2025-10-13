@@ -1,11 +1,11 @@
-import { cairo } from 'starknet';
+import { cairo, hash } from 'starknet';
 
 /**
  * Extracts game_id from a GameStarted event in a transaction receipt
  */
 export function extractGameIdFromReceipt(receipt: any): bigint | null {
   const gameStartedEvent = receipt.events?.find((e: any) =>
-    e.keys && e.keys[0] === cairo.getSelectorFromName('GameStarted')
+    e.keys && e.keys[0] === hash.getSelectorFromName('GameStarted')
   );
 
   if (gameStartedEvent && gameStartedEvent.data && gameStartedEvent.data.length > 0) {

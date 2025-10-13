@@ -26,6 +26,10 @@ const nextConfig = {
   logging: {
     incomingRequests: false,
   },
+  // Allow dynamic pages to fail gracefully during static generation
+  generateBuildId: async () => {
+    return 'braind-' + Date.now().toString()
+  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [

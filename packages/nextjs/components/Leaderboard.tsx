@@ -79,19 +79,21 @@ const getRankStyle = (rank: number) => {
 export function Leaderboard() {
   const [timeFilter, setTimeFilter] = useState<"daily" | "weekly" | "all">("all");
 
-  // Example contract reads - will be implemented in Phase 5
-  const { data: globalStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    watch: true,
-  });
+  // Temporarily commented - YourContract not in deployed contracts
+  // const { data: globalStats } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   watch: true,
+  // });
+  const globalStats = null;
 
-  const { data: leaderboardData } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    args: [timeFilter === "daily" ? 1 : timeFilter === "weekly" ? 7 : 0],
-    watch: true,
-  });
+  // const { data: leaderboardData } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   args: [timeFilter === "daily" ? 1 : timeFilter === "weekly" ? 7 : 0],
+  //   watch: true,
+  // });
+  const leaderboardData = null;
 
   // Use mock data for now (contract functions don't exist yet)
   const displayData = mockLeaderboardData;

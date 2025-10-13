@@ -5,17 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "~~/components/ui/card"
 import { Badge } from "~~/components/ui/badge";
 import { Brain, Trophy, Zap, Target } from "lucide-react";
 import { useAccount } from "@starknet-react/core";
-import { useScaffoldReadContract } from "~~/hooks/scaffold-stark";
+// import { useScaffoldReadContract } from "~~/hooks/scaffold-stark"; // Temporarily unused
 
 export default function GamesPage() {
   const { address } = useAccount();
 
-  const { data: playerStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "greeting",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // Temporarily commented - YourContract not in deployed contracts
+  // const { data: playerStats } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "greeting",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const playerStats = null; // Placeholder until real stats contract is integrated
 
   return (
     <div className="min-h-screen bg-main pt-24 pixel-grid-bg relative">

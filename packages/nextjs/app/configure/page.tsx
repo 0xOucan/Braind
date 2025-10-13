@@ -7,6 +7,9 @@ export const metadata = getMetadata({
   description: "Configure your deployed 🏗 Scaffold-Stark 2 contracts",
 });
 
+// Force dynamic rendering to avoid static generation errors
+export const dynamic = 'force-dynamic';
+
 const Configure: NextPage = () => {
   return <DownloadContracts />;
 };

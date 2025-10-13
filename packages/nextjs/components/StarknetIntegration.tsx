@@ -16,20 +16,21 @@ export function StarknetIntegration() {
   const { chain } = useNetwork();
   const [copied, setCopied] = useState(false);
 
-  // Read player stats from contract
-  const { data: playerStats } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "greeting",
-    args: address ? [address] : undefined,
-    watch: true,
-  });
+  // Temporarily commented - YourContract not in deployed contracts
+  // const { data: playerStats } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "greeting",
+  //   args: address ? [address] : undefined,
+  //   watch: true,
+  // });
+  const playerStats = null;
 
-  // Read total rewards distributed
-  const { data: totalRewardsDistributed } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "premium",
-    watch: true,
-  });
+  // const { data: totalRewardsDistributed } = useScaffoldReadContract({
+  //   contractName: "YourContract",
+  //   functionName: "premium",
+  //   watch: true,
+  // });
+  const totalRewardsDistributed: bigint | null = null;
 
   const copyAddress = async () => {
     if (address) {
@@ -142,7 +143,7 @@ export function StarknetIntegration() {
                 </div>
                 <div className="bg-card p-3 rounded-lg text-center border border-gray-600">
                   <div className="text-2xl font-bold text-primary pixel-font">
-                    {totalRewardsDistributed ? formatStark(totalRewardsDistributed.toString()) : "2.5M"}
+                    2.5M
                   </div>
                   <div className="text-xs text-muted-foreground retro-font">Total distributed</div>
                 </div>
