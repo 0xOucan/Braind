@@ -26,11 +26,12 @@ export const SwitchTheme = ({ className }: { className?: string }) => {
       {
         <label
           htmlFor="theme-toggle"
-          className={`swap swap-rotate ${!isDarkMode ? "swap-active" : ""}`}
+          className="swap swap-rotate cursor-pointer p-[4px] transition-all duration-200"
           onClick={handleToggle}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
         >
-          <SunIcon className="swap-on h-5 w-5" />
-          <MoonIcon className="swap-off h-5 w-5" />
+          <SunIcon className="swap-on h-5 w-5 text-yellow-400 drop-shadow-[2px_2px_0_var(--pixel-black)]" />
+          <MoonIcon className="swap-off h-5 w-5 text-blue-400 drop-shadow-[2px_2px_0_var(--pixel-black)]" />
         </label>
       }
     </div>

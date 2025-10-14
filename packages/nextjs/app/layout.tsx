@@ -8,8 +8,37 @@ export const metadata: Metadata = {
   title: "BrainD - Train your brain onchain!",
   description: "The ultimate retro pixel art brain training platform on Starknet. Challenge your mind with 6 unique games and earn $STARK rewards.",
   generator: "BrainD Platform",
+  applicationName: "BrainD",
   manifest: "/manifest.json",
-  icons: "/logo.ico",
+  icons: {
+    icon: [
+      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/icon-192x192.png",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "BrainD",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "BrainD",
+    title: "BrainD - Train your brain onchain!",
+    description: "Challenge your mind with retro pixel games on Starknet and earn $STARK rewards.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BrainD - Train your brain onchain!",
+    description: "Challenge your mind with retro pixel games on Starknet and earn $STARK rewards.",
+  },
 };
 
 export const viewport: Viewport = {

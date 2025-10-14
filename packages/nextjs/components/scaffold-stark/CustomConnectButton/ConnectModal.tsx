@@ -81,7 +81,7 @@ const ConnectModal = () => {
     <div>
       <label
         htmlFor="connect-modal"
-        className="rounded-[18px] btn-sm font-bold px-8 bg-btn-wallet py-3 cursor-pointer text-white hover:shadow-lg transition-all"
+        className="pixel-font text-sm flex items-center gap-2 px-3 py-2 border-2 border-transparent rounded-[4px] text-white transition-all duration-200 cursor-pointer font-semibold bg-[var(--pixel-blue)] shadow-[2px_2px_0_var(--pixel-black)] hover:bg-[var(--pixel-indigo)]"
       >
         <span>Connect</span>
       </label>
