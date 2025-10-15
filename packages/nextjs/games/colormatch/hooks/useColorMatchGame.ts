@@ -305,6 +305,30 @@ export function useColorMatchGame() {
     });
   }, [gameState.playing, gameState.gameStarted, gameState.gameOver, endGame]);
 
+  const playAgain = useCallback(async () => {
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    // Reset state to clean slate first
+    setGameState({
+      current: null,
+      score: 0,
+      timeLeft: 0,
+      playing: false,
+      gameStarted: false,
+      gameOver: false
+    });
+
+    // Wait a moment for state to settle
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Now start a fresh game
+    await startGame(selectedDifficulty);
+  }, [startGame, selectedDifficulty]);
+
   // Handle game end when time runs out
   useEffect(() => {
     if (gameState.timeLeft === 0 && gameState.playing) {
@@ -328,6 +352,7 @@ export function useColorMatchGame() {
     startGame,
     submitAnswer,
     resetGame,
+    playAgain,
     setSelectedDifficulty,
     // Computed values
     isMatch: gameState.current ?

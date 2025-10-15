@@ -19,6 +19,7 @@ export function GameContainer({ onGameEnd, disabled = false }: GameContainerProp
     startGame,
     submitAnswer,
     resetGame,
+    playAgain,
     setSelectedDifficulty,
     showPlayAgain
   } = useColorMatchGame();
@@ -64,6 +65,7 @@ export function GameContainer({ onGameEnd, disabled = false }: GameContainerProp
         gameState={gameState}
         onAnswer={submitAnswer}
         onStartGame={handleStartGame}
+        onPlayAgain={playAgain}
         onResetGame={resetGame}
         disabled={disabled}
       />

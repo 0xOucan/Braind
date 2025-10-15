@@ -3,6 +3,7 @@ import { ScaffoldStarkAppWithProviders } from "~~/components/ScaffoldStarkAppWit
 import "~~/styles/globals.css";
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import { Toaster } from "react-hot-toast";
+import { PWAInstallPrompt } from "~~/components/PWAInstallPrompt";
 
 export const metadata: Metadata = {
   title: "BrainD - Train your brain onchain!",
@@ -67,6 +68,7 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
               },
             }}
           />
+          <PWAInstallPrompt />
         </ThemeProvider>
       </body>
     </html>

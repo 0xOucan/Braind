@@ -7,6 +7,7 @@ interface GameBoardProps {
   gameState: GameState;
   onAnswer: (isMatch: boolean) => void;
   onStartGame: () => void;
+  onPlayAgain: () => void;
   onResetGame: () => void;
   disabled?: boolean;
 }
@@ -15,6 +16,7 @@ export function GameBoard({
   gameState,
   onAnswer,
   onStartGame,
+  onPlayAgain,
   onResetGame,
   disabled = false
 }: GameBoardProps) {
@@ -88,7 +90,7 @@ export function GameBoard({
 
         {gameState.gameOver && (
           <button
-            onClick={onStartGame}
+            onClick={onPlayAgain}
             disabled={disabled}
             className="w-full arcade-button py-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
